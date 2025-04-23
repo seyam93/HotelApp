@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Kenburns SlideShow -->
+    <aside class="kenburns-section" id="kenburnsSliderContainer" data-overlay-dark="5">
+        <div class="kenburns-inner h-100">
+            <div class="v-middle caption">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-md-12 text-center">
+                            <h5>Laid-back places</h5>
+                            <h1>{{room.name }}</h1>
+                            <div class="details"> 
+                                <span><i class="fa-thin fa-bed-front"></i>3 Bed</span>
+                                <span><i class="fa-thin fa-expand"></i>30 Sqm</span>
+                                <span><i class="fa-thin fa-bath"></i>2 Bathroom</span>
+                                <span><i class="fa-thin fa-mug-saucer"></i>Breakfast</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- Room Details -->
+    <section class="page-details section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-12 mb-30">
+                    <div class="row mb-30">
+                        <div class="col-md-12">
+                            <div class="section-subtitle">Laid-back places</div>
+                            <div class="section-title">Superior Room</div>
+                            <p>The luxurious superior room is designed in the style of "Provence". The main details of the interior are made of natural wood. The room has a homely cozy atmosphere. Hotel non lorem ac erat suscipit bibendum nulla facilisi fermen.</p>
+                            <p>Quisque pretium fermentum quam, sit amet cursus ante sollicitudin consequat the risus conisen porttitor orci sit amet, iaculis quis sapien.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-30">
+                            <h5>Check-in</h5>
+                            <ul class="list-unstyled page-list">
+                                <li>
+                                    <div class="page-list-icon"> <span class="ti-check"></span> </div>
+                                    <div class="page-list-text">
+                                        <p>Check-in from 9:00 AM - anytime</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="page-list-icon"> <span class="ti-check"></span> </div>
+                                    <div class="page-list-text">
+                                        <p>Early check-in subject to availability</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-30">
+                            <h5>Check-out</h5>
+                            <ul class="list-unstyled page-list mb-30">
+                                <li>
+                                    <div class="page-list-icon"> <span class="ti-check"></span> </div>
+                                    <div class="page-list-text">
+                                        <p>Check-out before noon</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="page-list-icon"> <span class="ti-check"></span> </div>
+                                    <div class="page-list-text">
+                                        <p>Express check-out</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mb-30">
+                        <div class="col-md-12">
+                            <h5>Special check-in instructions</h5>
+                            <p>Guests will receive an email 5 days before arrival with check-in instructions; front desk staff will greet guests on arrival For more details, please contact the property using the information on the booking confirmation.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>Children and extra beds</h5>
+                            <p>Children are welcome Kids stay free! Children stay free when using existing bedding; children may not be eligible for complimentary breakfast Rollaway/extra beds are available for $ 10 per day.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1 col-md-12">
+                    <div class="cont">
+                        <h5>Room Equipment</h5>
+                        <ul class="list">
+                            <li><span><i class="fa-light fa-water-ladder"></i></span><span>Free Swimming Pool</span></li>
+                            <li><span><i class="fa-light fa-wifi"></i></span><span>Free Wi-Fi</span></li>
+                            <li><span><i class="fa-light fa-tv"></i></span><span>Cable TV</span></li>
+                            <li><span><i class="fa-light fa-baby-carriage"></i></span><span>Free Baby Bed</span></li>
+                            <li><span><i class="fa-light fa-bed"></i></span><span>Comfortable Beds</span></li>
+                            <li><span><i class="fa-light fa-martini-glass"></i></span><span>Mini-bar</span></li>
+                            <li><span><i class="fa-light fa-air-conditioner"></i></span><span>Conditioner</span></li>
+                            <li><span><i class="fa-light fa-dryer"></i></span><span>Washing Machine</span> </li>
+                            <li><span><i class="fa-light fa-refrigerator"></i></span><span>In-room Refrigerator</span> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Gallery Image -->
+    <section class="galleryscroll section-padding bg-darkgray">
+        <div class="container-fluid p-0">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center mb-20">
+                    <div class="section-subtitle">Room Images</div>
+                    <div class="section-title white">Superior Room</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        <div class="item">
+                            <a href="img/rooms/a.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/a.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="img/rooms/b.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/b.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="img/rooms/c.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/c.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="img/rooms/d.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/d.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="img/rooms/e.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/e.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="img/rooms/f.jpg" title="" class="gallery-masonry-item-img-link img-zoom">
+                                <div class="img"> <img src="img/rooms/f.jpg" class="img-fluid mx-auto d-block" alt=""> </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQs -->
+    <section class="faqs section-padding">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-5 col-md-12 mb-30">
+                    <div class="section-subtitle">Popular Questions</div>
+                    <div class="section-title">Frequently Asked Questions</div>
+                    <p class="mb-25">The experience elementum sesue in the miss aucantion alesun in sapien fermen the miss caleustion in the sapien.</p> <a href="#" class="button-3">All Questions</a>
+                </div>
+                <div class="col-lg-6 offset-lg-1 col-md-12">
+                    <ul class="accordion-box clearfix">
+                        <li class="accordion block">
+                            <div class="acc-btn">Do you have any discount code?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="accordion block">
+                            <div class="acc-btn">How can I get in touch with my hotel?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="accordion block">
+                            <div class="acc-btn">Can I cancel my reservation?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="accordion block">
+                            <div class="acc-btn">Do you have hotels with a spa?</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Booking Search -->
+    <section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background="img/rooms/01.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center mb-20">
+                    <div class="section-subtitle">Hotel Experience</div>
+                    <div class="section-title white">Booking Form</div>
+                </div>
+            </div>
+            <div class="booking-inner clearfix">
+                <form action="#" class="form1 clearfix">
+                    <div class="col1 c1">
+                        <div class="input1_wrapper border-l border-b border-t border-r">
+                            <label>Check in</label>
+                            <div class="input1_inner">
+                                <input type="text" class="form-control input datepicker" placeholder="Check in">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col1 c2">
+                        <div class="input1_wrapper border-l border-b border-t border-r">
+                            <label>Check out</label>
+                            <div class="input1_inner">
+                                <input type="text" class="form-control input datepicker" placeholder="Check out">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c3">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Adults</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c4">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Children</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">Children</option>
+                                    <option value="1">1 Child</option>
+                                    <option value="2">2 Children</option>
+                                    <option value="3">3 Children</option>
+                                    <option value="4">4 Children</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c5">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Rooms</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">1 Room</option>
+                                    <option value="2">2 Rooms</option>
+                                    <option value="3">3 Rooms</option>
+                                    <option value="4">4 Rooms</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col3 c6">
+                        <button type="submit" class="btn-form1-submit">Check Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

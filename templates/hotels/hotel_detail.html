@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ hotel.name }} - Details</title>
+</head>
+<body>
+    <h1>{{ hotel.name }}</h1>
+    <img src="{{ hotel.image_cover.url }}" alt="{{ hotel.name }} Cover Image" style="max-width: 400px;">
+    <p><strong>Address:</strong> {{ hotel.address }}</p>
+    <p><strong>Location:</strong> {{ hotel.location }}</p>
+    <p>{{ hotel.description }}</p>
+
+    <h2>Welcome Messages</h2>
+    {% for message in welcome_messages %}
+        <div>
+            <h3>{{ message.title }}</h3>
+            <p>{{ message.description }}</p>
+            <p>{{ message.message }}</p>
+            {% if message.image %}
+                <img src="{{ message.image.url }}" alt="Welcome Image" style="max-width: 300px;">
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No welcome messages available.</p>
+    {% endfor %}
+
+    <h2>Rooms</h2>
+    <ul>
+    {% for room in rooms %}
+        <li>
+            <a href="{% url 'room_detail' room.id %}">{{ room.name }}</a> - ${{ room.price_per_night }}
+        </li>
+    {% empty %}
+        <li>No rooms available.</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Hotel Images</h2>
+    <div>
+    {% for image in hotel_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.caption }}" style="max-width: 200px; margin: 5px;">
+    {% empty %}
+        <p>No images available.</p>
+    {% endfor %}
+    </div>
+
+    <h2>Facilities</h2>
+    <ul>
+    {% for facility in facilities %}
+        <li>{{ facility.get_type_display }} - {{ facility.name }}: {{ facility.description }}</li>
+    {% empty %}
+        <li>No facilities listed.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

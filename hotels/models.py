@@ -64,6 +64,7 @@ class Room(models.Model):
     children_and_extra_beds_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    amenities = models.ManyToManyField('Amenity', related_name='amenities', blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.hotel.name})"
@@ -81,7 +82,17 @@ class RoomImage(models.Model):
     def __str__(self):
         return f"Image for {self.room.name}"
 
+class Amenity(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    icon = models.CharField(max_length=200 ,null=True, blank=True )
+    
 
+    def __str__(self):
+        return self.name
+    
+
+        
 class Feature(models.Model):
     room = models.ForeignKey(Room, related_name="features", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
