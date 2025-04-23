@@ -8,6 +8,9 @@ def home(request):
 def about(request):
     return render(request, 'hotels/about.html')
 
+# Hotel Detail View & Listing All Rooms in Hotel
+# This view will show the details of a specific hotel and list all rooms in that hotel.
+
 def hotel_detail(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
     rooms = hotel.rooms.all()
@@ -23,11 +26,22 @@ def hotel_detail(request, slug):
     }
     return render(request, 'hotels/hotel_detail.html', context)
 
-def room_list(request):
-    rooms = Room.objects.all()
-    return render(request, 'hotels/rooms.html', {'rooms': rooms})
+# Room List View
+# This view will list all rooms in the hotel if hotel_slug is provided, otherwise it will list all rooms.
+
+def room_list(request, hotel_slug=None):
+    if hotel_slug:
+        hotel = get_object_or_404(Hotel, slug=hotel_slug)
+        rooms = hotel.rooms.all()
+        context = {'rooms': rooms, 'hotel': hotel}
+    else:
+        rooms = Room.objects.all()
+        context = {'rooms': rooms}
+    return render(request, 'hotels/rooms.html', context)
 
 def room_detail(request, room_id):
     room = get_object_or_404(Room, id=room_id)
-    
     return render(request, 'hotels/room-detail.html', {'room': room})
+
+def about(request):
+    return render(request, 'hotels/about.html')

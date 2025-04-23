@@ -42,6 +42,7 @@ class Facility(models.Model):
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
+    slogan = models.CharField(max_length=255, blank=True)
     address = models.TextField()
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
