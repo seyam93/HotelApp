@@ -34,7 +34,7 @@
         <div class="container">
             <!-- Logo -->
             <div class="logo-wrapper">
-                <a class="logo" href="index.html"> <img src={% static "img/logo.png" %} class="logo-img" alt=""> </a>
+                <a class="logo" href="{% url 'home-page' %}"> <img src={% static "img/logo.png" %} class="logo-img" alt=""> </a>
                 <!-- <div class="logo"><h2>Rixos</h2></div> -->
             </div>
             <!-- Button -->
@@ -42,40 +42,24 @@
             <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item dropdown"> <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Home <i class="fa-light fa-angle-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="index.html" class="dropdown-item"><span>Home Image</span></a></li>
-                            <li><a href="index2.html" class="dropdown-item"><span>Home Slider</span></a></li>
-                            <li><a href="index3.html" class="dropdown-item"><span>Home Video</span></a></li>
-                            <li><a href="index4.html" class="dropdown-item active"><span>Home Slideshow</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Rooms <i class="fa-light fa-angle-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'rooms' %}" class="dropdown-item"><span>Rooms 01</span></a></li>
-                            <li><a href="" class="dropdown-item"><span>Rooms 02</span></a></li>
-                            <li class="dropdown-submenu dropdown"> <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" href="#"><span>Room Details <i class="fa-light fa-angle-right"></i></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="room-details1.html" class="dropdown-item"><span>Details 01</span></a></li>
-                                    <li><a href="room-details2.html" class="dropdown-item"><span>Details 02</span></a></li>
-                                    <li><a href="room-details3.html" class="dropdown-item"><span>Details 03</span></a></li>
-                                    <li><a href="room-details4.html" class="dropdown-item"><span>Details 04</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'rooms' %}">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'rooms' %}">Dining</a></li>
+
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="facilities.html" class="dropdown-item"><span>Facilities</span></a></li>
-                            
                             <li><a href="amenities.html" class="dropdown-item"><span>Amenities</span></a></li>
-                            <li><a href="offers.html" class="dropdown-item"><span>Offers</span></a></li>
+                            <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
+                            <li><a href="offers.html" class="dropdown-item"><span>Special Offers</span></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Pages <i class="fa-light fa-angle-down"></i></a>
+                    
+                    <li class="nav-item"><a class="nav-link" href="{% url 'rooms' %}">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'rooms' %}">Gallery</a></li>
+                    {% comment %} <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Pages <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="restaurant.html" class="dropdown-item"><span>Restaurant</span></a></li>
-                            <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
+            
                             <li><a href="pricing.html" class="dropdown-item"><span>Pricing</span></a></li>
                             <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
                             <li><a href="team-single.html" class="dropdown-item"><span>Team Single</span></a></li>
@@ -84,16 +68,16 @@
                             <li><a href="gallery-video.html" class="dropdown-item"><span>Video Gallery</span></a></li>
                             <li><a href="404.html" class="dropdown-item"><span>404 Page</span></a></li>
                         </ul>
-                    </li>
-                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Blog <i class="fa-light fa-angle-down"></i></a>
+                    </li> {% endcomment %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'rooms' %}">Contact Us</a></li>
+                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="blog1.html" class="dropdown-item"><span>Blog 01</span></a></li>
-                            <li><a href="blog2.html" class="dropdown-item"><span>Blog 02</span></a></li>
-                            <li><a href="post.html" class="dropdown-item"><span>Post Single</span></a></li>
+                            <li><a href="blog1.html" class="dropdown-item"><span>Blog</span></a></li>
+                            <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
+                            <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
+                            <li><a href="about.html" class="dropdown-item"><span>About Us</span></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about">About</a></li>
                 </ul>
                 <div class="navbar-right">
                     <div class="phonex"><a href="tel:+12345678910"><i class="fa-solid fa-phone"></i> +1 234 567 8910</a></div>

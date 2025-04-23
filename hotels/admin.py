@@ -23,9 +23,6 @@ class RoomImageInline(admin.TabularInline):
     model = RoomImage
     extra = 1
 
-class FeatureInline(admin.TabularInline):
-    model = Feature
-    extra = 1
 
 class SpecificationInline(admin.TabularInline):
     model = Specification
@@ -36,15 +33,14 @@ class RoomAdmin(admin.ModelAdmin):
     list_display = ('id','name', 'hotel', 'price_per_night', 'is_available')
     list_filter = ('is_available', 'is_suit')
     search_fields = ('name', 'hotel__name')
-    inlines = [RoomImageInline, FeatureInline, SpecificationInline]
+    inlines = [RoomImageInline, SpecificationInline]
 
 admin.site.register(WelcomeMessage)
 admin.site.register(Facility)
 
 @admin.register(Feature)
 class FeatureAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'room')
-    search_fields = ('name', 'room__name')
-    list_filter = ('room__hotel',)
+    list_display = ('name',)  
+    search_fields = ('name',)
 
     

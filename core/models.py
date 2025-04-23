@@ -4,7 +4,7 @@ from django.db import models
 class FAQ(models.Model):
     question = models.CharField(max_length=255)
     answer = models.TextField()
-    hotel = models.ForeignKey('hotels.Hotel', related_name='faqs', on_delete=models.CASCADE)
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='faqs')
 
     def __str__(self):
         return self.question
@@ -29,9 +29,9 @@ class Contact(models.Model):
 
 class Newsletter(models.Model):
     email = models.EmailField(unique=True)
-    hotel = models.ForeignKey('hotels.Hotel', related_name='newsletters', on_delete=models.CASCADE)
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='subscribers')
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
         return self.email
     class Meta:
@@ -56,7 +56,7 @@ class Feedback(models.Model):
 class PrivacyPolicy(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    hotel = models.ForeignKey('hotels.Hotel', related_name='privacy_policies', on_delete=models.CASCADE)
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='privacy_policies')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -69,7 +69,7 @@ class PrivacyPolicy(models.Model):
 class TermsAndConditions(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    hotel = models.ForeignKey('hotels.Hotel', related_name='terms_and_conditions', on_delete=models.CASCADE)
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='terms_and_conditions')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

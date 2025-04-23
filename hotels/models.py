@@ -1,6 +1,44 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 
+# Facility Models
+class Facility(models.Model):
+    FACILITY_TYPES = [
+        ('gym', 'Gym'),
+        ('spa', 'Spa'),
+        ('clinic', 'Clinic'),
+        ('pool', 'Swimming Pool'),
+        ('bar', 'Bar / Lounge'),
+        ('restaurant', 'Restaurant'),
+        ('kids_play_area', "Kids' Play Area"),
+        ('game_room', 'Game Room'),
+        ('cinema', 'Cinema Room'),
+        ('golf', 'Golf Course'),
+        ('water_sports', 'Water Sports Center'),
+        ('business_center', 'Business Center'),
+        ('coworking', 'Co-working Space'),
+        ('event_hall', 'Event Hall'),
+        ('concierge', 'Concierge'),
+        ('shuttle', 'Shuttle Service'),
+        ('laundry', 'Laundry Service'),
+        ('atm', 'ATM'),
+        ('currency_exchange', 'Currency Exchange'),
+        ('gift_shop', 'Gift Shop'),
+        ('salon', 'Hair / Beauty Salon'),
+    ]
+
+    type = models.CharField(max_length=50, choices=FACILITY_TYPES)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='facility_images/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Facilities"
+
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
@@ -12,6 +50,7 @@ class Hotel(models.Model):
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    facilities = models.ManyToManyField(Facility, related_name='hotels', blank=True)
 
     def __str__(self):
         return self.name
@@ -47,6 +86,13 @@ class WelcomeMessage(models.Model):
 
     
 #Rooms - Features - Specifications Models
+class Feature(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    icon = models.ImageField(upload_to='feature_icons/', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+    
 class Room(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="rooms", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -65,6 +111,7 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     amenities = models.ManyToManyField('Amenity', related_name='amenities', blank=True)
+    features = models.ManyToManyField(Feature, related_name='rooms', blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.hotel.name})"
@@ -92,16 +139,6 @@ class Amenity(models.Model):
         return self.name
     
 
-        
-class Feature(models.Model):
-    room = models.ForeignKey(Room, related_name="features", on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    icon = models.ImageField(upload_to='feature_icons/', null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.name} - {self.room.name}"
-
-
 class Specification(models.Model):
     room = models.ForeignKey(Room, related_name="specifications", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -111,42 +148,10 @@ class Specification(models.Model):
     def __str__(self):
         return f"{self.name} - {self.room.name}"
     
-# Facility Models
-class Facility(models.Model):
-    FACILITY_TYPES = [
-        ('gym', 'Gym'),
-        ('spa', 'Spa'),
-        ('clinic', 'Clinic'),
-        ('pool', 'Swimming Pool'),
-        ('bar', 'Bar / Lounge'),
-        ('restaurant', 'Restaurant'),
-        ('kids_play_area', "Kids' Play Area"),
-        ('game_room', 'Game Room'),
-        ('cinema', 'Cinema Room'),
-        ('golf', 'Golf Course'),
-        ('water_sports', 'Water Sports Center'),
-        ('business_center', 'Business Center'),
-        ('coworking', 'Co-working Space'),
-        ('event_hall', 'Event Hall'),
-        ('concierge', 'Concierge'),
-        ('shuttle', 'Shuttle Service'),
-        ('laundry', 'Laundry Service'),
-        ('atm', 'ATM'),
-        ('currency_exchange', 'Currency Exchange'),
-        ('gift_shop', 'Gift Shop'),
-        ('salon', 'Hair / Beauty Salon'),
-    ]
-
-    hotel = models.ForeignKey(Hotel, related_name="facilities", on_delete=models.CASCADE)
-    type = models.CharField(max_length=50, choices=FACILITY_TYPES)
+# Review Models
+class Review(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='facility_images/', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.get_type_display()} - {self.hotel.name}"
-    
-    class Meta:
-        verbose_name_plural = "Facilities"
-        
+    rating = models.PositiveSmallIntegerField(choices=[(i, f"{i} Stars") for i in range(1, 6)])
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)        
