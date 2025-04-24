@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class FAQ(models.Model):
@@ -94,12 +95,20 @@ class Sitemap(models.Model):
 class HotelArticle(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
+    author = models.CharField(max_length=255)
     image = models.ImageField(upload_to='hotel_articles/', null=True, blank=True)
+    published_date = models.DateTimeField(default=timezone.now)
+    slug = models.SlugField(unique=True, null=True)
+    tags = models.CharField(max_length=255, blank=True)
     hotels = models.ManyToManyField('hotels.Hotel', related_name='articles')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return f"/articles/{self.slug}/"
+    
     class Meta:
         verbose_name = "Hotel Article"
         verbose_name_plural = "Hotel Articles"

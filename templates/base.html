@@ -176,6 +176,34 @@
     <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
     <script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
     <script src="{% static 'js/YouTubePopUp.js' %}"></script>
+
+    <script>
+        function initTestimonialsCarousel() {
+            var $carousel = $('.testimonials .owl-carousel');
+            console.log('Found testimonials carousel elements:', $carousel.length);
+            if ($carousel.length > 0) {
+                $carousel.owlCarousel({
+                    items: 1,
+                    loop: true,
+                    autoplay: true,
+                    autoplayTimeout: 5000, // 5 seconds
+                    autoplayHoverPause: true,
+                    nav: false,
+                    dots: true,
+                    smartSpeed: 800
+                });
+                $carousel.trigger('play.owl.autoplay',[5000]);
+                console.log('Testimonials carousel initialized and autoplay triggered');
+            } else {
+                console.log('Testimonials carousel not found, retrying in 500ms');
+                setTimeout(initTestimonialsCarousel, 500);
+            }
+        }
+
+        $(document).ready(function() {
+            setTimeout(initTestimonialsCarousel, 500);
+        });
+    </script>
     <script src="{% static 'js/select2.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
     <script src="{% static 'js/vegas.slider.min.js' %}"></script>

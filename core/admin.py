@@ -1,5 +1,12 @@
 from django.contrib import admin
-from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions
+from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions, HotelArticle
+
+@admin.register(HotelArticle)
+class HotelArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'published_date')
+    search_fields = ('title', 'content', 'author__username')
+    list_filter = ('published_date',)
+    prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):

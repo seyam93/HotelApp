@@ -160,90 +160,86 @@
             </div>
         </div>
         <div class="container">
-            <div class="tabs-content">
-                {% for facility_type in tab_facility_types %}
-                <div class="tab {% if forloop.first %}active-tab{% endif %}" id="{{ facility_type }}">
-                    {% for facility in tab_facilities %}
-                        {% if facility.type == facility_type %}
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-lg-6 col-md-12">
-                                {% if facility.image %}
-                                <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
-                                {% else %}
-                                <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
-                                {% endif %}
+                <div class="tabs-content">
+                    {% for facility_type in tab_facility_types %}
+                    <div class="tab {% if forloop.first %}active-tab{% endif %}" id="{{ facility_type }}">
+                        {% for facility in tab_facilities %}
+                            {% if facility.type == facility_type %}
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-lg-6 col-md-12">
+                                    {% if facility.image %}
+                                    <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
+                                    {% else %}
+                                    <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-5 offset-lg-1 col-md-12">
+                                    <div class="section-subtitle">{{ facility.title }}</div>
+                                    <div class="section-title">{{ facility.name }}</div>
+                                    <p class="mb-25">{{ facility.description }}</p>
+                                    <ul class="list-unstyled list mb-30">
+                                        <li>
+                                            <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
+                                            <div class="list-text">
+                                                <p>{{ facility.notes}}</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    {% if facility.detail_file %}
+                                    <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3"><i class="fa-solid fa-info"></i> View details</a>
+                                    {% comment %} {% else %}
+                                    <a href="{% url 'facility-detail' facility.slug %}" class="button-3"><i class="fa-solid fa-info"></i> View details</a> {% endcomment %}
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="col-lg-5 offset-lg-1 col-md-12">
-                                <div class="section-subtitle">{{ facility.name }}</div>
-                                <div class="section-title">{{ facility.name }}</div>
-                                <p class="mb-25">{{ facility.description }}</p>
-                                <ul class="list-unstyled list mb-30">
-                                    <li>
-                                        <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                        <div class="list-text">
-                                            <p>Details coming soon</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <a href="#" class="button-3"><i class="fa-solid fa-info"></i> View details</a>
-                            </div>
-                        </div>
-                        {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                     {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
         </div>
     </section>
-    <!-- Testiominals -->
+    <!-- Testimonials -->
     <section class="testimonials">
-        <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background={% static "img/banner/02.jpg"%}>
+        <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{% static 'img/banner/02.jpg' %}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-7 text-center">
                         <div class="owl-carousel owl-theme">
-                            <div class="item"> <span>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                </span>
-                                <h5>"Hotel was great. Location was excellent. The staff was incredible. A great experience all around!"</h5>
-                                <div class="info">
-                                    <div class="cont">
-                                        <h6>Frank E. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
+                            {% for review in reviews %}
+                                <div class="item d-flex flex-column align-items-center text-center">
+                                    <!-- Profile Image -->
+                                    <img src="{% if review.profile_picture %}{{ review.profile_picture.url }}{% else %}{% static 'img/profile/default.jpg' %}{% endif %}"
+                                        alt="{{ review.name }}"
+                                        class="rounded-circle mb-3"
+                                        style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                    <!-- Star Ratings -->
+                                    <div>
+                                        {% for i in "12345"|make_list %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fa fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="fa fa-star text-muted"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <!-- Review Text -->
+                                    <h5 class="mt-3">"{{ review.comment }}"</h5>
+                                    <!-- Reviewer Name & Link -->
+                                    <div class="info mt-2">
+                                        <div class="cont">
+                                            <h6>{{ review.name }}
+                                                {% if review.view_link %}
+                                                    <i>|</i>
+                                                    <span><a href="{{ review.view_link }}" target="_blank" rel="noopener noreferrer">View on Tripadvisor</a></span>
+                                                {% endif %}
+                                            </h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item"> <span>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                </span>
-                                <h5>"Location was excellent. The staff was incredible. Hotel was great. A great experience all around!"</h5>
-                                <div class="info">
-                                    <div class="cont">
-                                        <h6>Emily F. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item"> <span>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                    <i class="star-rating"></i>
-                                </span>
-                                <h5>"A great experience all around! Hotel was great. Location was excellent. The staff was incredible."</h5>
-                                <div class="info">
-                                    <div class="cont">
-                                        <h6>Enrico T. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
-                                    </div>
-                                </div>
-                            </div>
+                            {% empty %}
+                                <p>No reviews available.</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -257,76 +253,32 @@
                 <div class="col-lg-4 col-md-12 mb-30">
                     <div class="section-subtitle">Hotel Services</div>
                     <div class="section-title">Amenities</div>
-                    <p class="mb-25">The experience elementum sesue in the miss aucantion alesun in sapien fermen the miss caleustion in the sapien.</p> <a href="amenities.html" class="button-3">All Amenities</a>
+                    <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
+                    <a href="#" class="button-3">All Amenities</a>
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-truck-plane"></i> </div>
-                                    <div class="text">
-                                        <h5>Pick Up & Drop</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
+                        {% for service in amenity_services|slice:":6" %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="item hover-box mb-25">
+                                    <div class="cont up text-center">
+                                        {% if service.icon %}
+                                            <div class="icon mb-2">
+                                                <i class="fa-thin fa-{{ service.icon }}"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="text">
+                                            <h5>{{ service.title }}</h5>
+                                            <p>{{ service.description|truncatewords:15 }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-circle-parking"></i> </div>
-                                    <div class="text">
-                                        <h5>Parking Space</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
-                                    </div>
-                                </div>
+                        {% empty %}
+                            <div class="col-12 text-center">
+                                <p class="text-muted">No services listed for this hotel.</p>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-bed-front"></i> </div>
-                                    <div class="text">
-                                        <h5>Room Service</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-water-ladder"></i> </div>
-                                    <div class="text">
-                                        <h5>Swimming Pool</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-wifi"></i> </div>
-                                    <div class="text">
-                                        <h5>Fibre Internet</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="item hover-box mb-25">
-                                <div class="cont up">
-                                    <div class="icon"> <i class="fa-thin fa-mug-saucer"></i> </div>
-                                    <div class="text">
-                                        <h5>Breakfast</h5>
-                                        <p>Lorem ipsum is simply dummy fermen.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -344,7 +296,7 @@
                                     <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
                                 </defs>
                                 <text>
-                                    <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
+                                    <textPath xlink:href="#textcircle" textLength="900"> {{hotel.name}} </textPath>
                                 </text>
                             </svg>
                         </div> <span class="icon"> <i class="fas fa-play"></i> </span>
@@ -366,52 +318,47 @@
             </div>
             <div class="row justify-content-center g-0">
                 <div class="col-12 pricing">
-                    <div class="item">
-                        <div class="img"> <img src={% static "img/pricing/01.jpg"%} class="img-fluid" alt="" />
-                            <div class="title">Beverage</div>
-                            <div class="overlay"></div>
-                        </div>
-                        <div class="flex-column cont">
-                            <div class="cont-hover">
-                                <div class="icon"> <i class="fa-thin fa-martini-glass"></i> </div>
-                                <p>In-room beverage lorem ipsum simply drana print typesettin induren.</p>
-                                <div class="price">$49 <span>per night</span></div>
+                    {% for service in featured_services %}
+                        <div class="item {% if forloop.first %}active{% endif %}">
+                            <div class="img">
+                                {% if service.image %}
+                                    <img src="{{ service.image.url }}" class="img-fluid" alt="{{ service.title }}">
+                                {% else %}
+                                    <img src="{% static 'img/pricing/default.jpg' %}" class="img-fluid" alt="Default Service">
+                                {% endif %}
+                                <div class="title">{{ service.title }}</div>
+                                <div class="overlay"></div>
+                            </div>
+                            <div class="flex-column cont">
+                                <div class="cont-hover text-center">
+                                    {% if service.icon %}
+                                        <div class="icon mb-2">
+                                            <i class="fa-thin fa-{{ service.icon }}"></i>
+                                        </div>
+                                    {% endif %}
+                                    <p>{{ service.description|truncatewords:20 }}</p>
+                                    {% if service.price %}
+                                        <div class="price">
+                                            {{ service.price }} {{ service.price_currency }}
+                                            <span>/ {{ service.pricing_type }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item active">
-                        <div class="img"> <img src={% static "img/pricing/02.jpg"%} class="img-fluid" alt="" />
-                            <div class="title">Cleaning</div>
-                            <div class="overlay"></div>
-                        </div>
-                        <div class="flex-column cont">
-                            <div class="cont-hover">
-                                <div class="icon"> <i class="fa-thin fa-vacuum"></i> </div>
-                                <p>Cleaning lorem in ipsum simply the drana print typesettin induren.</p>
-                                <div class="price">$29 <span>daily</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="img"> <img src={% static "img/pricing/03.jpg"%} class="img-fluid" alt="" />
-                            <div class="title">Breakfast</div>
-                            <div class="overlay"></div>
-                        </div>
-                        <div class="flex-column cont">
-                            <div class="cont-hover">
-                                <div class="icon"> <i class="fa-thin fa-mug-saucer"></i> </div>
-                                <p>Room breakfast lorem ipsum simply drana print typesettin induren.</p>
-                                <div class="price">$69 <span>daily</span></div>
-                            </div>
-                        </div>
-                    </div>
+                    {% empty %}
+                        <p class="text-center text-muted">No featured services available for this hotel.</p>
+                    {% endfor %}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center mt-30">
                     <div class="section-info">
                         <div class="tag">Questions</div>
-                        <div class="desc">You can send your questions to the mail address: <a href="mailto:info@hotels.com" class="text-decoration-line-bottom">info@hotels.com</a></div>
+                        <div class="desc">
+                            You can send your questions to the mail address:
+                            <a href="mailto:{{hotel.email}}" class="text-decoration-line-bottom">{{hotel.email}}</a>
+                        </div>
                     </div>
                 </div>
             </div>

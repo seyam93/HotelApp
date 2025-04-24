@@ -36,7 +36,8 @@ def hotel_detail(request, slug):
         'tab_facilities': tab_facilities,      # Only those for tab section
         'tab_facility_types': tab_facility_types,
         'reviews': hotel.reviews.all(),
-        'hotel_services': hotel.hotel_services.all(),
+        'amenity_services': hotel.hotel_services.all()[:6],  # for amenities section (limit to 6)
+        'featured_services': hotel.hotel_services.filter(featured=True)[:3],  # for extra prices section
     }
 
     return render(request, 'hotels/hotel_detail.html', context)

@@ -2,7 +2,28 @@ from django.db import models
 from django.template.defaultfilters import slugify
 import os
 import uuid
+from PIL import Image
+import io
+from django.core.files.base import ContentFile
 
+# Social Media Choices
+SOCIAL_CHOICES = [
+    ('facebook', 'Facebook'),
+    ('instagram', 'Instagram'),
+    ('twitter', 'Twitter'),
+    ('linkedin', 'LinkedIn'),
+    ('youtube', 'YouTube'),
+    ('tiktok', 'TikTok'),
+    ('tripadvisor', 'TripAdvisor'),
+    ('website', 'Official Website'),
+    ('whatsapp', 'WhatsApp'),
+    ('telegram', 'Telegram'),
+    ('sms', 'SMS'),   
+    ('pinterest', 'Pinterest'),
+    ('snapchat', 'Snapchat'),
+    ('reddit', 'Reddit'),
+    ('tumblr', 'Tumblr'),
+]
 # Facility Models
 class Facility(models.Model):
     FACILITY_TYPES = [
@@ -29,18 +50,57 @@ class Facility(models.Model):
         ('salon', 'Hair / Beauty Salon'),
     ]
 
+    hotel = models.ForeignKey(
+    'hotels.Hotel',
+    on_delete=models.CASCADE,
+    related_name='facilities',
+    null=True,
+    blank=True
+)
     type = models.CharField(max_length=50, choices=FACILITY_TYPES)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)  # Unique *within* hotel
+    title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
     image = models.ImageField(upload_to='facility_images/', null=True, blank=True)
+    detail_file = models.FileField(upload_to='facility_files/', null=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Facilities"
+        unique_together = ('hotel', 'name')  # 👈 Ensures name is unique per hotel
+        ordering = ['type', 'name']
 
+    def save(self, *args, **kwargs):
+        if not self.slug and self.name:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if Facility.objects.filter(hotel=self.hotel, name=self.name).exclude(pk=self.pk).exists():
+            raise ValidationError(f"A facility with the name '{self.name}' already exists for this hotel.")
+
+    def __str__(self):
+        hotel_name = self.hotel.name if self.hotel else "No Hotel"
+        return f"{self.name} ({self.get_type_display()}) - {hotel_name}"
+
+# Facility Image Models
+class FacilityImage(models.Model):
+    facility = models.ForeignKey(
+        'Facility',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to='facility_images/')
+    caption = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"Image for {self.facility.name}"
+    
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
@@ -59,18 +119,26 @@ class Hotel(models.Model):
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    facilities = models.ManyToManyField(Facility, related_name='hotels', blank=True)
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug and self.name:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    
     class Meta:
         ordering = ['name']
+
+class SocialLink(models.Model):
+    hotel = models.ForeignKey(Hotel, related_name='social_links', on_delete=models.CASCADE)
+    platform = models.CharField(max_length=50, choices=SOCIAL_CHOICES)
+    url = models.URLField()
+
+    def __str__(self):
+        return f"{self.hotel.name} - {self.get_platform_display()}"
 
 class HotelImage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="hotel_images", on_delete=models.CASCADE)
@@ -129,8 +197,8 @@ class Room(models.Model):
         return f"{self.name} ({self.hotel.name})"
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(f"{self.hotel.name}-{self.name}")
+        if not self.slug and self.name:
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
 def rename_uploaded_image(instance, filename):
@@ -170,8 +238,11 @@ class Specification(models.Model):
 class Review(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='reviews', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='review_images/', null=True, blank=True)
     rating = models.PositiveSmallIntegerField(choices=[(i, f"{i} Stars") for i in range(1, 6)])
     comment = models.TextField()
+    view_link = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)        
 
 # Offer Models
@@ -200,13 +271,38 @@ class HotelService(models.Model):
         ('daily', 'Daily'),
         ('once', 'One Time'),
     ]
+    price_currency = [
+        ('USD', 'USD'),
+        ('EGP', 'EGP'),  
+    ]
 
     hotel = models.ForeignKey(Hotel, related_name='hotel_services', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='hotel_services/')
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night')
+    image = models.ImageField(upload_to='hotel_services/', null=True, blank=True, help_text="Dimension Must be : 375x500px. JPEG or PNG format.") 
+    icon = models.CharField(max_length=200, null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
+    price_currency = models.CharField(max_length=3, choices=price_currency, default='EGP', blank=True, null=True)
+    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night', blank=True, null=True)
+    featured = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image:
+            try:
+                img = Image.open(self.image)
+                max_width, max_height = 375, 500
+                if img.width > max_width or img.height > max_height:
+                    img.thumbnail((max_width, max_height), Image.ANTIALIAS)
+                    img_io = io.BytesIO()
+                    img_format = img.format if img.format else 'JPEG'
+                    img.save(img_io, format=img_format)
+                    img_content = ContentFile(img_io.getvalue(), self.image.name)
+                    self.image.save(self.image.name, img_content, save=False)
+                    super().save(update_fields=['image'])
+            except Exception as e:
+                # Log error or pass silently
+                pass
 
     def __str__(self):
         return f"{self.title} - {self.hotel.name}"
