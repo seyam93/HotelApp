@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Hotel, HotelImage, WelcomeMessage, Room, RoomImage, Feature, Specification, Facility, Amenity
+from .models import Hotel, HotelImage, WelcomeMessage, Room, RoomImage, Feature, Specification, Facility, Amenity, Offer, Review, HotelService
 
 class HotelImageInline(admin.TabularInline):
     model = HotelImage
@@ -43,4 +43,28 @@ class FeatureAdmin(admin.ModelAdmin):
     list_display = ('name',)  
     search_fields = ('name',)
 
-    
+@admin.register(Specification)
+class SpecificationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'room')
+    search_fields = ('name', 'room__name')
+    list_filter = ('room',)
+
+@admin.register(Offer)
+class OfferAdmin(admin.ModelAdmin):
+    list_display = ('title', 'hotel', 'discount_percentage', 'start_date', 'end_date')
+    search_fields = ('title', 'hotel__name')
+    list_filter = ('hotel', 'start_date', 'end_date')
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'name', 'rating', 'created_at')
+    search_fields = ('hotel__name', 'name')
+    list_filter = ('hotel', 'rating', 'created_at')
+
+@admin.register(HotelService)
+class HotelServiceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'hotel', 'pricing_type', 'price')
+    list_filter = ('hotel', 'pricing_type')
+    search_fields = ('title', 'description')
+
+ 

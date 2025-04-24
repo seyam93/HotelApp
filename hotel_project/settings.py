@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "core",
     "events",
     "jazzmin",
+    "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

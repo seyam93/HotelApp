@@ -91,12 +91,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-12 mb-15">
-                    <div class="section-subtitle">About Rixos</div>
-                    <div class="section-title">Laid-back places for kindred spirits</div>
-                    <p>Welcome to the <b>best five-star resort hotel</b> in New York. The experience elementum sesue the aucan vestibulum alesun usto in sapien rutrum volutan donec fermen.</p>
-                    <p class="mb-40">Lorem ipsum quisque sodales miss in the varius drana miss turpis softtiton tellus in the fermen.</p>
-                    <a href="#" class="button-3 mb-15">About Rixos</a>
-                    <div class="phone"><a href="tel:+12345678910"><i class="fa-light fa-phone"></i>+1 234 567 8910</a></div>
+                    <div class="section-subtitle">About {{ hotel.name }}</div>
+                    <div class="section-title">{{ hotel.title }}</div>
+                    <p>Welcome to the <b>best {{ hotel.star_rating }}-star hotel</b> in {{ hotel.city }}. {{hotel.description}}</p>
+                    <a href="#" class="button-3 mb-15">About{{ hotel.name }}</a>
+                    <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i>{{ hotel.phone }}</a></div>
                 </div>
                 <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45"> <img class="rounded-2 animation-float1" src={% static "img/about01.jpg"%} alt=""> </div>
                 <div class="col-lg-3 col-md-6 mb-20"> <img class="rounded-2 animation-float2" src={% static "img/about02.jpg"%} alt=""> </div>
@@ -107,55 +106,44 @@
     <section class="rooms3 section-padding bg-darkgray">
         <div class="row">
             <div class="col-md-12 mb-25 text-center">
-                <div class="section-subtitle">Luxury Rixos Hotel</div>
+                <div class="section-subtitle">{{hotel.name}}</div>
                 <div class="section-title white">Rooms <span>&</span> Suites</div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="owl-carousel owl-theme">
+                    {% for room in rooms %}
                     <div class="item">
-                        <div class="img"><img src={% static "img/rooms/01.jpg"%} class="img-fluid" alt="" /></div> <span class="discount"><i class="fa-light fa-badge-percent"></i> Get 25% Off</span>
+                        <div class="img">
+                            <img src="{{ room.image_cover.url }}" class="img-fluid" alt="{{ room.name }}">
+                        </div>
+                            {% if room.room_discount > 0 %}
+                            <span class="discount">
+                                <i class="fa-light fa-badge-percent"></i> Get {{ room.room_discount }} % Off
+                            </span>
+                            {% endif %}
                         <div class="cont">
-                            <div class="title"><a href="#">Deluxe Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 2 Bed</span> <span><i class="fa-thin fa-bath"></i>1 Bathroom</span> <span><i class="fa-thin fa-expand"></i> 15 Sqm</span> </div>
+                            <div class="title">
+                                <a href="{% url 'room-detail' room.slug %}">{{ room.name }}</a>
+                            </div>
+                            <div class="details">
+                                {% if room.number_of_beds %}
+                                <span><i class="fa-thin fa-bed-front"></i> {{ room.number_of_beds }} Bed</span>
+                                {% endif %}
+                                {% if room.number_of_bathrooms %}
+                                <span><i class="fa-thin fa-bath"></i> {{ room.number_of_bathrooms }} Bathroom</span>
+                                {% endif %}
+                                {% if room.area %}
+                                <span><i class="fa-thin fa-expand"></i> {{ room.area }} Sqm</span>
+                                {% endif %}
+                                {% if room.includes_breakfast %}
+                                <span><i class="fa-thin fa-mug-saucer"></i> Breakfast</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="img"><img src={% static "img/rooms/02.jpg"%} class="img-fluid" alt="" /></div>
-                        <div class="cont">
-                            <div class="title"><a href="#">Family Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 2-4 Bed</span> <span><i class="fa-thin fa-mug-saucer"></i>Breakfast</span> <span><i class="fa-thin fa-expand"></i> 20 Sqm</span> </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="img"><img src={% static "img/rooms/03.jpg"%} class="img-fluid" alt="" /></div> <span class="discount"><i class="fa-light fa-badge-percent"></i> Get 30% Off</span>
-                        <div class="cont">
-                            <div class="title"><a href="#">Double Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 4 Bed</span> <span><i class="fa-thin fa-bath"></i>2 Bathroom</span> <span><i class="fa-thin fa-expand"></i> 25 Sqm</span> </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="img"><img src={% static "img/rooms/04.jpg"%} class="img-fluid" alt="" /></div>
-                        <div class="cont">
-                            <div class="title"><a href="#">Superior Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 3 Bed</span> <span><i class="fa-thin fa-bath"></i>1 Bathroom</span> <span><i class="fa-thin fa-expand"></i> 30 Sqm</span> </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="img"><img src={% static "img/rooms/05.jpg"%} class="img-fluid" alt="" /></div> <span class="discount"><i class="fa-light fa-badge-percent"></i> Get 40% Off</span>
-                        <div class="cont">
-                            <div class="title"><a href="#">Wellness Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 4 Bed</span> <span><i class="fa-thin fa-mug-saucer"></i>Breakfast</span> <span><i class="fa-thin fa-expand"></i> 30 Sqm</span> </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="img"><img src={% static "img/rooms/06.jpg"%} class="img-fluid" alt="" /></div>
-                        <div class="cont">
-                            <div class="title"><a href="#">King Room</a></div>
-                            <div class="details"> <span><i class="fa-thin fa-bed-front"></i> 4 Bed</span> <span><i class="fa-thin fa-bath"></i>2 Bathroom</span> <span><i class="fa-thin fa-expand"></i> 40 Sqm</span> </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -165,133 +153,45 @@
         <div class="border-bottom">
             <div class="container">
                 <ul class="tab-buttons">
-                    <li data-tab="#restaurant" class="tab-btn active-btn"><span>Restaurant</span></li>
-                    <li data-tab="#spa" class="tab-btn"><span>Spa & Wellness</span></li>
-                    <li data-tab="#pool" class="tab-btn"><span>Pool Swimming</span></li>
-                    <li data-tab="#fitness" class="tab-btn"><span>Fitness Center</span></li>
+                    {% for facility_type in tab_facility_types %}
+                    <li data-tab="#{{ facility_type }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}"><span>{{ facility_type|title }}</span></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
         <div class="container">
             <div class="tabs-content">
-                <!--tab 1-->
-                <div class="tab active-tab" id="restaurant">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-lg-6 col-md-12">
-                            <img src={% static "img/offers/05.jpg"%} class="img-fluid" alt="">
+                {% for facility_type in tab_facility_types %}
+                <div class="tab {% if forloop.first %}active-tab{% endif %}" id="{{ facility_type }}">
+                    {% for facility in tab_facilities %}
+                        {% if facility.type == facility_type %}
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-lg-6 col-md-12">
+                                {% if facility.image %}
+                                <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
+                                {% else %}
+                                <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-5 offset-lg-1 col-md-12">
+                                <div class="section-subtitle">{{ facility.name }}</div>
+                                <div class="section-title">{{ facility.name }}</div>
+                                <p class="mb-25">{{ facility.description }}</p>
+                                <ul class="list-unstyled list mb-30">
+                                    <li>
+                                        <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
+                                        <div class="list-text">
+                                            <p>Details coming soon</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a href="#" class="button-3"><i class="fa-solid fa-info"></i> View details</a>
+                            </div>
                         </div>
-                        <div class="col-lg-5 offset-lg-1 col-md-12">
-                            <div class="section-subtitle">Addres of taste</div>
-                            <div class="section-title">Restaurant</div>
-                            <p class="mb-25">Restaurant quisue sodale intion varius estibum miss arman ortiton telus euismod nis the massa fermen.</p>
-                            <ul class="list-unstyled list mb-30">
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Breakfast: 7.00 am – 11.00 am (daily)</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Lunch: 12.00 pm – 2.00 pm (daily)</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Dinne: 6.30 pm – 10.00 pm (daily)</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="#" class="button-3"><i class="fa-solid fa-user-chef"></i> View menu</a>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <!--tab 2-->
-                <div class="tab" id="spa">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-lg-6 col-md-12">
-                            <img src={% static "img/offers/06.jpg"%} class="img-fluid" alt="">
-                        </div>
-                        <div class="col-lg-5 offset-lg-1 col-md-12">
-                            <div class="section-subtitle">So Many Ways to Unwind</div>
-                            <div class="section-title">Spa & Wellness</div>
-                            <p class="mb-25">Wellness quisque sodales intioni varius estibum miss arman ortiton telus euismod nis the massa nutodio farmention lorem pretium ametis velen fermen.</p>
-                            <ul class="list-unstyled list mb-30">
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Overnight de-stress retreat</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Wedding spa packages</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="#" class="button-3"><i class="fa-solid fa-spa"></i> View details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--tab 3-->
-                <div class="tab" id="pool">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-lg-6 col-md-12">
-                            <img src={% static "img/offers/07.jpg"%} class="img-fluid" alt="">
-                        </div>
-                        <div class="col-lg-5 offset-lg-1 col-md-12">
-                            <div class="section-subtitle">Indoor & Outdoor</div>
-                            <div class="section-title">Pool Swimming</div>
-                            <p class="mb-25">Swimming quisque sodales intioni varius estibum miss arman ortiton telus euismod nis the massa nutodio farmention lorem pretium ametis velen fermen.</p>
-                            <ul class="list-unstyled list mb-30">
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Indoor pool swimming</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Outdoor pool swimming</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="#" class="button-3"><i class="fa-solid fa-person-swimming"></i> View details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--tab 4-->
-                <div class="tab" id="fitness">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-lg-6 col-md-12">
-                            <img src={% static "img/offers/08.jpg"%} class="img-fluid" alt="">
-                        </div>
-                        <div class="col-lg-5 offset-lg-1 col-md-12">
-                            <div class="section-subtitle">Training Spaces</div>
-                            <div class="section-title">Fitness Center</div>
-                            <p class="mb-25">Fitness quisque sodales intioni varius estibum miss arman ortiton telus euismod nis the massa nutodio farmention lorem pretium ametis velen fermen.</p>
-                            <ul class="list-unstyled list mb-30">
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Cardiovascular equipment</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                    <div class="list-text">
-                                        <p>Some dumbells for weight lifting</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="#" class="button-3"><i class="fa-solid fa-dumbbell"></i> View details</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -691,7 +591,7 @@
 <script>
     $(document).ready(function() {
         $('#kenburnsSliderContainer').vegas({
-            slides: [{ src: "{% static 'img/rooms/01.jpg' %}" },
+            slides: [{ src: "{% static 'img/rooms/05.jpg' %}" },
             { src: "{% static 'img/rooms/02.jpg' %}" },
             { src: "{% static 'img/rooms/03.jpg' %}" },],
             overlay: true,

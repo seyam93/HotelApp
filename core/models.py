@@ -78,3 +78,29 @@ class TermsAndConditions(models.Model):
         verbose_name = "Terms and Conditions"
         verbose_name_plural = "Terms and Conditions"
         ordering = ['-created_at']
+
+class Sitemap(models.Model):
+    url = models.URLField()
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='sitemaps')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.url
+    class Meta:
+        verbose_name = "Sitemap"
+        verbose_name_plural = "Sitemaps"
+        ordering = ['-created_at']
+
+class HotelArticle(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    image = models.ImageField(upload_to='hotel_articles/', null=True, blank=True)
+    hotels = models.ManyToManyField('hotels.Hotel', related_name='articles')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name = "Hotel Article"
+        verbose_name_plural = "Hotel Articles"
+        ordering = ['-created_at']
