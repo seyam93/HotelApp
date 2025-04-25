@@ -2,12 +2,16 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, HotelService, FacilityImage, SocialLink
+    Review, FacilityImage, SocialLink, ImageCover, HotelService
 )
 
 # ========== Inlines ==========
 class HotelImageInline(admin.TabularInline):
     model = HotelImage
+    extra = 1
+
+class ImageCoverInline(admin.TabularInline):
+    model = ImageCover
     extra = 1
 
 class RoomInline(admin.TabularInline):
@@ -49,7 +53,8 @@ class HotelAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'location', 'created_at')
     search_fields = ('name', 'location')
     list_filter = ('location',)
-    inlines = [HotelImageInline, RoomInline, SocialLinkInline]
+    inlines = [HotelImageInline, ImageCoverInline, RoomInline, SocialLinkInline]
+
 
 # ========== Amenity ==========
 @admin.register(Amenity)
@@ -63,7 +68,7 @@ class RoomAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'hotel', 'price_per_night', 'is_available')
     list_filter = ('is_available', 'is_suit', 'hotel')
     search_fields = ('name', 'hotel__name')
-    inlines = [RoomImageInline, SpecificationInline]
+    inlines = [ImageCoverInline, RoomImageInline, SpecificationInline]
 
 # ========== Feature ==========
 @admin.register(Feature)
@@ -92,7 +97,8 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ('hotel__name', 'name')
     list_filter = ('hotel', 'rating', 'created_at')
 
-# ========== Hotel Service ==========
+#========== Hotel Service ==========
+
 @admin.register(HotelService)
 class HotelServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'hotel', 'pricing_type', 'price')

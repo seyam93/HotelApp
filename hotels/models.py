@@ -98,6 +98,20 @@ class FacilityImage(models.Model):
     image = models.ImageField(upload_to='facility_images/')
     caption = models.CharField(max_length=255, blank=True)
 
+    def save(self, *args, **kwargs):
+
+        if self.image:
+            img = Image.open(self.image)
+            target_width, target_height = 375, 500
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"Image for {self.facility.name}"
     
@@ -115,20 +129,16 @@ class Hotel(models.Model):
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True)
-    image_cover = models.ImageField(upload_to='hotel_covers/', null=True, blank=True)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
     def save(self, *args, **kwargs):
+
         if not self.slug and self.name:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
-    
     class Meta:
         ordering = ['name']
 
@@ -144,6 +154,20 @@ class HotelImage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="hotel_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='hotel_images/')
     caption = models.CharField(max_length=255, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+
+        if self.image:
+            img = Image.open(self.image)
+            target_width, target_height = 375, 500
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Image for {self.hotel.name}"
@@ -211,8 +235,19 @@ class RoomImage(models.Model):
     image = models.ImageField(upload_to=rename_uploaded_image)
     caption = models.CharField(max_length=255, blank=True, null=True)
 
-    def __str__(self):
-        return f"Image for {self.room}"
+    def save(self, *args, **kwargs):
+
+        if self.image:
+            img = Image.open(self.image)
+            target_width, target_height = 1920, 1080
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Image for {self.room.name}"
@@ -271,38 +306,54 @@ class HotelService(models.Model):
         ('daily', 'Daily'),
         ('once', 'One Time'),
     ]
-    price_currency = [
+    currency_choices = [
         ('USD', 'USD'),
         ('EGP', 'EGP'),  
     ]
-
     hotel = models.ForeignKey(Hotel, related_name='hotel_services', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='hotel_services/', null=True, blank=True, help_text="Dimension Must be : 375x500px. JPEG or PNG format.") 
-    icon = models.CharField(max_length=200, null=True, blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
-    price_currency = models.CharField(max_length=3, choices=price_currency, default='EGP', blank=True, null=True)
-    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night', blank=True, null=True)
     featured = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.image:
-            try:
-                img = Image.open(self.image)
-                max_width, max_height = 375, 500
-                if img.width > max_width or img.height > max_height:
-                    img.thumbnail((max_width, max_height), Image.ANTIALIAS)
-                    img_io = io.BytesIO()
-                    img_format = img.format if img.format else 'JPEG'
-                    img.save(img_io, format=img_format)
-                    img_content = ContentFile(img_io.getvalue(), self.image.name)
-                    self.image.save(self.image.name, img_content, save=False)
-                    super().save(update_fields=['image'])
-            except Exception as e:
-                # Log error or pass silently
-                pass
+    image = models.ImageField(upload_to='hotel_services/',help_text="Dimension: 375x500", null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=0,null=True, blank=True)
+    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night',null=True, blank=True)
+    price_currency = models.CharField(max_length=3, default='EGP',null=True, blank=True, choices=currency_choices)
 
     def __str__(self):
         return f"{self.title} - {self.hotel.name}"
+    
+# Image Cover Models
+class ImageCover(models.Model):
+    hotel = models.ForeignKey('Hotel', related_name='image_covers', on_delete=models.CASCADE, null=True, blank=True)
+    room = models.ForeignKey('Room', related_name='image_covers', on_delete=models.CASCADE, null=True, blank=True)
+    image = models.ImageField(upload_to='image_covers/')
+    caption = models.CharField(max_length=255, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+
+        if self.image:
+            img = Image.open(self.image)
+            if self.hotel:
+                target_width, target_height = 375, 500
+            elif self.room:
+                target_width, target_height = 1920, 1080
+            else:
+                target_width, target_height = img.width, img.height  # no resizing if no relation
+
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        if self.hotel:
+            return f"Image for Hotel: {self.hotel.name}"
+        elif self.room:
+            return f"Image for Room: {self.room.name}"
+        else:
+            return "Unlinked ImageCover"

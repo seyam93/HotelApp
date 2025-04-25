@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from .models import Hotel, Room, HotelImage, WelcomeMessage, Facility, Review, Amenity, HotelService
+from .models import Hotel, Room, HotelImage, WelcomeMessage, Facility, Review, Amenity
 
 def home(request):
     hotels = Hotel.objects.all()
