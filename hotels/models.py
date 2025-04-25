@@ -133,6 +133,10 @@ class Hotel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+    
+
     def save(self, *args, **kwargs):
 
         if not self.slug and self.name:
@@ -236,7 +240,6 @@ class RoomImage(models.Model):
     caption = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-
         if self.image:
             img = Image.open(self.image)
             target_width, target_height = 1920, 1080
@@ -278,7 +281,10 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(choices=[(i, f"{i} Stars") for i in range(1, 6)])
     comment = models.TextField()
     view_link = models.URLField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)        
+    created_at = models.DateTimeField(auto_now_add=True) 
+
+    def __str__(self):
+        return f"Review by {self.name} for {self.hotel.name}"       
 
 # Offer Models
 class Offer(models.Model):
@@ -314,13 +320,32 @@ class HotelService(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     featured = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='hotel_services/',help_text="Dimension: 375x500", null=True, blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=0,null=True, blank=True)
-    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night',null=True, blank=True)
-    price_currency = models.CharField(max_length=3, default='EGP',null=True, blank=True, choices=currency_choices)
+    icon = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(upload_to='hotel_services/', help_text="Dimension: 375x500", null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=0, null=True, blank=True)
+    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night', null=True, blank=True)
+    price_currency = models.CharField(max_length=3, default='EGP', null=True, blank=True, choices=currency_choices)
 
     def __str__(self):
         return f"{self.title} - {self.hotel.name}"
+
+    class Meta:
+        verbose_name = "Hotel Service"
+        verbose_name_plural = "Hotel Services"
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image)
+            target_width, target_height = 375, 500
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
+
     
 # Image Cover Models
 class ImageCover(models.Model):

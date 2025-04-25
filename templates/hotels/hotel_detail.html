@@ -97,8 +97,18 @@
                     <a href="#" class="button-3 mb-15">About{{ hotel.name }}</a>
                     <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i>{{ hotel.phone }}</a></div>
                 </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45"> <img class="rounded-2 animation-float1" src="{{ hotel.image_cover.url }}" alt=""> </div>
-                <div class="col-lg-3 col-md-6 mb-20"> <img class="rounded-2 animation-float2" src={% static "img/about02.jpg"%} alt=""> </div>
+                {% with hotel.image_covers.all as covers %}
+                {% if covers|length > 0 %}
+                    <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45">
+                        <img class="rounded-2 animation-float1" src="{{ covers.0.image.url }}" alt="">
+                    </div>
+                {% endif %}
+                    {% if covers|length > 1 %}
+                        <div class="col-lg-3 col-md-6 mb-20">
+                            <img class="rounded-2 animation-float2" src="{{ covers.1.image.url }}" alt="">
+                        </div>
+                    {% endif %}
+                {% endwith %}
             </div>
         </div>
     </section>
