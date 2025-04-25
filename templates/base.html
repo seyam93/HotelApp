@@ -95,15 +95,15 @@
         </div>
     </nav>
     {% block content %} {% endblock %}
-    <!-- Footer -->
     <footer class="footer">
+        {% block footer_content %}
         <!-- top -->
         <div class="top">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 mb-30">
                         <div class="item">
-                            <div class="logo"><img src={% static "img/logo.png"%} alt=""></div>
+                            <div class="logo"><img src="{% static 'img/logo.png' %}" alt=""></div>
                             <p>Lorem ipsum is simply dummy text of the printe and type setting industry in the fermen.</p>
                             <div class="social-icons">
                                 <ul class="list-inline">
@@ -161,7 +161,8 @@
                 </div>
             </div>
         </div>
-    </footer>
+        {% endblock %}
+    </footer>    
     <!-- jQuery -->
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-3.4.1.min.js' %}"></script>
