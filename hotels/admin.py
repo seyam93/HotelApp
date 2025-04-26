@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService
+    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground
 )
 
 # ========== Inlines ==========
@@ -108,4 +108,9 @@ class HotelServiceAdmin(admin.ModelAdmin):
 # ========== WelcomeMessage ==========
 admin.site.register(WelcomeMessage)
 
-
+# ========== Pages Background ==========
+@admin.register(PageBackground)
+class PageBackgroundAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'page', 'image', 'created_at')
+    list_filter = ('page', 'hotel')
+    search_fields = ('hotel__name', 'page')

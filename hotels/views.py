@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from .models import Hotel, Room, HotelImage, WelcomeMessage, Facility, Review, Amenity
+from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity
+import json 
+from django.db.models import Prefetch
 
 def home(request):
     hotels = Hotel.objects.all()
@@ -12,35 +14,83 @@ def about(request):
 # This view will show the details of a specific hotel and list all rooms in that hotel.
 
 def hotel_detail(request, slug):
-    hotel = get_object_or_404(
-        Hotel.objects.prefetch_related(
-            'rooms',
-            'hotel_images',
-            'welcome_messages',
-            'facilities',
-            'reviews',
-            'hotel_services',
-        ),
-        slug=slug
+    hotel_qs = Hotel.objects.prefetch_related(
+        'rooms',
+        'hotel_images',
+        'welcome_messages',
+        'facilities',
+        'reviews',
+        Prefetch('hotel_services'),
+        Prefetch('page_backgrounds', queryset=PageBackground.objects.filter(page='hotel_main')),
     )
+
+    hotel = get_object_or_404(hotel_qs, slug=slug)
 
     tab_facilities = hotel.facilities.filter(type__in=['restaurant', 'spa', 'pool', 'gym'])
     tab_facility_types = tab_facilities.values_list('type', flat=True).distinct()
+
+    backgrounds_list = [{'src': bg.image.url} for bg in hotel.page_backgrounds.all()]
+    backgrounds_json = json.dumps(backgrounds_list)
 
     context = {
         'hotel': hotel,
         'rooms': hotel.rooms.all(),
         'hotel_images': hotel.hotel_images.all(),
         'welcome_messages': hotel.welcome_messages.all(),
-        'facilities': hotel.facilities.all(),  # All facilities
-        'tab_facilities': tab_facilities,      # Only those for tab section
+        'facilities': hotel.facilities.all(),
+        'tab_facilities': tab_facilities,
         'tab_facility_types': tab_facility_types,
         'reviews': hotel.reviews.all(),
-        'amenity_services': hotel.hotel_services.all()[:6],  # for amenities section (limit to 6)
-        'featured_services': hotel.hotel_services.filter(featured=True)[:3],  # for extra prices section
+        'amenity_services': hotel.hotel_services.all()[:6],
+        'featured_services': hotel.hotel_services.filter(featured=True)[:3],
+        'backgrounds': hotel.page_backgrounds.all(),
+        'backgrounds_json': backgrounds_json,
     }
 
     return render(request, 'hotels/hotel_detail.html', context)
+
+def hotel_rooms(request, slug):
+    hotel = get_object_or_404(Hotel, slug=slug)
+    rooms = hotel.rooms.filter(is_available=True)
+
+    context = {
+        'hotel': hotel,
+        'rooms': rooms,
+    }
+    return render(request, 'hotels/hotel_rooms.html', context)
+
+# def hotel_detail(request, slug):
+#     hotel = get_object_or_404(
+#         Hotel.objects.prefetch_related(
+#             'rooms',
+#             'hotel_images',
+#             'welcome_messages',
+#             'facilities',
+#             'reviews',
+#             'hotel_services',
+#             'backgrounds',
+#         ),
+#         slug=slug
+#     )
+
+#     tab_facilities = hotel.facilities.filter(type__in=['restaurant', 'spa', 'pool', 'gym'])
+#     tab_facility_types = tab_facilities.values_list('type', flat=True).distinct()
+
+#     context = {
+#         'hotel': hotel,
+#         'rooms': hotel.rooms.all(),
+#         'hotel_images': hotel.hotel_images.all(),
+#         'welcome_messages': hotel.welcome_messages.all(),
+#         'facilities': hotel.facilities.all(),  # All facilities
+#         'tab_facilities': tab_facilities,      # Only those for tab section
+#         'tab_facility_types': tab_facility_types,
+#         'reviews': hotel.reviews.all(),
+#         'amenity_services': hotel.hotel_services.all()[:6],  # for amenities section (limit to 6)
+#         'featured_services': hotel.hotel_services.filter(featured=True)[:3],  # for extra prices section
+#         'backgrounds': hotel.backgrounds.all(), # for background images
+#     }
+
+#     return render(request, 'hotels/hotel_detail.html', context)
 
 # def hotel_detail(request, slug):
 #     hotel = get_object_or_404(Hotel, slug=slug)
@@ -67,15 +117,15 @@ def hotel_detail(request, slug):
 # Room List View
 # This view will list all rooms in the hotel if hotel_slug is provided, otherwise it will list all rooms.
 
-def room_list(request, hotel_slug=None):
-    if hotel_slug:
-        hotel = get_object_or_404(Hotel, slug=hotel_slug)
-        rooms = hotel.rooms.all()
-        context = {'rooms': rooms, 'hotel': hotel}
-    else:
-        rooms = Room.objects.all()
-        context = {'rooms': rooms}
-    return render(request, 'hotels/rooms.html', context)
+# def room_list(request, hotel_slug=None):
+#     if hotel_slug:
+#         hotel = get_object_or_404(Hotel, slug=hotel_slug)
+#         rooms = hotel.rooms.all()
+#         context = {'rooms': rooms, 'hotel': hotel}
+#     else:
+#         rooms = Room.objects.all()
+#         context = {'rooms': rooms}
+#     return render(request, 'hotels/rooms.html', context)
 
 def room_detail(request, slug):
     room = get_object_or_404(Room, slug=slug)

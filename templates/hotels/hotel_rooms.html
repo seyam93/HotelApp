@@ -16,152 +16,107 @@
     </div>
 </section>
  <!-- Rooms 2 -->
- <section class="rooms2 section-padding">
+<section class="rooms2 section-padding">
     <div class="container">
-        <div class="row g-0 justify-content-center align-items-center bg-lightbrown br-0550 mb-90">
-            <div class="col-lg-7 col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="img"> <img src="{% static 'img/rooms/a.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/b.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/c.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                </div>
-            </div>
-            <div class="col-lg-5 col-md-12">
-                <div class="item">
-                    <h3 class="title">Junior Suite</h3>
-                    <p>Spacious, bright guestrooms with tasteful furnishing, wooden floor and panoramic windows from the ceiling to the floor.</p>
-                    <div class="row room-features">
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-user"></i> 1-2 Persons</li>
-                                <li><i class="fa-thin fa-expand"></i> 200 sqft room</li>
-                            </ul>
+
+        {% for room in rooms %}
+        <div class="row g-0 justify-content-center align-items-center {% cycle 'bg-lightbrown br-0550 mb-90' 'bg-lightbrown br-5005 mb-90' %}">
+            {% if forloop.counter|divisibleby:"2" %}
+                {# Even items: Image Left, Text Right #}
+                <div class="col-lg-5 col-md-12">
+                    <div class="item">
+                        <h3 class="title">{{ room.name }}</h3>
+                        <p>{{ room.description|truncatewords:30 }}</p>
+
+                        <div class="row room-features">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
+                                    <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
+                                    <li><i class="fa-thin fa-mug-saucer"></i> {% if room.includes_breakfast %} Breakfast {% else %} No Breakfast {% endif %}</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-bed-front"></i> Twin Bed</li>
-                                <li><i class="fa-thin fa-mug-saucer"></i> Breakfast</li>
-                            </ul>
+
+                        <div class="line-dec"></div>
+
+                        <div class="book">
+                            <div>
+                                <div class="price">${{ room.price_per_night }} <span>/ night</span></div>
+                            </div>
+                            <div>
+                                <a href="#" class="button-3">Book now</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="line-dec"></div>
-                    <div class="book">
-                        <div>
-                            <div class="price">$150 <span>/ night</span></div>
+                </div>
+
+                <div class="col-lg-7 col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        <div class="img">
+                            {% if room.image_cover %}
+                                <img src="{{ room.image_cover.url }}" class="img-fluid br-0550" alt="{{ room.name }}">
+                            {% else %}
+                                <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
+                            {% endif %}
                         </div>
-                        <div><a href="" class="button-3">Book now</a></div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                {# Odd items: Image Right, Text Left #}
+                <div class="col-lg-7 col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        <div class="img">
+                            {% if room.image_cover %}
+                                <img src="{{ room.image_cover.url }}" class="img-fluid br-0550" alt="{{ room.name }}">
+                            {% else %}
+                                <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-12">
+                    <div class="item">
+                        <h3 class="title">{{ room.name }}</h3>
+                        <p>{{ room.description|truncatewords:30 }}</p>
+
+                        <div class="row room-features">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
+                                    <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
+                                    <li><i class="fa-thin fa-mug-saucer"></i> {% if room.includes_breakfast %} Breakfast {% else %} No Breakfast {% endif %}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="line-dec"></div>
+
+                        <div class="book">
+                            <div>
+                                <div class="price">${{ room.price_per_night }} <span>/ night</span></div>
+                            </div>
+                            <div>
+                                <a href="#" class="button-3">Book now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        <div class="row g-0 justify-content-center align-items-center bg-lightbrown br-5005 mb-90">
-            <div class="col-lg-5 col-md-12">
-                <div class="item">
-                    <h3 class="title">Family Room</h3>
-                    <p>Spacious, bright guestrooms with tasteful furnishing, wooden floor and panoramic windows from the ceiling to the floor.</p>
-                    <div class="row room-features">
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-user"></i> 2-3 Persons</li>
-                                <li><i class="fa-thin fa-expand"></i> 240 sqft room</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-bed-front"></i> Twin Bed</li>
-                                <li><i class="fa-thin fa-wifi"></i> Free Wifi</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="line-dec"></div>
-                    <div class="book">
-                        <div>
-                            <div class="price">$200 <span>/ night</span></div>
-                        </div>
-                        <div><a href="page-details" class="button-3">Book now</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7 col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="img"> <img src="{% static 'img/rooms/d.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/e.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/f.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                </div>
-            </div>
-        </div>
-        <div class="row g-0 justify-content-center align-items-center bg-lightbrown br-0550 mb-90">
-            <div class="col-lg-7 col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="img"> <img src="{% static 'img/rooms/b.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/e.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/f.jpg' %}" class="img-fluid br-5005" alt=""> </div>
-                </div>
-            </div>
-            <div class="col-lg-5 col-md-12">
-                <div class="item">
-                    <h3 class="title">Double Room</h3>
-                    <p>Spacious, bright guestrooms with tasteful furnishing, wooden floor and panoramic windows from the ceiling to the floor.</p>
-                    <div class="row room-features">
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-user"></i> 2-3 Persons</li>
-                                <li><i class="fa-thin fa-expand"></i> 280 sqft room</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-bed-front"></i> Twin Bed</li>
-                                <li><i class="fa-thin fa-mug-saucer"></i> Breakfast</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="line-dec"></div>
-                    <div class="book">
-                        <div>
-                            <div class="price">$250 <span>/ night</span></div>
-                        </div>
-                        <div><a href="page-details" class="button-3">Book now</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row g-0 justify-content-center align-items-center bg-lightbrown br-5005">
-            <div class="col-lg-5 col-md-12">
-                <div class="item">
-                    <h3 class="title">Deluxe Room</h3>
-                    <p>Spacious, bright guestrooms with tasteful furnishing, wooden floor and panoramic windows from the ceiling to the floor.</p>
-                    <div class="row room-features">
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-user"></i> 4-5 Persons</li>
-                                <li><i class="fa-thin fa-expand"></i> 300 sqft room</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <ul>
-                                <li><i class="fa-thin fa-bed-front"></i> Twin Bed</li>
-                                <li><i class="fa-thin fa-wifi"></i> Free Wifi</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="line-dec"></div>
-                    <div class="book">
-                        <div>
-                            <div class="price">$300 <span>/ night</span></div>
-                        </div>
-                        <div><a href="page-details" class="button-3">Book now</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7 col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="img"> <img src="{% static 'img/rooms/e.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/f.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                    <div class="img"> <img src="{% static 'img/rooms/c.jpg' %}" class="img-fluid br-0550" alt=""> </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
+
     </div>
 </section>
 <!-- Video -->

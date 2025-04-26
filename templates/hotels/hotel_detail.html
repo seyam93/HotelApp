@@ -1,6 +1,70 @@
 {% extends "base.html" %}
 {% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}
 {% load static %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-wrapper">
+            <a class="logo" href="{% url 'home-page' %}"> <img src={% static "img/logo.png" %} class="logo-img" alt=""> </a>
+            <!-- <div class="logo"><h2>Rixos</h2></div> -->
+        </div>
+        <!-- Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"><i class="fa-light fa-bars"></i></span> </button>
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' slug=hotel.slug %}">Rooms</a></li>
+                <li class="nav-item"><a class="nav-link" href="">Dining</a></li>
+
+                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="facilities.html" class="dropdown-item"><span>Facilities</span></a></li>
+                        <li><a href="amenities.html" class="dropdown-item"><span>Amenities</span></a></li>
+                        <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
+                        <li><a href="offers.html" class="dropdown-item"><span>Special Offers</span></a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a class="nav-link" href="">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="">Gallery</a></li>
+                {% comment %} <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Pages <i class="fa-light fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+        
+                        <li><a href="pricing.html" class="dropdown-item"><span>Pricing</span></a></li>
+                        <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
+                        <li><a href="team-single.html" class="dropdown-item"><span>Team Single</span></a></li>
+                        <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
+                        <li><a href="gallery-image.html" class="dropdown-item"><span>Image Gallery</span></a></li>
+                        <li><a href="gallery-video.html" class="dropdown-item"><span>Video Gallery</span></a></li>
+                        <li><a href="404.html" class="dropdown-item"><span>404 Page</span></a></li>
+                    </ul>
+                </li> {% endcomment %}
+                <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
+                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog1.html" class="dropdown-item"><span>Blog</span></a></li>
+                        <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
+                        <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
+                        <li><a href="about.html" class="dropdown-item"><span>About Us</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                {% comment %} <form action="{% url 'set_language' %}" method="post" style="margin-left: 1rem;">
+                    {% csrf_token %}
+                    <select name="language" onchange="this.form.submit()">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+                    </select>
+                </form> {% endcomment %}
+                <div class="phonex"><a href="tel:+12345678910"><i class="fa-solid fa-phone"></i> +1 234 567 8910</a></div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endblock navbar %}
 {% block content %}
     <!-- Kenburns SlideShow -->
     <aside class="kenburns-section" id="kenburnsSliderContainer" data-overlay-dark="5">
@@ -11,7 +75,7 @@
                         <div class="col-lg-8 col-md-12 text-center">
                             <h5>{{ hotel.name }}</h5>
                             <h1>{{ hotel.slogan }}</h1>
-                            <a href="{% url 'rooms' %}" class="button-2">Rooms & Suites</a>
+                            <a href="{% url 'hotel-rooms' slug=hotel.slug %}" class="button-2">Rooms & Suites</a>
                         </div>
                     </div>
                 </div>
@@ -611,6 +675,19 @@
 <script>
     $(document).ready(function() {
         $('#kenburnsSliderContainer').vegas({
+            slides: {{ backgrounds_json|safe }},
+            overlay: true,
+            transition: 'fade2',
+            animation: 'kenburnsUpRight',
+            transitionDuration: 1000,
+            delay: 10000,
+            animationDuration: 20000
+        });
+    });
+</script>
+{% comment %} <script>
+    $(document).ready(function() {
+        $('#kenburnsSliderContainer').vegas({
             slides: [{ src: "{% static 'img/rooms/05.jpg' %}" },
             { src: "{% static 'img/rooms/02.jpg' %}" },
             { src: "{% static 'img/rooms/03.jpg' %}" },],
@@ -622,5 +699,5 @@
             animationDuration: 20000
         });
     });
-</script>
+</script> {% endcomment %}
 {% endblock %}

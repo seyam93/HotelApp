@@ -5,7 +5,31 @@ import uuid
 from PIL import Image
 import io
 from django.core.files.base import ContentFile
+from django.urls import reverse
 
+# App page background models
+class PageBackground(models.Model):
+    PAGE_CHOICES = [
+        ('hotel_main', 'Hotel Main Page'),
+        ('offers', 'Offers Page'),
+        ('rooms', 'Rooms Page'),
+        ('facilities', 'Facilities Page'),
+        ('events', 'Events Page'),
+        ('restaurant', 'Restaurant Page'),
+        ('spa', 'Spa Page'),
+        ('gym', 'Gym Page'),  # Add any other pages you want
+    ]
+
+    hotel = models.ForeignKey('hotels.Hotel', on_delete=models.CASCADE, related_name='page_backgrounds')
+    page = models.CharField(max_length=50, choices=PAGE_CHOICES)
+    image = models.ImageField(upload_to='backgrounds/')
+    title = models.CharField(max_length=255, blank=True, null=True)  # Optional: for alt text or SEO
+    description = models.TextField(blank=True, null=True)  # Optional: for admins
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.hotel.name} - {self.get_page_display()}"
+    
 # Social Media Choices
 SOCIAL_CHOICES = [
     ('facebook', 'Facebook'),
@@ -198,20 +222,41 @@ class Feature(models.Model):
     def __str__(self):
         return self.name
     
+from django.db import models
+from django.utils.text import slugify
+from django.urls import reverse
+from django.core.files.base import ContentFile
+from PIL import Image
+import io
+import uuid
+import os
+
 class Room(models.Model):
+    BED_TYPES = [
+        ('single', 'Single Bed'),
+        ('double', 'Double Bed'),
+        ('queen', 'Queen Bed'),
+        ('king', 'King Bed'),
+        ('twin', 'Twin Bed'),
+        ('sofa', 'Sofa Bed'),
+    ]
+
     hotel = models.ForeignKey(Hotel, related_name="rooms", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True)
+    image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
     number_of_beds = models.PositiveIntegerField(default=1)
+    bed_type = models.CharField(max_length=20, choices=BED_TYPES, default='twin')
     number_of_bathrooms = models.PositiveIntegerField(default=1)
-    area = models.FloatField(help_text="Area in square meters", blank=True)
+    number_of_persons = models.CharField(max_length=50, default="1-2", null=True, blank=True)
+    area = models.FloatField(help_text="Area in square meters", blank=True, null=True)
     includes_breakfast = models.BooleanField(default=True, blank=True)
     room_discount = models.PositiveIntegerField(default=0, blank=True)
     is_suit = models.BooleanField(default=False)
-    price_per_night = models.DecimalField(max_digits=8, decimal_places=2, blank=True)
     is_available = models.BooleanField(default=True)
-    image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
+    price_per_night = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
+    featured = models.BooleanField(default=False)
     check_in_notes = models.TextField(blank=True)
     check_out_notes = models.TextField(blank=True)
     special_check_in_instructions = models.TextField(blank=True)
@@ -219,21 +264,43 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     amenities = models.ManyToManyField('Amenity', related_name='amenities', blank=True)
-    features = models.ManyToManyField(Feature, related_name='rooms', blank=True)
+    features = models.ManyToManyField('Feature', related_name='rooms', blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.hotel.name})"
 
-    def save(self, *args, **kwargs):
-        if not self.slug and self.name:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+    @staticmethod
+    def generate_unique_slug(name):
+        base_slug = slugify(name)
+        unique_id = uuid.uuid4().hex[:8]
+        return f"{base_slug}-{unique_id}"
 
+    def get_absolute_url(self):
+        return reverse('room-detail', kwargs={'hotel_slug': self.hotel.slug, 'room_slug': self.slug})
+
+@staticmethod
 def rename_uploaded_image(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4()}.{ext}"
     return os.path.join('room_images', filename)
 
+    def save(self, *args, **kwargs):
+        if not self.slug and self.name:
+            self.slug = self.generate_unique_slug(self.name)
+
+        super().save(*args, **kwargs)
+
+        if self.image_cover:
+            img = Image.open(self.image_cover)
+            target_width, target_height = 1550, 1080
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_content = ContentFile(img_io.getvalue(), self.image_cover.name)
+                self.image_cover.save(self.image_cover.name, img_content, save=False)
+                
 class RoomImage(models.Model):
     room = models.ForeignKey('Room', related_name="room_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to=rename_uploaded_image)
