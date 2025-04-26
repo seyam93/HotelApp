@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponse
 from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity
 import json 
 from django.db.models import Prefetch
+from core.models import FAQ
 
 def home(request):
     hotels = Hotel.objects.all()
@@ -51,13 +52,23 @@ def hotel_detail(request, slug):
 
 def hotel_rooms(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
-    rooms = hotel.rooms.filter(is_available=True)
+    rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
 
     context = {
         'hotel': hotel,
         'rooms': rooms,
     }
     return render(request, 'hotels/hotel_rooms.html', context)
+
+def room_detail(request, hotel_slug, room_slug):
+    room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
+    faqs = room.hotel.faqs.all()[:4]  # LIMIT to 4 FAQs only!
+
+    context = {
+        'room': room,
+        'faqs': faqs,
+    }
+    return render(request, 'hotels/room_detail.html', context)
 
 # def hotel_detail(request, slug):
 #     hotel = get_object_or_404(
@@ -127,9 +138,9 @@ def hotel_rooms(request, slug):
 #         context = {'rooms': rooms}
 #     return render(request, 'hotels/rooms.html', context)
 
-def room_detail(request, slug):
-    room = get_object_or_404(Room, slug=slug)
-    return render(request, 'hotels/room_detail.html', {'room': room})
+# def room_detail(request, slug):
+#     room = get_object_or_404(Room, slug=slug)
+#     return render(request, 'hotels/room_detail.html', {'room': room})
 
 def about(request):
     return render(request, 'hotels/about.html')

@@ -2369,6 +2369,26 @@ blockquote cite:before {
     position: relative;
     overflow: hidden;
 }
+/* ====== Hover effect for Rooms2 cards ====== */
+
+.room-card {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+.rooms2 a {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.rooms2 a:hover .item {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
 .rooms2 .item {
     width: 100%;
     padding: 60px;
@@ -2376,6 +2396,11 @@ blockquote cite:before {
     overflow: hidden;
     display: table-cell;
     vertical-align: middle;
+    transition: all 0.3s ease;
+}
+.rooms2 .item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
 }
 .rooms2 .item .title {
     font-family: "Gilda Display", serif;
@@ -5412,6 +5437,7 @@ body.mfp-zoom-out-cur {
     line-height: 30px;
     transition: border-color 300ms ease, transform 300ms ease, background-color 300ms ease, color 300ms ease;
     transform-style: preserve-3d;
+    transition: all 0.3s ease;
 }
 .button-3 i {
     margin-right: 5px;
@@ -5688,6 +5714,7 @@ body.mfp-zoom-out-cur {
 
 
 /* ======= Overlay Effect Bg Image style ======= */
+
 [data-overlay-dark] {
     position: relative;
 }
@@ -5753,6 +5780,15 @@ body.mfp-zoom-out-cur {
     opacity: 1;
 }
 
+.room-card {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
 
 /* ======= Responsive style ======= */
 @media (min-width: 1400px) {

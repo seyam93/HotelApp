@@ -7,6 +7,12 @@ import io
 from django.core.files.base import ContentFile
 from django.urls import reverse
 
+# Utility function to rename uploaded images
+def rename_uploaded_image(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return os.path.join('room_images', filename)
+
 # App page background models
 class PageBackground(models.Model):
     PAGE_CHOICES = [
@@ -221,15 +227,6 @@ class Feature(models.Model):
 
     def __str__(self):
         return self.name
-    
-from django.db import models
-from django.utils.text import slugify
-from django.urls import reverse
-from django.core.files.base import ContentFile
-from PIL import Image
-import io
-import uuid
-import os
 
 class Room(models.Model):
     BED_TYPES = [
@@ -241,9 +238,11 @@ class Room(models.Model):
         ('sofa', 'Sofa Bed'),
     ]
 
-    hotel = models.ForeignKey(Hotel, related_name="rooms", on_delete=models.CASCADE)
+    hotel = models.ForeignKey('Hotel', related_name="rooms", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
+    short_description = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
     image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
     number_of_beds = models.PositiveIntegerField(default=1)
@@ -257,13 +256,13 @@ class Room(models.Model):
     is_available = models.BooleanField(default=True)
     price_per_night = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     featured = models.BooleanField(default=False)
-    check_in_notes = models.TextField(blank=True)
-    check_out_notes = models.TextField(blank=True)
+    check_in_notes = models.TextField(default="Check-in from 9:00 AM - anytime",blank=True)
+    check_out_notes = models.TextField(default="Check-out before 12:00 PM",blank=True)
     special_check_in_instructions = models.TextField(blank=True)
     children_and_extra_beds_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    amenities = models.ManyToManyField('Amenity', related_name='amenities', blank=True)
+    amenities = models.ManyToManyField('Amenity', related_name='rooms', blank=True)
     features = models.ManyToManyField('Feature', related_name='rooms', blank=True)
 
     def __str__(self):
@@ -277,19 +276,12 @@ class Room(models.Model):
 
     def get_absolute_url(self):
         return reverse('room-detail', kwargs={'hotel_slug': self.hotel.slug, 'room_slug': self.slug})
-
-@staticmethod
-def rename_uploaded_image(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f"{uuid.uuid4()}.{ext}"
-    return os.path.join('room_images', filename)
-
+    
     def save(self, *args, **kwargs):
         if not self.slug and self.name:
             self.slug = self.generate_unique_slug(self.name)
 
-        super().save(*args, **kwargs)
-
+        # If saving a new image, resize it before saving to DB
         if self.image_cover:
             img = Image.open(self.image_cover)
             target_width, target_height = 1550, 1080
@@ -300,6 +292,8 @@ def rename_uploaded_image(instance, filename):
                 img.save(img_io, format=img_format)
                 img_content = ContentFile(img_io.getvalue(), self.image_cover.name)
                 self.image_cover.save(self.image_cover.name, img_content, save=False)
+
+        super().save(*args, **kwargs)
                 
 class RoomImage(models.Model):
     room = models.ForeignKey('Room', related_name="room_images", on_delete=models.CASCADE)
@@ -308,15 +302,21 @@ class RoomImage(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image)
+            img = Image.open(self.image.file)
             target_width, target_height = 1920, 1080
             if img.width != target_width or img.height != target_height:
                 img = img.resize((target_width, target_height), Image.LANCZOS)
                 img_io = io.BytesIO()
                 img_format = img.format if img.format else 'JPEG'
                 img.save(img_io, format=img_format)
+                img_io.seek(0)
                 img_content = ContentFile(img_io.getvalue(), self.image.name)
                 self.image.save(self.image.name, img_content, save=False)
+
+        # === Auto-caption ===
+        if not self.caption:
+            self.caption = f"{self.room.name} Room Image"
+
         super().save(*args, **kwargs)
 
     def __str__(self):

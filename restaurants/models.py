@@ -8,7 +8,13 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, null=True)
     description = models.TextField()
-    opening_hours = models.CharField(max_length=100)
+    short_description = models.TextField(null=True, blank=True)
+    opening_hours = models.CharField(max_length=100,null=True, blank=True)
+    breakfast_hours = models.CharField(max_length=100, null=True, blank=True,default="Breakfast: 6.00 am – 11.00 am (daily)")
+    lunch_hours = models.CharField(max_length=100,null=True, blank=True,default="Lunch: 12.00 pm – 3.00 pm (daily)")
+    dinner_hours = models.CharField(max_length=100,null=True, blank=True,default="Dinner: 6.00 pm – 11.00 pm (daily)")
+    dress_code = models.CharField(max_length=100, null=True, blank=True)
+    cuisine = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)
     menu_file = models.FileField(upload_to='restaurant_menus/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -20,6 +26,15 @@ class Restaurant(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+class RestaurantImage(models.Model):
+    restaurant = models.ForeignKey(Restaurant, related_name="gallery_images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='restaurant_gallery/', null=True, blank=True)
+    caption = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.restaurant.name}"
 
 class MenuCategory(models.Model):
     restaurant = models.ForeignKey(Restaurant, related_name="menu_categories", on_delete=models.CASCADE)

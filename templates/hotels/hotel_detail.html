@@ -29,18 +29,6 @@
                 
                 <li class="nav-item"><a class="nav-link" href="">Events</a></li>
                 <li class="nav-item"><a class="nav-link" href="">Gallery</a></li>
-                {% comment %} <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Pages <i class="fa-light fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
-        
-                        <li><a href="pricing.html" class="dropdown-item"><span>Pricing</span></a></li>
-                        <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
-                        <li><a href="team-single.html" class="dropdown-item"><span>Team Single</span></a></li>
-                        <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
-                        <li><a href="gallery-image.html" class="dropdown-item"><span>Image Gallery</span></a></li>
-                        <li><a href="gallery-video.html" class="dropdown-item"><span>Video Gallery</span></a></li>
-                        <li><a href="404.html" class="dropdown-item"><span>404 Page</span></a></li>
-                    </ul>
-                </li> {% endcomment %}
                 <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
                 <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
@@ -52,13 +40,6 @@
                 </li>
             </ul>
             <div class="navbar-right">
-                {% comment %} <form action="{% url 'set_language' %}" method="post" style="margin-left: 1rem;">
-                    {% csrf_token %}
-                    <select name="language" onchange="this.form.submit()">
-                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-                        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
-                    </select>
-                </form> {% endcomment %}
                 <div class="phonex"><a href="tel:+12345678910"><i class="fa-solid fa-phone"></i> +1 234 567 8910</a></div>
             </div>
         </div>
