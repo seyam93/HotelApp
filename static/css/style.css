@@ -2370,7 +2370,27 @@ blockquote cite:before {
     overflow: hidden;
 }
 /* ====== Hover effect for Rooms2 cards ====== */
+.room-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
 
+.room-link:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.room-link .img img {
+    transition: transform 0.3s ease;
+}
+
+/* .room-link:hover .img img {
+    transform: scale(1.02);
+} */
 .room-card {
     display: block;
     transition: all 0.3s ease;

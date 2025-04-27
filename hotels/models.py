@@ -449,3 +449,69 @@ class ImageCover(models.Model):
             return f"Image for Room: {self.room.name}"
         else:
             return "Unlinked ImageCover"
+        
+# Hotel Banner Models
+class HotelPageBanner(models.Model):
+    hotel = models.ForeignKey('hotels.Hotel', related_name="banners", on_delete=models.CASCADE)
+    page = models.CharField(max_length=100, choices=[
+        ('home', 'Home Page'),
+        ('rooms', 'Rooms Page'),
+        ('restaurants', 'Restaurants Page'),
+        ('offers', 'Offers Page'),
+        ('spa', 'Spa Page'),
+        ('meetings', 'Meetings Page'),
+        ('events', 'Events Page'),
+        ('gallery', 'Gallery Page'),
+        ('contact', 'Contact Page'),
+    ])
+    image = models.ImageField(upload_to='hotel_banners/')
+    title = models.CharField(max_length=255, blank=True, null=True)
+    subtitle = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('hotel', 'page')  # Only one banner per page per hotel
+        ordering = ['page']
+
+    def __str__(self):
+        return f"{self.hotel.name} - {self.page.capitalize()} Banner"
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image.file)
+            target_width, target_height = 1920, 1080
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_io.seek(0)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
+
+class HotelVideoBanner(models.Model):
+    hotel = models.ForeignKey('hotels.Hotel', related_name="video_banners", on_delete=models.CASCADE)
+    page = models.CharField(max_length=100, choices=[
+        ('home', 'Home Page'),
+        ('rooms', 'Rooms Page'),
+        ('restaurants', 'Restaurants Page'),
+        ('offers', 'Offers Page'),
+        ('spa', 'Spa Page'),
+        ('meetings', 'Meetings Page'),
+        ('events', 'Events Page'),
+        ('gallery', 'Gallery Page'),
+        ('contact', 'Contact Page'),
+    ])
+    video_url = models.URLField(blank=True, null=True)
+    video_file = models.FileField(upload_to='hotel_video_banners/', blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    subtitle = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('hotel', 'page')  # Only one video banner per page per hotel
+        ordering = ['page']
+
+    def __str__(self):
+        return f"{self.hotel.name} - {self.page.capitalize()} Video Banner"

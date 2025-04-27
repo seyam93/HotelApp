@@ -16,7 +16,7 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' slug=hotel.slug %}">Rooms</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Dining</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">Dining</a></li>
 
                 <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
@@ -170,33 +170,35 @@
                 <div class="owl-carousel owl-theme">
                     {% for room in rooms %}
                     <div class="item">
-                        <div class="img">
-                            <img src="{{ room.image_cover.url }}" class="img-fluid" alt="{{ room.name }}">
-                        </div>
-                            {% if room.room_discount > 0 %}
-                            <span class="discount">
-                                <i class="fa-light fa-badge-percent"></i> Get {{ room.room_discount }} % Off
-                            </span>
-                            {% endif %}
-                        <div class="cont">
-                            <div class="title">
-                                <a href="{% url 'room-detail' room.slug %}">{{ room.name }}</a>
+                        <a href="{% url 'room-detail' hotel.slug room.slug %}" class="room-link">  
+                            <div class="img">
+                                <img src="{{ room.image_cover.url }}" class="img-fluid" alt="{{ room.name }}">
                             </div>
-                            <div class="details">
-                                {% if room.number_of_beds %}
-                                <span><i class="fa-thin fa-bed-front"></i> {{ room.number_of_beds }} Bed</span>
+                                {% if room.room_discount > 0 %}
+                                <span class="discount">
+                                    <i class="fa-light fa-badge-percent"></i> Get {{ room.room_discount }} % Off
+                                </span>
                                 {% endif %}
-                                {% if room.number_of_bathrooms %}
-                                <span><i class="fa-thin fa-bath"></i> {{ room.number_of_bathrooms }} Bathroom</span>
-                                {% endif %}
-                                {% if room.area %}
-                                <span><i class="fa-thin fa-expand"></i> {{ room.area }} Sqm</span>
-                                {% endif %}
-                                {% if room.includes_breakfast %}
-                                <span><i class="fa-thin fa-mug-saucer"></i> Breakfast</span>
-                                {% endif %}
+                            <div class="cont">
+                                <div class="title">
+                                    <a href="{% url 'room-detail' hotel.slug room.slug %}">{{ room.name }}</a>
+                                </div>
+                                <div class="details">
+                                    {% if room.number_of_beds %}
+                                    <span><i class="fa-thin fa-bed-front"></i> {{ room.number_of_beds }} Bed</span>
+                                    {% endif %}
+                                    {% if room.number_of_bathrooms %}
+                                    <span><i class="fa-thin fa-bath"></i> {{ room.number_of_bathrooms }} Bathroom</span>
+                                    {% endif %}
+                                    {% if room.area %}
+                                    <span><i class="fa-thin fa-expand"></i> {{ room.area }} Sqm</span>
+                                    {% endif %}
+                                    {% if room.includes_breakfast %}
+                                    <span><i class="fa-thin fa-mug-saucer"></i> Breakfast</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
+                        </a>    
                     </div>
                     {% endfor %}
                 </div>

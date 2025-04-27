@@ -24,7 +24,8 @@ from django.views.i18n import set_language
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('set-language/', set_language, name='set_language'),
-    path("", include("hotels.urls")),
+    path("", include("hotels.urls")),          # all hotel-related pages
+    path("", include("restaurants.urls")),     # all restaurant-related pages
 ]
 
 if settings.DEBUG:

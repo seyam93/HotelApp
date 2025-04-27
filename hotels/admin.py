@@ -1,8 +1,9 @@
+from django.utils.html import format_html
 from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground
+    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner
 )
 
 # ========== Inlines ==========
@@ -114,3 +115,29 @@ class PageBackgroundAdmin(admin.ModelAdmin):
     list_display = ('hotel', 'page', 'image', 'created_at')
     list_filter = ('page', 'hotel')
     search_fields = ('hotel__name', 'page')
+
+# ========== Hotel Page Banner ==========
+@admin.register(HotelPageBanner)
+class HotelPageBannerAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'page', 'banner_preview', 'created_at')
+    list_filter = ('hotel', 'page')
+    search_fields = ('hotel__name', 'page')
+
+    def banner_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="200" />', obj.image.url)
+        return "-"
+    banner_preview.short_description = 'Banner Preview'
+
+# ========== Hotel Video Banner ==========
+@admin.register(HotelVideoBanner)
+class HotelVideoBannerAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'page', 'video_link', 'created_at')
+    list_filter = ('hotel', 'page')
+    search_fields = ('hotel__name', 'page')
+
+    def video_link(self, obj):
+        if obj.video_url:
+            return format_html('<a href="{}" target="_blank">View Video</a>', obj.video_url)
+        return "-"
+    video_link.short_description = 'Video URL'

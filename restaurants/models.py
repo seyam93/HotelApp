@@ -1,6 +1,9 @@
 from django.db import models
 from hotels.models import Hotel  # because Restaurant is linked to Hotel
 from django.template.defaultfilters import slugify
+from django.core.files.base import ContentFile
+from PIL import Image
+import io
 
 # Restaurant Models
 class Restaurant(models.Model):
@@ -15,9 +18,22 @@ class Restaurant(models.Model):
     dinner_hours = models.CharField(max_length=100,null=True, blank=True,default="Dinner: 6.00 pm – 11.00 pm (daily)")
     dress_code = models.CharField(max_length=100, null=True, blank=True)
     cuisine = models.CharField(max_length=100, null=True, blank=True)
-    image = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)
+    image_cover = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)
     menu_file = models.FileField(upload_to='restaurant_menus/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self.image_cover:
+            img = Image.open(self.image_cover.file)
+            target_width, target_height = 1920, 1080
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_io.seek(0)
+                img_content = ContentFile(img_io.getvalue(), self.image_cover.name)
+                self.image_cover.save(self.image_cover.name, img_content, save=False)
 
     def __str__(self):
         return f"{self.name} - {self.hotel.name}"
@@ -32,6 +48,20 @@ class RestaurantImage(models.Model):
     image = models.ImageField(upload_to='restaurant_gallery/', null=True, blank=True)
     caption = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image.file)
+            target_width, target_height = 1920, 1080
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+                img_io = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(img_io, format=img_format)
+                img_io.seek(0)
+                img_content = ContentFile(img_io.getvalue(), self.image.name)
+                self.image.save(self.image.name, img_content, save=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Image for {self.restaurant.name}"
