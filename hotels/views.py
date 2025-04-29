@@ -50,6 +50,8 @@ def hotel_detail(request, slug):
 
     return render(request, 'hotels/hotel_detail.html', context)
 
+# Rooms List View
+# This view will list all available rooms in a specific hotel.
 def hotel_rooms(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
     rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
@@ -60,6 +62,8 @@ def hotel_rooms(request, slug):
     }
     return render(request, 'hotels/hotel_rooms.html', context)
 
+# Room Detail View
+# This view will show the details of a specific room in a hotel.
 def room_detail(request, hotel_slug, room_slug):
     room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
     faqs = room.hotel.faqs.all()[:4]  # LIMIT to 4 FAQs only!
@@ -69,6 +73,23 @@ def room_detail(request, hotel_slug, room_slug):
         'faqs': faqs,
     }
     return render(request, 'hotels/room_detail.html', context)
+
+# facility list view
+def hotel_facilities_view(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
+    
+    # Filter featured facilities and slice max 4
+    featured_facilities = Facility.objects.filter(hotel=hotel, is_featured=True, is_active=True).order_by('type', 'name')[:4]
+
+    # Unique types from featured facilities only
+    facility_types = list({facility.type for facility in featured_facilities})
+
+    context = {
+        'hotel': hotel,
+        'tab_facility_types': facility_types,
+        'tab_facilities': featured_facilities,
+    }
+    return render(request, 'hotels/hotel_facilities.html', context)
 
 # def hotel_detail(request, slug):
 #     hotel = get_object_or_404(

@@ -91,9 +91,12 @@ class Facility(models.Model):
     name = models.CharField(max_length=255)  # Unique *within* hotel
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
-    notes = models.TextField(blank=True)
+    short_note_1 = models.TextField(max_length=200, null=True, blank=True)
+    short_note_2 = models.TextField(max_length=200, null=True, blank=True)
+    short_note_3 = models.TextField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to='facility_images/', null=True, blank=True)
     detail_file = models.FileField(upload_to='facility_files/', null=True, blank=True)
+    is_featured = models.BooleanField(default=False,help_text="Activating this makes the facility appear in the page")  # to be shown in pages
     slug = models.SlugField(unique=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
