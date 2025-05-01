@@ -95,6 +95,7 @@ class Facility(models.Model):
     short_note_2 = models.TextField(max_length=200, null=True, blank=True)
     short_note_3 = models.TextField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to='facility_images/', null=True, blank=True)
+    icon = models.CharField(max_length=200, null=True, blank=True)
     detail_file = models.FileField(upload_to='facility_files/', null=True, blank=True)
     is_featured = models.BooleanField(default=False,help_text="Activating this makes the facility appear in the page")  # to be shown in pages
     slug = models.SlugField(unique=True, blank=True, null=True)
@@ -128,7 +129,7 @@ class FacilityImage(models.Model):
         on_delete=models.CASCADE,
         related_name='images'
     )
-    image = models.ImageField(upload_to='facility_images/')
+    image = models.ImageField(upload_to='facility_images/',help_text="Dimension: 375x500 - This Image Will Be Shown Down in The Facility Page")
     caption = models.CharField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):
@@ -333,6 +334,11 @@ class Amenity(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name = "Room's Amenity"
+        verbose_name_plural = "Room Amenities"
+        ordering = ['name']
+    
 class Specification(models.Model):
     room = models.ForeignKey(Room, related_name="specifications", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -395,13 +401,14 @@ class HotelService(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=0, null=True, blank=True)
     pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night', null=True, blank=True)
     price_currency = models.CharField(max_length=3, default='EGP', null=True, blank=True, choices=currency_choices)
-
+    is_active = models.BooleanField(default=True, help_text="Uncheck to hide this service from frontend")
+    
     def __str__(self):
         return f"{self.title} - {self.hotel.name}"
 
     class Meta:
-        verbose_name = "Hotel Service"
-        verbose_name_plural = "Hotel Services"
+        verbose_name = "Hotel Service ( Hotel Amenities )"
+        verbose_name_plural = "Hotel Services ( Hotel Amenities )"
 
     def save(self, *args, **kwargs):
         if self.image:

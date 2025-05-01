@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 from django.core.files.base import ContentFile
 from PIL import Image
 import io
+from django.urls import reverse
 
 # Restaurant Models
 class Restaurant(models.Model):
@@ -45,6 +46,12 @@ class Restaurant(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('restaurant-detail', kwargs={
+            'hotel_slug': self.hotel.slug,
+            'slug': self.slug
+        })
+    
 class RestaurantImage(models.Model):
     restaurant = models.ForeignKey(Restaurant, related_name="gallery_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='restaurant_gallery/', null=True, blank=True)

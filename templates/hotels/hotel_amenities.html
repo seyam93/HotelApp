@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Amenities | {{ hotel.name }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+<style>
+    .amenities-carousel .item {
+        height: 100%;
+        min-height: 320px;
+        padding: 20px;
+        background: transparent;
+        background-color: #1B1B1B;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .amenities-carousel .item .icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+        color: #1b563f;
+    }
+    
+    .amenities-carousel .item .text {
+        min-height: 120px; /* ✅ Locks height to balance all cards */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .amenities-carousel .item h5 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .amenities-carousel .item p {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+<!-- Header Banner -->
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/09.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">Our Services</div>
+                <div class="title">Hotel Amenities</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Amenities Carousel -->
+<section class="amenities section-padding">
+    <div class="container">
+        <div class="row mb-25">
+            <div class="col-md-12 text-center">
+                <div class="section-subtitle">Our Amenities</div>
+                <div class="section-title">Hotel Services</div>
+            </div>
+        </div>
+        <div class="owl-carousel amenities-carousel">
+            {% for service in services %}
+            <div class="item hover-box">
+                <div class="cont up">
+                    <div class="icon">
+                        <i class="fa-thin fa-{{ service.icon }}"></i>
+                    </div>
+                    <div class="text">
+                        <h5>{{ service.title }}</h5>
+                        <p>{{ service.description|truncatechars:80 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Booking Section -->
+<section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/rooms/01.jpg' %}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center mb-20">
+                <div class="section-subtitle">Hotel Experience</div>
+                <div class="section-title white">Booking Form</div>
+            </div>
+        </div>
+        <div class="booking-inner clearfix">
+            <form action="#" class="form1 clearfix">
+                <!-- Check-in / Check-out -->
+                <div class="col1 c1">
+                    <div class="input1_wrapper border">
+                        <label>Check in</label>
+                        <div class="input1_inner">
+                            <input type="text" class="form-control input datepicker" placeholder="Check in">
+                        </div>
+                    </div>
+                </div>
+                <div class="col1 c2">
+                    <div class="input1_wrapper border">
+                        <label>Check out</label>
+                        <div class="input1_inner">
+                            <input type="text" class="form-control input datepicker" placeholder="Check out">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adults / Children -->
+                <div class="col2 c3">
+                    <div class="select1_wrapper border">
+                        <label>Adults</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="1">1 Adult</option>
+                                <option value="2">2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col2 c4">
+                    <div class="select1_wrapper border">
+                        <label>Children</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="0">No Children</option>
+                                <option value="1">1 Child</option>
+                                <option value="2">2 Children</option>
+                                <option value="3">3 Children</option>
+                                <option value="4">4 Children</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rooms / Submit -->
+                <div class="col2 c5">
+                    <div class="select1_wrapper border">
+                        <label>Rooms</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="1">1 Room</option>
+                                <option value="2">2 Rooms</option>
+                                <option value="3">3 Rooms</option>
+                                <option value="4">4 Rooms</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col3 c6">
+                    <button type="submit" class="btn-form1-submit">Check Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('.amenities-carousel').owlCarousel({
+            loop: true,
+    margin: 20,
+    nav: false,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 4000,
+    autoHeight: false,
+    responsive:{
+        0:{ items:1 },
+        576:{ items:2 },
+        768:{ items:3 },
+        992:{ items:4 }
+            }
+        });
+    });
+</script>
+{% endblock %}

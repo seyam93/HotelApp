@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity
+from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService
 import json 
 from django.db.models import Prefetch
 from core.models import FAQ
@@ -52,8 +52,8 @@ def hotel_detail(request, slug):
 
 # Rooms List View
 # This view will list all available rooms in a specific hotel.
-def hotel_rooms(request, slug):
-    hotel = get_object_or_404(Hotel, slug=slug)
+def hotel_rooms(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
     rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
 
     context = {
@@ -77,19 +77,47 @@ def room_detail(request, hotel_slug, room_slug):
 # facility list view
 def hotel_facilities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-    
-    # Filter featured facilities and slice max 4
-    featured_facilities = Facility.objects.filter(hotel=hotel, is_featured=True, is_active=True).order_by('type', 'name')[:4]
 
-    # Unique types from featured facilities only
-    facility_types = list({facility.type for facility in featured_facilities})
+    # 🔼 Upper Section (Featured & Active)
+    featured_active_facilities = Facility.objects.filter(
+        hotel=hotel,
+        is_active=True,
+        is_featured=True
+    ).prefetch_related('images').order_by('type', 'name')
+
+    # 🔽 Lower Section (All Active, even if not featured)
+    active_facilities = Facility.objects.filter(
+        hotel=hotel,
+        is_active=True
+    ).prefetch_related('images').order_by('type', 'name')
 
     context = {
         'hotel': hotel,
-        'tab_facility_types': facility_types,
-        'tab_facilities': featured_facilities,
+        # For upper section (featured + active tabs)
+        'tab_facilities': featured_active_facilities,
+        'tab_facility_types': list({f.type for f in featured_active_facilities}),
+        
+        # For lower section (all active facilities grid)
+        'active_facilities': active_facilities,
+        'active_facility_types': list({f.type for f in active_facilities}),
     }
     return render(request, 'hotels/hotel_facilities.html', context)
+
+# Hotel Services ( Amenities For Hotel ) View
+def hotel_amenities_view(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
+    
+    services = HotelService.objects.filter(
+        hotel=hotel,
+        featured=True,
+        is_active=True
+    ).order_by('title')
+
+    context = {
+        'hotel': hotel,
+        'services': services,
+    }
+    return render(request, 'hotels/hotel_amenities.html', context)
 
 # def hotel_detail(request, slug):
 #     hotel = get_object_or_404(

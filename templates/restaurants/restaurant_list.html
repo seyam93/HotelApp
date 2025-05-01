@@ -15,12 +15,12 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' slug=hotel.slug %}">Rooms</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">Dining</a></li>
 
                 <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="facilities.html" class="dropdown-item"><span>Facilities</span></a></li>
+                        <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Facilities</span></a></li>
                         <li><a href="amenities.html" class="dropdown-item"><span>Amenities</span></a></li>
                         <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
                         <li><a href="offers.html" class="dropdown-item"><span>Special Offers</span></a></li>
