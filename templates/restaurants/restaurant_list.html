@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}{{ hotel.name }} | Restaurants {% endblock %}
+{% block title %} Restaurants | {{ hotel.name }} {% endblock %}
 {% load static %}
-{% block navbar %}
+{% comment %} {% block navbar %}
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <!-- Logo -->
@@ -45,7 +45,7 @@
         </div>
     </div>
 </nav>
-{% endblock navbar %}
+{% endblock navbar %} {% endcomment %}
 {% block content %}
 <!-- Header Banner -->
 <section class="banner-header full-height valign bg-img" data-overlay-dark="4" data-background="{% static 'img/banner/11.jpg' %}">

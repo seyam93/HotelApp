@@ -54,6 +54,7 @@ class HotelAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'location', 'created_at')
     search_fields = ('name', 'location')
     list_filter = ('location',)
+    readonly_fields = ('slug',)
     inlines = [HotelImageInline, ImageCoverInline, RoomInline, SocialLinkInline]
 
 
@@ -69,6 +70,7 @@ class RoomAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'hotel', 'price_per_night', 'is_available')
     list_filter = ('is_available', 'is_suit', 'hotel')
     search_fields = ('name', 'hotel__name')
+    readonly_fields = ('slug',)
     inlines = [ImageCoverInline, RoomImageInline, SpecificationInline]
 
 # ========== Feature ==========

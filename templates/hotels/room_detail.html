@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}{{ room.name }} | {{ hotel.name }} {% endblock %}
 {% block content %}
  <!-- Header Banner -->
  <section class="banner-header full-height valign bg-img" data-overlay-dark="5" data-background="{{ room.image_cover.url }}">

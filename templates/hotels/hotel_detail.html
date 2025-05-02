@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}
 {% load static %}
-{% block navbar %}
+{% comment %} {% block navbar %}
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <!-- Logo -->
@@ -21,7 +21,7 @@
                 <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Facilities</span></a></li>
-                        <li><a href="{% url 'hotel_amenities_page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li>
+                        <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li>
                         <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
                         <li><a href="offers.html" class="dropdown-item"><span>Special Offers</span></a></li>
                     </ul>
@@ -45,7 +45,7 @@
         </div>
     </div>
 </nav>
-{% endblock navbar %}
+{% endblock navbar %} {% endcomment %}
 {% block content %}
     <!-- Kenburns SlideShow -->
     <aside class="kenburns-section" id="kenburnsSliderContainer" data-overlay-dark="5">
@@ -211,69 +211,63 @@
             <div class="container">
                 <ul class="tab-buttons">
                     {% for facility_type in tab_facility_types %}
-                    <li data-tab="#{{ facility_type }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}"><span>{{ facility_type|title }}</span></li>
+                    <li data-tab="#tab-{{ facility_type }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}">
+                        <span>{{ facility_type|title }}</span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
         <div class="container">
-                <div class="tabs-content">
-                    {% for facility_type in tab_facility_types %}
-                    <div class="tab {% if forloop.first %}active-tab{% endif %}" id="{{ facility_type }}">
-                        {% for facility in tab_facilities %}
-                            {% if facility.type == facility_type %}
-                            <div class="row justify-content-center align-items-center">
-                                <div class="col-lg-6 col-md-12">
-                                    {% if facility.image %}
+            <div class="tabs-content">
+                {% for facility_type in tab_facility_types %}
+                <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ facility_type }}">
+                    {% for facility in tab_facilities %}
+                        {% if facility.type == facility_type %}
+                        <div class="row justify-content-center align-items-center mb-60">
+                            <div class="col-lg-6 col-md-12">
+                                {% if facility.image %}
                                     <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
-                                    {% else %}
+                                {% else %}
                                     <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
-                                    {% endif %}
-                                </div>
-                                <div class="col-lg-5 offset-lg-1 col-md-12">
-                                    <div class="section-subtitle">{{ facility.title }}</div>
-                                    <div class="section-title">{{ facility.name }}</div>
-                                    <p class="mb-25">{{ facility.description }}</p>
-                                    <ul class="list-unstyled list mb-30">
-                                        {% if facility.short_note_1 %}
-                                        <li>
-                                            <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                            <div class="list-text">
-                                                <p>{{ facility.short_note_1 }}</p>
-                                            </div>
-                                        </li>
-                                        {% endif %}
-                                        
-                                        {% if facility.short_note_2 %}
-                                        <li>
-                                            <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                            <div class="list-text">
-                                                <p>{{ facility.short_note_2 }}</p>
-                                            </div>
-                                        </li>
-                                        {% endif %}
-                                        
-                                        {% if facility.short_note_3 %}
-                                        <li>
-                                            <div class="list-icon"> <span class="fa-regular fa-check"></span> </div>
-                                            <div class="list-text">
-                                                <p>{{ facility.short_note_3 }}</p>
-                                            </div>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
-                                    {% if facility.detail_file %}
-                                    <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3"><i class="fa-solid fa-info"></i> View details</a>
-                                    {% comment %} {% else %}
-                                    <a href="{% url 'facility-detail' facility.slug %}" class="button-3"><i class="fa-solid fa-info"></i> View details</a> {% endcomment %}
-                                    {% endif %}
-                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                            <div class="col-lg-5 offset-lg-1 col-md-12">
+                                <div class="section-subtitle">{{ facility.title }}</div>
+                                <div class="section-title">{{ facility.name }}</div>
+                                <p class="mb-25">{{ facility.description }}</p>
+                                <ul class="list-unstyled list mb-30">
+                                    {% if facility.short_note_1 %}
+                                    <li>
+                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                        <div class="list-text"><p>{{ facility.short_note_1 }}</p></div>
+                                    </li>
+                                    {% endif %}
+                                    {% if facility.short_note_2 %}
+                                    <li>
+                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                        <div class="list-text"><p>{{ facility.short_note_2 }}</p></div>
+                                    </li>
+                                    {% endif %}
+                                    {% if facility.short_note_3 %}
+                                    <li>
+                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                        <div class="list-text"><p>{{ facility.short_note_3 }}</p></div>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                {% if facility.detail_file %}
+                                <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3">
+                                    <i class="fa-solid fa-info"></i> View details
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
+                {% endfor %}
+            </div>
         </div>
     </section>
     <!-- Testimonials -->
@@ -331,7 +325,7 @@
                     <div class="section-subtitle">Hotel Services</div>
                     <div class="section-title">Amenities</div>
                     <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
-                    <a href="#" class="button-3">All Amenities</a>
+                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">All Amenities</a>
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="row">

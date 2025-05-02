@@ -98,7 +98,7 @@ class Facility(models.Model):
     icon = models.CharField(max_length=200, null=True, blank=True)
     detail_file = models.FileField(upload_to='facility_files/', null=True, blank=True)
     is_featured = models.BooleanField(default=False,help_text="Activating this makes the facility appear in the page")  # to be shown in pages
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -110,7 +110,13 @@ class Facility(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug and self.name:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while Facility.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -162,7 +168,7 @@ class Hotel(models.Model):
     address = models.TextField()
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True,editable=False)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -172,9 +178,14 @@ class Hotel(models.Model):
     
 
     def save(self, *args, **kwargs):
-
         if not self.slug and self.name:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while Hotel.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     class Meta:
@@ -247,7 +258,7 @@ class Room(models.Model):
     description = models.TextField()
     short_description = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, editable=False)
     image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
     number_of_beds = models.PositiveIntegerField(default=1)
     bed_type = models.CharField(max_length=20, choices=BED_TYPES, default='twin')
@@ -306,7 +317,7 @@ class RoomImage(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image.file)
+            img = Image.open(self.image)
             target_width, target_height = 1920, 1080
             if img.width != target_width or img.height != target_height:
                 img = img.resize((target_width, target_height), Image.LANCZOS)
@@ -367,26 +378,52 @@ class Offer(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="offers", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
+    terms_and_conditions = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='offer_images/', null=True, blank=True)
-    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    validity_period = models.CharField(max_length=100, null=True, blank=True)
+    offer_code = models.CharField(max_length=50, null=True, blank=True)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=0, null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
+    booking_link = models.URLField(null=True, blank=True, help_text="Link to booking page or external site")
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
+
     class Meta:
         verbose_name = "Offer"
         verbose_name_plural = "Offers"
         ordering = ['-start_date']
 
+    def save(self, *args, **kwargs):
+        if self.image:
+            img = Image.open(self.image)
+
+        
+            if img.mode in ("RGBA", "P"):
+                img = img.convert("RGB")
+
+            target_width, target_height = 1920, 1180
+            if img.width != target_width or img.height != target_height:
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+
+            img_io = io.BytesIO()
+            img_format = img.format if img.format else 'JPEG'
+            img.save(img_io, format=img_format)
+            img_io.seek(0)
+            img_content = ContentFile(img_io.getvalue(), self.image.name)
+            self.image.save(self.image.name, img_content, save=False)
+
+        super().save(*args, **kwargs)  
+
 # Service Models ( Breakfast - laundry - etc )
 class HotelService(models.Model):
     SERVICE_PERIOD_CHOICES = [
-        ('per_night', 'Per Night'),
-        ('daily', 'Daily'),
-        ('once', 'One Time'),
+        ('Per Night', 'Per Night'),
+        ('Daily', 'Daily'),
+        ('Once', 'One Time'),
     ]
     currency_choices = [
         ('USD', 'USD'),
@@ -395,11 +432,11 @@ class HotelService(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='hotel_services', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    featured = models.BooleanField(default=False)
+    featured = models.BooleanField(default=False, help_text="Activating this makes the service appear in (Pricing Section ) Please no more than 3 services")
     icon = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to='hotel_services/', help_text="Dimension: 375x500", null=True, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=0, null=True, blank=True)
-    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='per_night', null=True, blank=True)
+    pricing_type = models.CharField(max_length=20, choices=SERVICE_PERIOD_CHOICES, default='Per Night', null=True, blank=True)
     price_currency = models.CharField(max_length=3, default='EGP', null=True, blank=True, choices=currency_choices)
     is_active = models.BooleanField(default=True, help_text="Uncheck to hide this service from frontend")
     
@@ -488,7 +525,7 @@ class HotelPageBanner(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image:
-            img = Image.open(self.image.file)
+            img = Image.open(self.image)
             target_width, target_height = 1920, 1080
             if img.width != target_width or img.height != target_height:
                 img = img.resize((target_width, target_height), Image.LANCZOS)
