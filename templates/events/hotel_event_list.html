@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Events | {{hotel.name}} {% endblock %}
+<style>
+    details summary {
+        font-weight: 500;
+        color: #198754; /* Match your theme (Bootstrap 'success') */
+        margin-top: 10px;
+    }
+    
+    details[open] summary::after {
+        content: "▲";
+        float: right;
+        margin-left: 8px;
+        font-size: 0.8em;
+    }
+    
+    details summary::after {
+        content: "▼";
+        float: right;
+        margin-left: 8px;
+        font-size: 0.8em;
+    }
+</style>
+{% block content %} 
+<!-- Header Banner -->
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/02.jpg"%}>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">{{ hotel.name }}</div>
+                <div class="title">Events</div>
+            </div>
+        </div>
+    </div>
+</section>
+ <!-- Event List -->
+ <section class="rooms2 section-padding">
+    <div class="container">
+        {% for event in events %}
+        <div class="row g-0 justify-content-center align-items-center bg-lightbrown br-0550 mb-90">
+            <!-- Image Left -->
+            <div class="col-lg-7 col-md-12">
+                <div class="img">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="img-fluid br-0550" alt="{{ event.name }}">
+                    {% else %}
+                        <img src="{% static 'img/default_event.jpg' %}" class="img-fluid br-0550" alt="Event">
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Content Right -->
+            <div class="col-lg-5 col-md-12">
+                <div class="room-card" style="display: block;">
+                    <div class="item">
+                        <h3 class="title">{{ event.name }}</h3>
+                        {% if event.short_description %}
+                            <p class="mb-2">{{ event.short_description|truncatewords:60 }}</p>
+                        {% else %}
+                            <p class="mb-2">{{ event.description|truncatewords:60 }}</p>
+                        {% endif %}
+
+                        {% if event.description|length > 200 %}
+                        <details>
+                            <summary class="text-success" style="cursor: pointer;">Read more...</summary>
+                            <div class="mt-2">
+                                <p>{{ event.description }}</p>
+                            </div>
+                        </details>
+                        {% endif %}
+
+                        <div class="row room-features">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    {% if event.venue %}
+                                        <li><i class="fa-thin fa-location-dot"></i> Venue: {{ event.venue }}</li>
+                                    {% elif event.meeting_room %}
+                                        <li><i class="fa-thin fa-door-open"></i> Hall: {{ event.meeting_room.name }}</li>
+                                    {% endif %}
+                                    {% if event.end_date %}
+                                        <li><i class="fa-thin fa-clock"></i> Ends: {{ event.end_date|date:"d F" }}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    {% if event.start_date %}
+                                        <li><i class="fa-thin fa-calendar"></i> Starts: {{ event.start_date|date:"d F" }}</li>
+                                    {% else %}
+                                        <li><i class="fa-thin fa-clock"></i> Duration: TBD</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="book d-flex justify-content-between align-items-center">
+                            <div class="book d-flex justify-content-start align-items-center flex-wrap">
+                                {% if hotel.phone %}
+                                    <a href="tel:{{ hotel.phone }}" class="button-3 mb-2">Call Hotel</a>
+                                {% else %}
+                                    <span class="button-3 disabled mb-2">No Contact Info</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-center text-muted">No upcoming events at this hotel.</p>
+        {% endfor %}
+    </div>
+</section>
+<!-- Video -->
+<section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center rotatex">
+                <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
+                    <div class="rotate-circle rotate-text">
+                        <svg class="textcircle" viewBox="0 0 500 500">
+                            <defs>
+                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
+                            </defs>
+                            <text>
+                                <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
+                            </text>
+                        </svg>
+                    </div> <span class="icon"> <i class="fas fa-play"></i> </span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- video text -->
+    <div class="video-text">videos</div>
+</section>
+<!-- FAQs -->
+<section class="faqs section-padding">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-5 col-md-12 mb-30">
+                <div class="section-subtitle">Popular Questions</div>
+                <div class="section-title">Frequently Asked Questions</div>
+                <p class="mb-25">The experience elementum sesue in the miss aucantion alesun in sapien fermen the miss caleustion in the sapien.</p> <a href="#" class="button-3">All Questions</a>
+            </div>
+            <div class="col-lg-6 offset-lg-1 col-md-12">
+                <ul class="accordion-box clearfix">
+                    <li class="accordion block">
+                        <div class="acc-btn">Do you have any discount code?</div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                            </div>
+                        </div>
+                    </li> 
+                    <li class="accordion block">
+                        <div class="acc-btn">How can I get in touch with my hotel?</div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                            </div>
+                        </div>
+                    </li> 
+                    <li class="accordion block">
+                        <div class="acc-btn">Can I cancel my reservation?</div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="accordion block">
+                        <div class="acc-btn">Do you have hotels with a spa?</div>
+                        <div class="acc-content">
+                            <div class="content">
+                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                            </div>
+                        </div>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Booking Search -->
+<section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/01.jpg"%}>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center mb-20">
+                <div class="section-subtitle">Hotel Experience</div>
+                <div class="section-title white">Booking Form</div>
+            </div>
+        </div>
+        <div class="booking-inner clearfix">
+            <form action="#" class="form1 clearfix">
+                <div class="col1 c1">
+                    <div class="input1_wrapper border-l border-b border-t border-r">
+                        <label>Check in</label>
+                        <div class="input1_inner">
+                            <input type="text" class="form-control input datepicker" placeholder="Check in">
+                        </div>
+                    </div>
+                </div>
+                <div class="col1 c2">
+                    <div class="input1_wrapper border-l border-b border-t border-r">
+                        <label>Check out</label>
+                        <div class="input1_inner">
+                            <input type="text" class="form-control input datepicker" placeholder="Check out">
+                        </div>
+                    </div>
+                </div>
+                <div class="col2 c3">
+                    <div class="select1_wrapper border-l border-b border-t border-r">
+                        <label>Adults</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="1">1 Adult</option>
+                                <option value="2">2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col2 c4">
+                    <div class="select1_wrapper border-l border-b border-t border-r">
+                        <label>Children</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="1">Children</option>
+                                <option value="1">1 Child</option>
+                                <option value="2">2 Children</option>
+                                <option value="3">3 Children</option>
+                                <option value="4">4 Children</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col2 c5">
+                    <div class="select1_wrapper border-l border-b border-t border-r">
+                        <label>Rooms</label>
+                        <div class="select1_inner">
+                            <select class="select2 select" style="width: 100%">
+                                <option value="1">1 Room</option>
+                                <option value="2">2 Rooms</option>
+                                <option value="3">3 Rooms</option>
+                                <option value="4">4 Rooms</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col3 c6">
+                    <button type="submit" class="btn-form1-submit">Check Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

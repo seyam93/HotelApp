@@ -3,6 +3,7 @@ from hotels.models import Hotel
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile 
+from django.utils.text import slugify
 
 class MeetingRoomAmenity(models.Model):
     name = models.CharField(max_length=255)
@@ -34,7 +35,8 @@ class MeetingRoom(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="meeting_rooms", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     capacity = models.PositiveIntegerField(null=True, blank=True)
-    area = models.FloatField(default=30, null=True, blank=True, help_text="Area in square meters")
+    slug = models.SlugField(blank=True, unique=True,editable=False)
+    area = models.PositiveIntegerField(default=30, null=True, blank=True, help_text="Area in square meters")
     description = models.TextField(null=True, blank=True)
     image_cover = models.ImageField(upload_to='meeting_room_images/', null=True, blank=True)
     available = models.BooleanField(default=True)
@@ -46,7 +48,13 @@ class MeetingRoom(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.hotel.name} (Capacity: {self.capacity}, Area: {self.area} m²)"
-    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
 class MeetingRoomImages(models.Model):
     meeting_room = models.ForeignKey(MeetingRoom, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='meeting_room_images/')

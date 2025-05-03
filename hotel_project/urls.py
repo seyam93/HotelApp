@@ -25,7 +25,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('set-language/', set_language, name='set_language'),
     path("", include("hotels.urls")),          # all hotel-related pages
-    path("", include("restaurants.urls")),     # all restaurant-related pages
+    path("", include("restaurants.urls")),      # all restaurant-related pages
+    path("", include("meeting_rooms.urls")),    # all meeting room-related pages
+    path("", include("events.urls")),          # all event-related pages
 ]
 
 if settings.DEBUG:

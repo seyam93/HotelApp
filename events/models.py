@@ -15,6 +15,7 @@ class Event(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     description = models.TextField()
+    short_description = models.TextField(null=True, blank=True)
     venue = models.CharField(max_length=255, blank=True)  # Optional free-text venue if not a room
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

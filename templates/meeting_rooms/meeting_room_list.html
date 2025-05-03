@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meeting Rooms | {{ hotel.name }}{% endblock %}
+
+{% block content %}
+<style>
+    .tab {
+        display: none;
+    }
+    .active-tab {
+        display: block;
+    }
+    .active-btn {
+        background-color: #000;
+        color: #fff;
+    }
+    .tab-buttons {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow-x: auto;
+    }
+    .tab-buttons .tab-btn {
+        cursor: pointer;
+        padding: 15px 25px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+    }
+    .tab-buttons .tab-btn:hover {
+        background-color: #f7f7f7;
+    }
+</style>
+
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/08.jpg' %}">
+    <div class="container text-center">
+        <div class="subtitle">{{ hotel.name }}</div>
+        <div class="title">Meeting Rooms</div>
+    </div>
+</section>
+
+<section class="facilities2">
+    <div class="border-bottom">
+        <div class="container">
+            <ul class="tab-buttons">
+                {% for meeting in meeting_rooms %}
+                <li class="tab-btn {% if forloop.first %}active-btn{% endif %}" data-tab="#tab-{{ meeting.slug }}">
+                    <span>{{ meeting.name }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="tabs-content">
+            {% for meeting in meeting_rooms %}
+            <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ meeting.slug }}">
+                <div class="row justify-content-center align-items-center mb-60">
+                    <div class="col-lg-6 col-md-12">
+                        {% if meeting.image_cover %}
+                            <img src="{{ meeting.image_cover.url }}" class="img-fluid rounded" alt="{{ meeting.name }}">
+                        {% else %}
+                            <img src="{% static 'img/default_room.jpg' %}" class="img-fluid rounded" alt="{{ meeting.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 col-md-12">
+                        <div class="section-subtitle">{{ meeting.hotel.name }}</div>
+                        <div class="section-title"> {{ meeting.name }}</div>
+                        <p class="mb-25">{{ meeting.description|default:"No description available." }}</p>
+                        <ul class="list-unstyled list mb-30">
+                            {% if meeting.capacity %}
+                            <li>
+                                <div class="list-icon"><span class="fa-regular fa-people"></span></div>
+                                <div class="list-text"><p>Capacity : {{ meeting.capacity }}</p></div>
+                            </li>
+                            {% endif %}
+                            {% if meeting.area %}
+                            <li>
+                                <div class="list-icon"><span class="fa-regular fa-expand"></span></div>
+                                <div class="list-text"><p>{{ meeting.area }} m²</p></div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {% if meeting.wedding_brochure %}
+                        <a href="{{ meeting.wedding_brochure.url }}" class="button-3" target="_blank">
+                            <i class="fa-solid fa-file-pdf"></i> View Brochure
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="section-subtitle mt-5 mb-4">{{ meeting.name }} Details</div>
+                 <!-- Amenities -->
+                 <div class="accordion mb-4" id="accordion-amenities-{{ meeting.id }}">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header" id="heading-amenities-{{ meeting.id }}">
+                            <button class="accordion-button collapsed bg-dark fw-semibold"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-amenities-{{ meeting.id }}"
+                                    style="color: #AC8D56;">
+                                <i class="fa-thin fa-list me-2" style="color: #AC8D56;"></i> Amenities
+                            </button>
+                        </h2>
+                        <div id="collapse-amenities-{{ meeting.id }}"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#accordion-amenities-{{ meeting.id }}">
+                            <div class="accordion-body bg-black text-white rounded-bottom">
+                                {% with amenities=meeting.amenities.all %}
+                                {% if amenities %}
+                                    <ul class="list-unstyled row">
+                                        {% for amenity in amenities %}
+                                        <li class="col-md-4 mb-3">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fa-thin fa-{{ amenity.icon|default:'check' }} me-3 fs-5"
+                                                   style="color: #AC8D56;"></i>
+                                                <div>
+                                                    <strong>{{ amenity.name }}</strong>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No amenities listed.</p>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seating Arrangements -->
+                <div class="accordion mb-4" id="accordion-seating-{{ meeting.id }}">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header" id="heading-seating-{{ meeting.id }}">
+                            <button class="accordion-button collapsed bg-dark fw-semibold"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-seating-{{ meeting.id }}"
+                                    style="color: #AC8D56;">
+                                <i class="fa-thin fa-chess-board me-2" style="color: #AC8D56;"></i> Seating Arrangements
+                            </button>
+                        </h2>
+                        <div id="collapse-seating-{{ meeting.id }}"
+                             class="accordion-collapse collapse"
+                             data-bs-parent="#accordion-seating-{{ meeting.id }}">
+                            <div class="accordion-body bg-black text-white rounded-bottom">
+                                {% with arrangements=meeting.seating_arrangements.all %}
+                                {% if arrangements %}
+                                    <div class="row">
+                                        {% for arrangement in arrangements %}
+                                        <div class="col-12 mb-4">
+                                            <div class="bg-dark p-4 rounded shadow-sm border border-secondary-subtle">
+                                                {% if arrangement.image %}
+                                                    <img src="{{ arrangement.image.url }}" class="img-fluid mb-3 rounded" alt="{{ arrangement.name }}">
+                                                {% endif %}
+                                                <h5 class="mb-2 text-white">{{ arrangement.name }}</h5>
+                                                {% if arrangement.capacity %}
+                                                <p class="mb-1 small" style="color: #AC8D56;">
+                                                    <i class="fa-thin fa-people-group me-2" style="color: #AC8D56;"></i>
+                                                    Max. Capacity: <strong>{{ arrangement.capacity }}</strong>
+                                                </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted">No seating arrangements listed.</p>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabs = document.querySelectorAll(".tab");
+
+        tabButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const tabId = this.getAttribute("data-tab");
+
+                tabButtons.forEach(btn => btn.classList.remove("active-btn"));
+                tabs.forEach(tab => tab.classList.remove("active-tab"));
+
+                this.classList.add("active-btn");
+                const targetTab = document.querySelector(tabId);
+                if (targetTab) {
+                    targetTab.classList.add("active-tab");
+                } else {
+                    console.warn("Tab not found:", tabId);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
