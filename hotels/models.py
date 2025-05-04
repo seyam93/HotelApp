@@ -166,13 +166,17 @@ class Hotel(models.Model):
     city = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
     email = models.EmailField(blank=True)
-    address = models.TextField()
+    address = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True,editable=False)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    contact_banner = models.ImageField(upload_to='contact_banners/', null=True, blank=True,help_text=" For Contact Page")
+    contact_image1 = models.ImageField(upload_to='contact_images/', null=True, blank=True,help_text=" For Contact Page")
+    contact_image2 = models.ImageField(upload_to='contact_images/', null=True, blank=True,help_text=" For Contact Page")
+    map_embed_url = models.URLField(max_length=1500 ,blank=True, null=True,help_text=" For Contact Page")
 
     def __str__(self):
         return self.name
@@ -565,16 +569,6 @@ class HotelVideoBanner(models.Model):
         return f"{self.hotel.name} - {self.page.capitalize()} Video Banner"
     
 # Gallery ( Image - Video ) Models
-from django.db import models
-from django.core.exceptions import ValidationError
-from django.core.files.base import ContentFile
-from django.utils.text import slugify
-from PIL import Image
-import io, os, uuid
-
-from hotels.models import Hotel
-
-
 class GalleryItem(models.Model):
     GALLERY_TYPE_CHOICES = [
         ('image', 'Image'),
@@ -663,7 +657,30 @@ class GalleryItem(models.Model):
     def is_video_file(self):
         return self.gallery_type == 'video' and self.video_file
 
+    @property
+    def youtube_video_id(self):
+        if self.video_url and "youtube.com/watch?v=" in self.video_url:
+            return self.video_url.split("watch?v=")[-1].split("&")[0]
+        elif self.video_url and "youtu.be/" in self.video_url:
+            return self.video_url.split("youtu.be/")[-1].split("?")[0]
+        return None
+
+    @property
+    def youtube_thumbnail_url(self):
+        video_id = self.youtube_video_id
+        if video_id:
+            return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
+        return None
+    @property
+    def embed_video_url(self):
+        """Return embed-friendly YouTube URL or fallback to the original."""
+        if self.video_url and "youtube.com/watch?v=" in self.video_url:
+            video_id = self.video_url.split("watch?v=")[-1].split("&")[0]
+            return f"https://youtu.be/{video_id}"
+        return self.video_url
+
     class Meta:
         verbose_name = "Gallery Item"
         verbose_name_plural = "Gallery Items"
         ordering = ['-created_at']
+

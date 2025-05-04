@@ -28,6 +28,7 @@ urlpatterns = [
     path("", include("restaurants.urls")),      # all restaurant-related pages
     path("", include("meeting_rooms.urls")),    # all meeting room-related pages
     path("", include("events.urls")),          # all event-related pages
+    path("", include("core.urls")),            # all core-related pages
 ]
 
 if settings.DEBUG:

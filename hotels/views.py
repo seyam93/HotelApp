@@ -146,4 +146,4 @@ def image_gallery(request, hotel_slug):
 def video_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='video')
-    return render(request, 'hotels/video_gallery.html', {'hotel': hotel, 'items': items})
+    return render(request, 'hotels/video_gallery.html', {'hotel': hotel, 'videos': items})
