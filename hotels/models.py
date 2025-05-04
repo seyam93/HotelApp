@@ -1,11 +1,12 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-import os
-import uuid
 from PIL import Image
-import io
+import io, os, uuid
 from django.core.files.base import ContentFile
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Utility function to rename uploaded images
 def rename_uploaded_image(instance, filename):
@@ -562,3 +563,107 @@ class HotelVideoBanner(models.Model):
 
     def __str__(self):
         return f"{self.hotel.name} - {self.page.capitalize()} Video Banner"
+    
+# Gallery ( Image - Video ) Models
+from django.db import models
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.utils.text import slugify
+from PIL import Image
+import io, os, uuid
+
+from hotels.models import Hotel
+
+
+class GalleryItem(models.Model):
+    GALLERY_TYPE_CHOICES = [
+        ('image', 'Image'),
+        ('video', 'Video'),
+    ]
+
+    hotel = models.ForeignKey(Hotel, related_name='gallery_items', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    gallery_type = models.CharField(max_length=10, choices=GALLERY_TYPE_CHOICES, default='image')
+
+    image = models.ImageField(upload_to='gallery/images/', null=True, blank=True)
+    video_url = models.URLField(null=True, blank=True)
+    video_file = models.FileField(upload_to='gallery/videos/', null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.gallery_type})"
+
+    def clean(self):
+        if self.gallery_type == 'image':
+            if not self.image:
+                raise ValidationError("Image is required when gallery_type is 'image'.")
+            if self.video_url or self.video_file:
+                raise ValidationError("Only image should be provided when gallery_type is 'image'.")
+        elif self.gallery_type == 'video':
+            if not self.video_url and not self.video_file:
+                raise ValidationError("Either video_url or video_file is required when gallery_type is 'video'.")
+            if self.image:
+                raise ValidationError("Image should not be provided when gallery_type is 'video'.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+
+        # Delete old image if changed
+        if self.pk:
+            old = GalleryItem.objects.filter(pk=self.pk).first()
+            if old and old.image and self.image != old.image:
+                old.image.delete(save=False)
+
+        # Process image
+        if self.image:
+            try:
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+
+                target_width, target_height = 1920, 1080
+                target_ratio = target_width / target_height
+                img_ratio = img.width / img.height
+
+                # Crop to center with same aspect ratio
+                if img_ratio > target_ratio:
+                    new_width = int(target_ratio * img.height)
+                    offset = (img.width - new_width) // 2
+                    box = (offset, 0, offset + new_width, img.height)
+                else:
+                    new_height = int(img.width / target_ratio)
+                    offset = (img.height - new_height) // 2
+                    box = (0, offset, img.width, offset + new_height)
+
+                img = img.crop(box)
+                img = img.resize((target_width, target_height), Image.LANCZOS)
+
+                img_io = io.BytesIO()
+                img.save(img_io, format='JPEG', quality=90)
+                img_io.seek(0)
+
+                # Generate unique filename
+                filename = f"{slugify(self.title)}-{uuid.uuid4().hex}.jpg"
+                self.image.save(filename, ContentFile(img_io.getvalue()), save=False)
+
+            except Exception as e:
+                raise ValidationError(f"Image processing failed: {e}")
+
+        super().save(*args, **kwargs)
+
+    @property
+    def is_image(self):
+        return self.gallery_type == 'image' and self.image
+
+    @property
+    def is_video_url(self):
+        return self.gallery_type == 'video' and self.video_url
+
+    @property
+    def is_video_file(self):
+        return self.gallery_type == 'video' and self.video_file
+
+    class Meta:
+        verbose_name = "Gallery Item"
+        verbose_name_plural = "Gallery Items"
+        ordering = ['-created_at']

@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner
+    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem
 )
 
 # ========== Inlines ==========
@@ -143,3 +143,16 @@ class HotelVideoBannerAdmin(admin.ModelAdmin):
             return format_html('<a href="{}" target="_blank">View Video</a>', obj.video_url)
         return "-"
     video_link.short_description = 'Video URL'
+
+# ========== Gallery =============
+@admin.register(GalleryItem)
+class GalleryItemAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'image_preview')
+    list_filter = ('hotel',)
+    search_fields = ('hotel__name',)
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="200" />', obj.image.url)
+        return "-"
+    image_preview.short_description = 'Image Preview'

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Urbanist:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href={% static "css/plugins.css" %} />
     <link rel="stylesheet" href={% static "css/style.css" %} />
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 </head>
 <body>
     <!-- Preloader -->
@@ -61,13 +63,13 @@
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'hotel-event-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Events</span></a></li>
                             <li><a href="{% url 'meeting-room-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Meeting Rooms</span></a></li>
-                            <li><a href="" class="dropdown-item"><span>Wedding Venues</span></a></li>   
+                            <li><a href="{% url 'wedding-meeting-rooms' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Wedding Venues</span></a></li>   
                         </ul>
                     </li>
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Gallery <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="" class="dropdown-item"><span>Image Gallery</span></a></li>
-                            <li><a href="" class="dropdown-item"><span>Video Gallery</span></a></li>  
+                            <li><a href="{% url 'image-gallery-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Image Gallery</span></a></li>
+                            <li><a href="{% url 'video-gallery-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Video Gallery</span></a></li>  
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>

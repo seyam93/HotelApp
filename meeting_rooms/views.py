@@ -11,6 +11,16 @@ def meeting_room_list(request, hotel_slug):
         'meeting_rooms': meeting_rooms
     })
 
+# Wedding meeting Rooms
+def wedding_meeting_rooms(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
+    meeting_rooms = hotel.meeting_rooms.filter(can_have_weeding=True, available=True).prefetch_related('amenities', 'seating_arrangements', 'images')
+    
+    return render(request, 'meeting_rooms/wedding_meeting_rooms.html', {
+        'hotel': hotel,
+        'meeting_rooms': meeting_rooms
+    })
+
 # Detail of a single meeting room for a specific hotel
 # def meeting_room_detail(request, hotel_slug, room_slug):
 #     hotel = get_object_or_404(Hotel, slug=hotel_slug)

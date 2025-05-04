@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Image Gallery | {{ hotel.name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<style>
+    .gallery-img-wrapper {
+        width: 100%;
+        aspect-ratio: 4 / 3; /* Or use 1 / 1 for square images */
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .gallery-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Crop nicely */
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/09.jpg' %}">
+    <div class="container text-center">
+        <div class="subtitle">{{ hotel.name }}</div>
+        <div class="title">Image Gallery</div>
+    </div>
+</section>
+
+<section class="section-padding bg-lightbrown">
+    <div class="container">
+        <div class="row">
+            {% for item in items %}
+                {% if item.image %}
+                <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                    <a href="{{ item.image.url }}"
+                       class="glightbox w-100"
+                       data-gallery="hotel-gallery"
+                       data-type="image">
+                        <div class="gallery-img-wrapper">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            {% empty %}
+                <p class="text-center">No images available in the gallery.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        const glElements = document.querySelectorAll('.glightbox');
+        console.log("GLightbox initialized with", glElements.length, "elements.");
+        const lightbox = GLightbox({
+            selector: '.glightbox',
+            loop: true,
+            touchNavigation: true
+        });
+    });
+</script>
+{% endblock script %}
