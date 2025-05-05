@@ -176,7 +176,7 @@ class Hotel(models.Model):
     contact_banner = models.ImageField(upload_to='contact_banners/', null=True, blank=True,help_text=" For Contact Page")
     contact_image1 = models.ImageField(upload_to='contact_images/', null=True, blank=True,help_text=" For Contact Page")
     contact_image2 = models.ImageField(upload_to='contact_images/', null=True, blank=True,help_text=" For Contact Page")
-    map_embed_url = models.URLField(max_length=1500 ,blank=True, null=True,help_text=" For Contact Page")
+    map_embed_url = models.CharField(max_length=1500 ,blank=True, null=True,help_text=" For Contact Page")
 
     def __str__(self):
         return self.name

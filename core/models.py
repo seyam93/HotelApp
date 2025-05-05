@@ -14,6 +14,20 @@ class FAQ(models.Model):
         verbose_name_plural = "FAQs"
         ordering = ['question']
 
+# Partner model
+class Partner(models.Model):
+    hotel = models.ForeignKey('hotels.Hotel', on_delete=models.CASCADE, related_name='partners')
+    partner_name = models.CharField(max_length=255)
+    partner_description = models.TextField(null=True,blank=True)
+    partner_image = models.ImageField(upload_to='partners', null=True,blank=True)
+    partner_url = models.URLField(null=True,blank=True)
+
+    def __str__(self):
+        return self.partner_name
+    
+    class Meta:
+        verbose_name = "Partnership Corporates"
+        
 # Contact Message Model
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)

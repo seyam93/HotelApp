@@ -1,5 +1,18 @@
 from django.contrib import admin
-from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions, HotelArticle, ContactMessage
+from django.utils.html import format_html
+from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions, HotelArticle, ContactMessage, Partner
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('partner_name', 'partner_url', 'display_image', 'hotel')
+    list_filter = ('hotel',)
+    search_fields = ('partner_name', 'partner_description')
+
+    def display_image(self, obj):
+        if obj.partner_image:
+            return format_html('<img src="{}" width="50" style="border-radius: 4px;" />', obj.partner_image.url)
+        return "-"
+    display_image.short_description = "Image"
 
 @admin.register(HotelArticle)
 class HotelArticleAdmin(admin.ModelAdmin):

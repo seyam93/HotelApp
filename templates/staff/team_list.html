@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Team | {{ hotel.name }}{% endblock %}
+
+{% block content %}
+    <!-- Header Banner -->
+    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="img/banner/14.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="subtitle">Seniors</div>
+                    <div class="title">Our team</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Team -->
+    <section class="team section-padding">
+        <div class="container">
+            <div class="row">
+                {% for manager in managers %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="item">
+                            <div class="img">
+                                <img src="{% if manager.image %}{{ manager.image.url }}{% else %}{% static 'img/team/default.jpg' %}{% endif %}" alt="{{ manager.name }}" class="img-cover">
+                                <div class="social-icons">
+                                    {% if manager.facebook %}
+                                        <a href="{{ manager.facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                    {% endif %}
+                                    {% if manager.instagram %}
+                                        <a href="{{ manager.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    {% endif %}
+                                    {% if manager.linkedin %}
+                                        <a href="{{ manager.linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info">
+                                <h5>
+                                    <a href="">
+                                        {{ manager.name }}
+                                    </a>
+                                </h5>
+                                <p>{{ manager.position }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted text-center">No team members available at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- Booking Search -->
+    <section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background="img/rooms/01.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center mb-20">
+                    <div class="section-subtitle">Hotel Experience</div>
+                    <div class="section-title white">Booking Form</div>
+                </div>
+            </div>
+            <div class="booking-inner clearfix">
+                <form action="#" class="form1 clearfix">
+                    <div class="col1 c1">
+                        <div class="input1_wrapper border-l border-b border-t border-r">
+                            <label>Check in</label>
+                            <div class="input1_inner">
+                                <input type="text" class="form-control input datepicker" placeholder="Check in">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col1 c2">
+                        <div class="input1_wrapper border-l border-b border-t border-r">
+                            <label>Check out</label>
+                            <div class="input1_inner">
+                                <input type="text" class="form-control input datepicker" placeholder="Check out">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c3">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Adults</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c4">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Children</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">Children</option>
+                                    <option value="1">1 Child</option>
+                                    <option value="2">2 Children</option>
+                                    <option value="3">3 Children</option>
+                                    <option value="4">4 Children</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2 c5">
+                        <div class="select1_wrapper border-l border-b border-t border-r">
+                            <label>Rooms</label>
+                            <div class="select1_inner">
+                                <select class="select2 select" style="width: 100%">
+                                    <option value="1">1 Room</option>
+                                    <option value="2">2 Rooms</option>
+                                    <option value="3">3 Rooms</option>
+                                    <option value="4">4 Rooms</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col3 c6">
+                        <button type="submit" class="btn-form1-submit">Check Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+   {%endblock%}

@@ -1,5 +1,8 @@
 from django.db import models
 from hotels.models import Hotel  # because Manager is linked to Hotel
+from PIL import Image
+import io
+from django.core.files.base import ContentFile
 
 class Manager(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='managers', on_delete=models.CASCADE)
@@ -19,3 +22,14 @@ class Manager(models.Model):
 
     class Meta:
         ordering = ['name']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.image:
+            from PIL import Image
+            img = Image.open(self.image.path)
+            target_size = (800, 800)
+            if img.size != target_size:
+                img = img.resize(target_size, Image.LANCZOS)
+                img.save(self.image.path)

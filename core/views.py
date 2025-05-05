@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from core.models import ContactMessage
-from hotels.models import Hotel
+from core.models import ContactMessage, Partner
+from hotels.models import Hotel, Review
+from hotels.models import Hotel, HotelService
+from staff.models import Manager
 
 def hotel_contact_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
@@ -50,3 +52,23 @@ Message:
         return redirect('hotel-contact', hotel_slug=hotel.slug)
 
     return render(request, 'hotels/contact.html', {'hotel': hotel})
+
+# About Page Function
+def about_page(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
+
+    partners = Partner.objects.filter(hotel=hotel)
+    managers = Manager.objects.filter(hotel=hotel)
+    services = HotelService.objects.filter(hotel=hotel, is_active=True)
+    reviews = Review.objects.filter(hotel=hotel).order_by('-created_at')
+    amenity_services = HotelService.objects.filter(hotel=hotel, is_active=True)
+
+    context = {
+        'hotel': hotel,
+        'partners': partners,
+        'managers': managers,
+        'services': services,
+        'reviews': reviews,
+        'amenity_services': amenity_services,
+    }
+    return render(request, 'hotels/about.html', context)

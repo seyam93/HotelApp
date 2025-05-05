@@ -75,10 +75,9 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact-page' hotel_slug=hotel.slug %}">Contact Us</a></li>
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="blog1.html" class="dropdown-item"><span>Blog</span></a></li>
-                            <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
+                            <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>About Us</span></a></li>
                             <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
-                            <li><a href="about.html" class="dropdown-item"><span>About Us</span></a></li>
+                            <li><a href="{% url 'team-list-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Our Team</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -90,7 +89,7 @@
                             <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
                         </select>
                     </form> {% endcomment %}
-                    <div class="phonex"><a href="tel:+12345678910"><i class="fa-solid fa-phone"></i> +1 234 567 8910</a></div>
+                    <div class="phonex"><a href="tel:{{hotel.phone}}"><i class="fa-solid fa-phone"></i> {{hotel.phone}}</a></div>
                 </div>
             </div>
         </div>

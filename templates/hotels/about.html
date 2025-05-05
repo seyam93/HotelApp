@@ -1,316 +1,242 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About US{% endblock %}
+{% block title %}About | {{ hotel.name }}{% endblock %}
 
 {% block content %}
- <!-- About-->
- <section class="about section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-5 col-md-12 mb-15">
-                <div class="section-subtitle">About Rixos</div>
-                <div class="section-title">Laid-back places for kindred spirits</div>
-                <p>Welcome to the <b>best five-star resort hotel</b> in New York. The experience elementum sesue the aucan vestibulum alesun usto in sapien rutrum volutan donec fermen.</p>
-                <p class="mb-40">Lorem ipsum quisque sodales miss in the varius drana miss turpis softtiton tellus in the fermen.</p> 
-                <a href="#" class="button-3 mb-15">Rooms & Suites</a>
-                <div class="phone"><a href="tel:+12345678910"><i class="fa-light fa-phone"></i>+1 234 567 8910</a></div>
-            </div>
-            <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45"> <img class="rounded-2 animation-float1" src="img/about01.jpg" alt=""> </div>
-            <div class="col-lg-3 col-md-6 mb-20"> <img class="rounded-2 animation-float2" src="img/about02.jpg" alt=""> </div>
-        </div>
-    </div>
-</section>
-<!-- Team -->
-<section class="team section-padding">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center mb-20">
-                <div class="section-subtitle">Our Experts</div>
-                <div class="section-title">Meet The Team</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-            <div class="owl-carousel owl-theme">
-                <div class="item">
-                    <div class="img"> <img src="img/team/b.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Jesica Brown</a></h5>
-                        <p>Front Office</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img"> <img src="img/team/c.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Eleanor Arya</a></h5>
-                        <p>Administrator</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img"> 
-                        <img src="img/team/d.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Sophia Mia</a></h5>
-                        <p>Receptionist</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img"> <img src="img/team/e.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Jason Lucas</a></h5>
-                        <p>Floor Clerk</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img"> <img src="img/team/f.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Dorothy Nancy</a></h5>
-                        <p>Executive Assistant</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="img"> 
-                        <img src="img/team/a.jpg" alt="" class="img-cover">
-                        <div class="social-icons">
-                            <a href="#"> <i class="fab fa-facebook-f"></i> </a>
-                            <a href="#"> <i class="fab fa-x-twitter"></i> </a>
-                            <a href="#"> <i class="fab fa-instagram"></i> </a>
-                            <a href="#"> <i class="fab fa-linkedin-in"></i> </a>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <h5><a href="team-single.html">Daniel Martin</a></h5>
-                        <p>Hotel Manager</p>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Video -->
-<section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-12 text-center rotatex">
-                <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
-                    <div class="rotate-circle rotate-text">
-                        <svg class="textcircle" viewBox="0 0 500 500">
-                            <defs>
-                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
-                            </defs>
-                            <text>
-                                <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
-                            </text>
-                        </svg>
-                    </div> <span class="icon"> <i class="fas fa-play"></i> </span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- video text -->
-    <div class="video-text">videos</div>
-</section>
-<!-- Amenities -->
-<section class="amenities section-padding">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-lg-4 col-md-12 mb-30">
-                <div class="section-subtitle">Hotel Services</div>
-                <div class="section-title">Amenities</div>
-                <p class="mb-25">The experience elementum sesue in the miss aucantion alesun in sapien fermen the miss caleustion in the sapien.</p> <a href="amenities.html" class="button-3">All Amenities</a>
-            </div>
-            <div class="col-lg-8 col-md-12">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-truck-plane"></i> </div>
-                                <div class="text">
-                                    <h5>Pick Up & Drop</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-circle-parking"></i> </div>
-                                <div class="text">
-                                    <h5>Parking Space</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-bed-front"></i> </div>
-                                <div class="text">
-                                    <h5>Room Service</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-water-ladder"></i> </div>
-                                <div class="text">
-                                    <h5>Swimming Pool</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-wifi"></i> </div>
-                                <div class="text">
-                                    <h5>Fibre Internet</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item hover-box mb-25">
-                            <div class="cont up">
-                                <div class="icon"> <i class="fa-thin fa-mug-saucer"></i> </div>
-                                <div class="text">
-                                    <h5>Breakfast</h5>
-                                    <p>Lorem ipsum is simply dummy fermen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Header Banner -->
+    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="img/banner/20.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="subtitle">{{hotel.name}}</div>
+                    <div class="title">About Hotel</div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Testiominals -->
-<section class="testimonials">
-    <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="img/banner/02.jpg">
+    </section>
+    <!-- About -->
+    <section class="about section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-12 mb-15">
+                    <div class="section-subtitle">About {{ hotel.name }}</div>
+                    <div class="section-title">{{ hotel.title }}</div>
+                    <p>Welcome to the <b>best {{ hotel.star_rating }}-star hotel</b> in {{ hotel.city }}. {{hotel.description}}</p>
+                    <a href="#" class="button-3 mb-15">About{{ hotel.name }}</a>
+                    <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i>{{ hotel.phone }}</a></div>
+                </div>
+                {% with hotel.image_covers.all as covers %}
+                {% if covers|length > 0 %}
+                    <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45">
+                        <img class="rounded-2 animation-float1" src="{{ covers.0.image.url }}" alt="">
+                    </div>
+                {% endif %}
+                    {% if covers|length > 1 %}
+                        <div class="col-lg-3 col-md-6 mb-20">
+                            <img class="rounded-2 animation-float2" src="{{ covers.1.image.url }}" alt="">
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </section>
+   <!-- Team -->
+    <section class="team section-padding">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-7 text-center">
+                <div class="col-md-12 text-center mb-20">
+                    <div class="section-subtitle">Our Experts</div>
+                    <div class="section-title">Meet The Team</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="owl-carousel owl-theme">
-                        <div class="item"> <span>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                            </span>
-                            <h5>"Hotel was great. Location was excellent. The staff was incredible. A great experience all around!"</h5>
-                            <div class="info">
-                                <div class="cont">
-                                    <h6>Frank E. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
+                        {% for manager in managers %}
+                        <div class="item">
+                            <div class="img">
+                                {% if manager.image %}
+                                    <img src="{{ manager.image.url }}" alt="{{ manager.name }}" class="img-cover">
+                                {% else %}
+                                    <img src="{% static 'img/team/default.jpg' %}" alt="Default Team Member" class="img-cover">
+                                {% endif %}
+                                <div class="social-icons">
+                                    {% if manager.facebook %}
+                                        <a href="{{ manager.facebook }}" target="_blank"> <i class="fab fa-facebook-f"></i> </a>
+                                    {% endif %}
+                                    {% if manager.instagram %}
+                                        <a href="{{ manager.instagram }}" target="_blank"> <i class="fab fa-instagram"></i> </a>
+                                    {% endif %}
+                                    {% if manager.linkedin %}
+                                        <a href="{{ manager.linkedin }}" target="_blank"> <i class="fab fa-linkedin-in"></i> </a>
+                                    {% endif %}
                                 </div>
+                            </div>
+                            <div class="info">
+                                <h5>{{ manager.name }}</h5>
+                                <p>{{ manager.position }}</p>
                             </div>
                         </div>
-                        <div class="item"> <span>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                            </span>
-                            <h5>"Location was excellent. The staff was incredible. Hotel was great. A great experience all around!"</h5>
-                            <div class="info">
-                                <div class="cont">
-                                    <h6>Emily F. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Video -->
+    <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-12 text-center rotatex">
+                    <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
+                        <div class="rotate-circle rotate-text">
+                            <svg class="textcircle" viewBox="0 0 500 500">
+                                <defs>
+                                    <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
+                                </defs>
+                                <text>
+                                    <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
+                                </text>
+                            </svg>
+                        </div> <span class="icon"> <i class="fas fa-play"></i> </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- video text -->
+        <div class="video-text">videos</div>
+    </section>
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{% static 'img/banner/02.jpg' %}">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-7 text-center">
+                        <div class="owl-carousel owl-theme">
+                            {% for review in reviews %}
+                                <div class="item d-flex flex-column align-items-center text-center">
+                                    <!-- Profile Image -->
+                                    <img src="{% if review.profile_picture %}{{ review.profile_picture.url }}{% else %}{% static 'img/profile/default.jpg' %}{% endif %}"
+                                        alt="{{ review.name }}"
+                                        class="rounded-circle mb-3"
+                                        style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                    <!-- Star Ratings -->
+                                    <div>
+                                        {% for i in "12345"|make_list %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fa fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="fa fa-star text-muted"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <!-- Review Text -->
+                                    <h5 class="mt-3">"{{ review.comment }}"</h5>
+                                    <!-- Reviewer Name & Link -->
+                                    <div class="info mt-2">
+                                        <div class="cont">
+                                            <h6>{{ review.name }}
+                                                {% if review.view_link %}
+                                                    <i>|</i>
+                                                    <span><a href="{{ review.view_link }}" target="_blank" rel="noopener noreferrer">View on Tripadvisor</a></span>
+                                                {% endif %}
+                                            </h6>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="item"> <span>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                                <i class="star-rating"></i>
-                            </span>
-                            <h5>"A great experience all around! Hotel was great. Location was excellent. The staff was incredible."</h5>
-                            <div class="info">
-                                <div class="cont">
-                                    <h6>Enrico T. <i>|</i> <span><a href="#">View on Tripadvisor</a></span></h6>
-                                </div>
-                            </div>
+                            {% empty %}
+                                <p>No reviews available.</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Clients -->
-<section class="clients">
-    <div class="container">
-        <div class="row wrap">
-            <div class="col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="item">
-                        <a href="#"><img src="img/clients/1.png" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="img/clients/2.png" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="img/clients/3.png" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="img/clients/4.png" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="img/clients/5.png" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img src="img/clients/6.png" alt=""></a>
+    </section>
+    <!-- Amenities -->
+    <section class="amenities section-padding">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-4 col-md-12 mb-30">
+                    <div class="section-subtitle">Hotel Services</div>
+                    <div class="section-title">Amenities</div>
+                    <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
+                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">All Amenities</a>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        {% for service in amenity_services|slice:":6" %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="item hover-box mb-25">
+                                    <div class="cont up text-center">
+                                        {% if service.icon %}
+                                            <div class="icon mb-2">
+                                                <i class="fa-thin fa-{{ service.icon }}"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="text">
+                                            <h5>{{ service.title }}</h5>
+                                            <p>{{ service.description|truncatewords:15 }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="col-12 text-center">
+                                <p class="text-muted">No services listed for this hotel.</p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-{% endblock content %}
+    </section>
+   <!-- Clients / Partners -->
+    <section class="clients">
+        <div class="container">
+            <div class="row wrap">
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        {% for partner in partners %}
+                            <div class="item">
+                                {% if partner.partner_url %}
+                                    <a href="{{ partner.partner_url }}" target="_blank">
+                                {% endif %}
+                                {% if partner.partner_image %}
+                                    <img src="{{ partner.partner_image.url }}" alt="{{ partner.partner_name }}">
+                                {% else %}
+                                    <img src="{% static 'img/clients/default.png' %}" alt="{{ partner.partner_name }}">
+                                {% endif %}
+                                {% if partner.partner_url %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <p class="text-center text-muted">No partners available for this hotel.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{%endblock%}
+{% block script %}
+<script>
+$(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: false,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        responsive: {
+            0: { items: 2 },
+            600: { items: 3 },
+            1000: { items: 5 }
+        }
+    });
+});
+</script>
+{% endblock %}
