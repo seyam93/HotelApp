@@ -47,21 +47,20 @@
             <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">{% trans "Home" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-detail' hotel.slug %}">{% trans "Home" %}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">{% trans "Dining" %}</a></li>
 
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Facilities</span></a></li>
-                            <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li>
+                            {% comment %} <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li> {% endcomment %}
                             <li><a href="{% url 'offer-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Special Offers</span></a></li>
-                            <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Events <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'hotel-event-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Events</span></a></li>
+                            {% comment %} <li><a href="{% url 'hotel-event-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Events</span></a></li> {% endcomment %}
                             <li><a href="{% url 'meeting-room-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Meeting Rooms</span></a></li>
                             <li><a href="{% url 'wedding-meeting-rooms' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Wedding Venues</span></a></li>   
                         </ul>
@@ -204,6 +203,36 @@
 
         $(document).ready(function() {
             setTimeout(initTestimonialsCarousel, 500);
+        });
+
+        function initRoomsCarousel() {
+            var $carousel = $('#rooms-carousel');
+            console.log('Found rooms carousel elements:', $carousel.length);
+            if ($carousel.length > 0) {
+                $carousel.owlCarousel({
+                    loop: true,
+                    margin: 30,
+                    nav: true,
+                    dots: true,
+                    autoplay: true,
+                    autoplayTimeout: 4000,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 1 },
+                        600: { items: 2 },
+                        1000: { items: 3 }
+                    }
+                });
+                $carousel.trigger('play.owl.autoplay', [4000]);
+                console.log('Rooms carousel initialized and autoplay triggered');
+            } else {
+                console.log('Rooms carousel not found, retrying in 500ms');
+                setTimeout(initRoomsCarousel, 500);
+            }
+        }
+
+        $(document).ready(function() {
+            setTimeout(initRoomsCarousel, 500);
         });
     </script>
     <script src="{% static 'js/select2.js' %}"></script>

@@ -1,51 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}
 {% load static %}
-{% comment %} {% block navbar %}
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <!-- Logo -->
-        <div class="logo-wrapper">
-            <a class="logo" href="{% url 'home-page' %}"> <img src={% static "img/logo.png" %} class="logo-img" alt=""> </a>
-            <!-- <div class="logo"><h2>Rixos</h2></div> -->
-        </div>
-        <!-- Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"><i class="fa-light fa-bars"></i></span> </button>
-        <!-- Menu -->
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">Dining</a></li>
-
-                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Facilities</span></a></li>
-                        <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li>
-                        <li><a href="spa.html" class="dropdown-item"><span>Spa & Wellness</span></a></li>
-                        <li><a href="offers.html" class="dropdown-item"><span>Special Offers</span></a></li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item"><a class="nav-link" href="">Events</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Gallery</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
-                <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="blog1.html" class="dropdown-item"><span>Blog</span></a></li>
-                        <li><a href="team.html" class="dropdown-item"><span>Team</span></a></li>
-                        <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
-                        <li><a href="about.html" class="dropdown-item"><span>About Us</span></a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="navbar-right">
-                <div class="phonex"><a href="tel:+12345678910"><i class="fa-solid fa-phone"></i> +1 234 567 8910</a></div>
-            </div>
-        </div>
-    </div>
-</nav>
-{% endblock navbar %} {% endcomment %}
 {% block content %}
     <!-- Kenburns SlideShow -->
     <aside class="kenburns-section" id="kenburnsSliderContainer" data-overlay-dark="5">
@@ -138,9 +93,17 @@
                 <div class="col-lg-5 col-md-12 mb-15">
                     <div class="section-subtitle">About {{ hotel.name }}</div>
                     <div class="section-title">{{ hotel.title }}</div>
-                    <p>Welcome to the <b>best {{ hotel.star_rating }}-star hotel</b> in {{ hotel.city }}. {{hotel.description}}</p>
-                    <a href="#" class="button-3 mb-15">About{{ hotel.name }}</a>
-                    <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i>{{ hotel.phone }}</a></div>
+                    <p>{{hotel.description}}</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="#" class="button-3 mb-15">About {{ hotel.name }}</a>
+                        {% if hotel.fact_sheet %}
+                        <a href="{{ hotel.fact_sheet.url }}" class="button-3 mb-15" target="_blank">
+                            View Hotel Fact Sheet
+                        </a>
+                        {% else %}
+                        <p>No fact sheet available.</p>
+                        {% endif %}
+                    </div>
                 </div>
                 {% with hotel.image_covers.all as covers %}
                 {% if covers|length > 0 %}
@@ -167,7 +130,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="owl-carousel owl-theme">
+                <div class="owl-carousel owl-theme" id="rooms-carousel">
                     {% for room in rooms %}
                     <div class="item">
                         <a href="{% url 'room-detail' hotel.slug room.slug %}" class="room-link">  
@@ -467,68 +430,6 @@
             <img id="tab-3" src={% static "img/banner/04.jpg"%} alt="" class="tab-img">
             <img id="tab-4" src={% static "img/banner/05.jpg"%} alt="" class="tab-img"> </div>
     </section>
-    <!-- Blog -->
-    <section class="blog1 section-padding">
-        <div class="container">
-            <div class="row mb-15">
-                <div class="col-md-12 text-center">
-                    <div class="section-subtitle">Latest News</div>
-                    <div class="section-title">Hotel Articles</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                <div class="owl-carousel owl-theme">
-                    <div class="item mt-10">
-                        <div class="img"> <img src={% static "img/blog/1.jpg"%} class="img-fluid" alt="">
-                            <div class="cat">Health</div>
-                        </div>
-                        <div class="cont">
-                            <h4><a href="post.html">Luxury hotel experience: heated pools</a></h4>
-                            <p>Lorem ipsum quisque sodales missen the varius rana duru fermen.</p>
-                            <div class="author">
-                                <div>
-                                    <h5>29 August 2025</h5>
-                                    <h5>by <a href="#" class="text-decoration-line-bottom">Martin Dan</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item mt-10">
-                        <div class="img"> <img src={% static "img/blog/2.jpg"%} class="img-fluid" alt="">
-                            <div class="cat">Health</div>
-                        </div>
-                        <div class="cont">
-                            <h4><a href="post.html">Hygiene rules in hotels for a safe holiday</a></h4>
-                            <p>Lorem ipsum quisque sodales missen the varius rana duru fermen.</p>
-                            <div class="author">
-                                <div>
-                                    <h5>27 August 2025</h5>
-                                    <h5>by <a href="#" class="text-decoration-line-bottom">Emily Brown</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item mt-10">
-                        <div class="img"> <img src={% static "img/blog/3.jpg"%} class="img-fluid" alt="">
-                            <div class="cat">Wellness</div>
-                        </div>
-                        <div class="cont">
-                            <h4><a href="post.html">What are the benefits of the Spa?</a></h4>
-                            <p>Lorem ipsum quisque sodales missen the varius rana duru fermen.</p>
-                            <div class="author">
-                                <div>
-                                    <h5>25 August 2025</h5>
-                                    <h5>by <a href="#" class="text-decoration-line-bottom">Frank White</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- Booking Search -->
     <section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/01.jpg"%}>
         <div class="container">
@@ -682,19 +583,23 @@
         });
     });
 </script>
-{% comment %} <script>
-    $(document).ready(function() {
-        $('#kenburnsSliderContainer').vegas({
-            slides: [{ src: "{% static 'img/rooms/05.jpg' %}" },
-            { src: "{% static 'img/rooms/02.jpg' %}" },
-            { src: "{% static 'img/rooms/03.jpg' %}" },],
-            overlay: true,
-            transition: 'fade2',
-            animation: 'kenburnsUpRight',
-            transitionDuration: 1000,
-            delay: 10000,
-            animationDuration: 20000
+<script>
+    $(window).on('load', function() {
+        $('#rooms-carousel').owlCarousel({
+            loop: true,
+            margin: 30,
+            nav: true,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            smartSpeed: 1000,
+            responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 3 }
+            }
         });
     });
-</script> {% endcomment %}
+</script>
 {% endblock %}

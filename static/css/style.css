@@ -252,7 +252,7 @@ input[type="submit"] {
     height: auto;
     padding: 22px 27px;
     border: none;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     line-height: 20px;
     font-weight: 400;
@@ -334,7 +334,7 @@ input[type=checkbox]:after {
     font-family: "Font Awesome 6 Brands";
     content: '\f00c';
     font-weight: normal;
-    color: #BD945A;
+    color: #Aa9050;
     background: transparent;
     position: absolute;
     top: 1px;
@@ -603,12 +603,12 @@ hr {
     margin-top: 10px;
 }
 .list-icon {
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 17px;
 }
 .list-icon i {
     font-size: 17px;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .list-text {
     margin-left: 15px;
@@ -681,7 +681,7 @@ blockquote cite:before {
     height: 1px;
     border-top: 1px solid;
     border-color: inherit;
-    color: #BD945A;
+    color: #Aa9050;
 }
 
 
@@ -811,8 +811,8 @@ blockquote cite:before {
 }
 .owl-theme .owl-dots .owl-dot.active span,
 .owl-theme .owl-dots .owl-dot:hover span {
-    background: #BD945A;
-    border: 0px solid #BD945A;
+    background: #Aa9050;
+    border: 0px solid #Aa9050;
 }
 .owl-carousel .owl-nav button.owl-next,
 .owl-carousel .owl-nav button.owl-prev,
@@ -886,8 +886,8 @@ blockquote cite:before {
     border-radius: 100%;
 }
 .owl-theme .owl-nav [class*=owl-]:hover {
-    background: #BD945A;
-    border: 1px solid #BD945A;
+    background: #Aa9050;
+    border: 1px solid #Aa9050;
     color: #fff;
 }
 .owl-theme .owl-nav {
@@ -917,8 +917,8 @@ blockquote cite:before {
     border-radius: 100%;
 }
 .rooms2 .owl-theme .owl-nav [class*=owl-]:hover {
-    background: #BD945A;
-    border: 0px solid #BD945A;
+    background: #Aa9050;
+    border: 0px solid #Aa9050;
     color: #fff;
 }
 .rooms1 .owl-theme .owl-nav [class*=owl-] {
@@ -950,9 +950,9 @@ blockquote cite:before {
     box-shadow: 0 0 30px rgba(0, 0, 0, .05);
 }
 .my-owl-nav span:hover {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
 }
 .my-owl-nav span.my-prev-button {
     margin-right: 4px;
@@ -982,7 +982,7 @@ blockquote cite:before {
 
 [data-overlay-dark] .section-title span,
 .section-title span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .section-title.white {
     color: #fff;
@@ -991,7 +991,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     margin-bottom: 10px;
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 15px;
     align-items: center;
     text-transform: uppercase;
@@ -1003,7 +1003,7 @@ blockquote cite:before {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 17px;
     text-align: center;
     vertical-align: middle;
@@ -1027,7 +1027,7 @@ blockquote cite:before {
     margin-right: 10px;
     padding: 0 20px;
     border-radius: 30px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     text-transform: uppercase;
     font-size: 12px;
@@ -1039,7 +1039,7 @@ blockquote cite:before {
     margin-right: 10px;
     padding: 4px 24px;
     border-radius: 30px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     font-family: "Gilda Display", serif;
     font-size: 17px;
@@ -1055,7 +1055,7 @@ blockquote cite:before {
     display: inherit;
 }
 .section-info .text-decoration-line-bottom {
-    border-bottom: 1px solid #BD945A;
+    border-bottom: 1px solid #Aa9050;
     line-height: 1.5em;
 }
 .text-decoration-line-bottom {
@@ -1063,7 +1063,7 @@ blockquote cite:before {
     line-height: 1.5em;
 }
 .section-info.bg {
-    background: #BD945A;
+    background: #Aa9050;
 }
 @media screen and (max-width: 991px) {
     .section-title {
@@ -1123,16 +1123,16 @@ blockquote cite:before {
     color: #101010;
 }
 .navbar .navbar-nav .nav-link:hover {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .navbar .navbar-nav .nav-link:hover i {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .navbar .navbar-nav .active {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .navbar .navbar-nav .active i {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .nav-scroll {
     background: #1b1b1b;
@@ -1160,7 +1160,7 @@ blockquote cite:before {
     color: #fff;
 }
 .nav-scroll .navbar-nav .active {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 /* logo */
 .nav-scroll .logo-wrapper .logo-img {
@@ -1171,13 +1171,13 @@ blockquote cite:before {
 .nav-scroll .logo-wrapper .logo h2 {
     display: block;
     width: 100%;
-    color: #BD945A;
+    color: #Aa9050;
     position: relative;
     margin-bottom: 0;
     padding: 0;
 }
 .nav-scroll .logo-wrapper .logo span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .logo-wrapper {
     float: left;
@@ -1202,7 +1202,7 @@ blockquote cite:before {
     line-height: 1.25em;
 }
 .logo-wrapper .logo h2 span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 /* dropdown */
 .dropdown .nav-link i {
@@ -1214,7 +1214,7 @@ blockquote cite:before {
     color: #fff;
 }
 .nav-scroll .navbar-nav .active i {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .navbar .dropdown-menu .dropdown-item {
     padding: 10px 0;
@@ -1241,7 +1241,7 @@ blockquote cite:before {
 .navbar .dropdown-menu .dropdown:hover > .dropdown-item,
 .navbar .dropdown-menu .dropdown-item.active,
 .navbar .dropdown-menu .dropdown-item:hover {
-    color: #BD945A !important;
+    color: #Aa9050 !important;
 }
 .navbar .dropdown-toggle::after {
     display: none;
@@ -1336,7 +1336,7 @@ blockquote cite:before {
     width: 35px;
     height: 35px;
     line-height: 35px;
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
     border-radius: 100%;
     text-align: center;
@@ -1443,7 +1443,7 @@ blockquote cite:before {
         color: #fff !important;
     }
     .nav-scroll .navbar-collapse .active {
-        color: #BD945A !important;
+        color: #Aa9050 !important;
     }
     .navbar .dropdown-menu .dropdown-item {
         color: #fff;
@@ -1498,7 +1498,7 @@ blockquote cite:before {
         color: #fff;
     }
     .nav-scroll .dropdown .nav-link.active i {
-        color: #BD945A !important;
+        color: #Aa9050 !important;
     }
     .navbar .dropdown-menu .dropdown-item i {
         color: #fff;
@@ -1521,7 +1521,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -1541,7 +1541,7 @@ blockquote cite:before {
     text-transform: uppercase;
 }
 .header .caption h1 span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .header .caption p {
     position: relative;
@@ -1724,7 +1724,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -1806,7 +1806,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -1868,7 +1868,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -1919,7 +1919,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-weight: 400;
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -1940,7 +1940,7 @@ blockquote cite:before {
 .banner-header .subtitle {
     font-weight: 400;
     margin-bottom: 10px;
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 15px;
     display: flex;
     display: inline-flex;
@@ -1959,7 +1959,7 @@ blockquote cite:before {
     text-transform: uppercase;
 }
 .banner-header .title span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .banner-header .title2 {
     font-size: 48px;
@@ -2154,7 +2154,7 @@ blockquote cite:before {
     margin-right: 15px;
 }
 .rooms3 .item .cont .details span i {
-    color: #BD945A;
+    color: #Aa9050;
     margin-right: 5px;
     font-style: normal;
     font-weight: 100;
@@ -2274,7 +2274,7 @@ blockquote cite:before {
     color: #fff;
 }
 .rooms1 .item .wrap .cont h3 a span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .rooms1 p {
     font-family: "Urbanist", sans-serif;
@@ -2315,7 +2315,7 @@ blockquote cite:before {
     margin-right: 10px;
 }
 .rooms1 .item .wrap .cont .details span i {
-    color: #BD945A;
+    color: #Aa9050;
     margin-right: 5px;
     font-style: normal;
     font-weight: 100;
@@ -2342,7 +2342,7 @@ blockquote cite:before {
     justify-content: center;
     width: 50px;
     height: 50px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     border-radius: 50%;
     font-size: 15px;
     color: #fff;
@@ -2514,7 +2514,7 @@ blockquote cite:before {
 }
 .room-features ul li i {
     margin-right: 10px;
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 21px;
 }
 
@@ -2594,7 +2594,7 @@ blockquote cite:before {
 .page-details .cont .list li span svg {
     -o-object-fit: contain;
     object-fit: contain;
-    color: #BD945A;
+    color: #Aa9050;
     font-size: 17px;
     width: 25px;
 }
@@ -2617,7 +2617,7 @@ blockquote cite:before {
 }
 .page-list-icon span {
     font-size: 17px;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .page-list-text {
     margin-left: 15px;
@@ -2772,9 +2772,9 @@ blockquote cite:before {
     transition: all .5s;
 }
 .restaurant-menu .owl-theme .owl-nav [class*=owl-]:hover {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
 }
 .restaurant-menu .bg-img .owl-theme .owl-nav [class*=owl-] {
     color: #fff;
@@ -2808,11 +2808,11 @@ blockquote cite:before {
     position: relative;
     background: transparent;
     padding: 15px;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
 }
 .restaurant-menu .tabs-icon .owl-item.actived .item .icon,
 .restaurant-menu .tabs-icon .item.active .icon {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .restaurant-menu .restaurant-menu-content .cont {
     display: none;
@@ -2823,7 +2823,7 @@ blockquote cite:before {
 .restaurant-menu .restaurant-menu-content .cont h5 {
     font-size: 21px;
     font-weight: 400;
-    color: #BD945A;
+    color: #Aa9050;
     margin-bottom: 10px;
     text-align: left;
     border-bottom: 1px dashed rgba(189, 148, 90, 0.2);
@@ -2911,7 +2911,7 @@ blockquote cite:before {
     transform: translateX(-50%);
     padding: 0 20px;
     border-radius: 5px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     white-space: nowrap;
     opacity: 0;
     z-index: 20;
@@ -2956,7 +2956,7 @@ blockquote cite:before {
     color: #fff;
 }
 .team-single h6 span {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .team-single .item {
     position: relative;
@@ -3035,7 +3035,7 @@ blockquote cite:before {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     border-radius: 100%;
     font-size: 17px;
@@ -3077,7 +3077,7 @@ blockquote cite:before {
 .team-single .list-icon {}
 .team-single .list-icon span {
     font-size: 17px;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .team-single .list-text {
     margin-left: 15px;
@@ -3112,7 +3112,7 @@ blockquote cite:before {
     font-weight: 400;
 }
 .team-single .cont .simpl-bord .nav-link.active {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .team-single .tab-content p {
     color: #999;
@@ -3149,7 +3149,7 @@ blockquote cite:before {
     display: flex;
     margin-bottom: 15px;
     font-size: 50px;
-    color: #BD945A;
+    color: #Aa9050;
     justify-content: center !important;
 }
 .pricing .item .cont .title {
@@ -3334,7 +3334,7 @@ blockquote cite:before {
     font-family: "Urbanist", sans-serif;
     font-size: 21px;
     font-weight: 600;
-    color: #BD945A;
+    color: #Aa9050;
     top: -0.75em;
 }
 .pricing2 .item .price sub {
@@ -3347,7 +3347,7 @@ blockquote cite:before {
 .pricing2 .item .price .number {
     font-size: 48px;
     font-weight: 600;
-    color: #BD945A;
+    color: #Aa9050;
     font-family: "Urbanist", sans-serif;
     line-height: 48px;
 }
@@ -3374,7 +3374,7 @@ blockquote cite:before {
 .pricing2 .item .pricing-text li span.ti-check,
 .pricing2 .item .pricing-text li span.ti-close {
     font-size: 15px;
-    color: #BD945A;
+    color: #Aa9050;
     margin-right: 10px;
 }
 .pricing2 .item:hover, 
@@ -3425,7 +3425,7 @@ blockquote cite:before {
     display: flex;
     margin-bottom: 15px;
     font-size: 50px;
-    color: #BD945A;
+    color: #Aa9050;
     justify-content: center !important;
 }
 .amenities .item .cont .text h5 {
@@ -3464,7 +3464,7 @@ blockquote cite:before {
     will-change: transform;
 }
 .amenities .item:hover {
-    background: #BD945A;
+    background: #Aa9050;
 }
 .amenities .item:hover .cont h5,
 .amenities .item:hover .cont .icon i {
@@ -3611,7 +3611,7 @@ blockquote cite:before {
     justify-content: center;
     width: 50px;
     height: 50px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     border-radius: 50%;
     font-size: 15px;
     color: #fff;
@@ -3702,7 +3702,7 @@ blockquote cite:before {
     margin-bottom: 0;
 }
 .offers2 .item:hover h5 {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .offers2 .item p {
     color: rgba(255, 255, 255, 0.7);
@@ -3777,7 +3777,7 @@ blockquote cite:before {
     content: "\f107";
     font-family: "Font Awesome 6 Pro";
     transition: all 500ms ease;
-    background: #BD945A;
+    background: #Aa9050;
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -3962,7 +3962,7 @@ body.mfp-zoom-out-cur {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    background: #BD945A;
+    background: #Aa9050;
     border-radius: 50%;
     color: #fff;
     padding: 12px 11px 12px 13px;
@@ -3971,7 +3971,7 @@ body.mfp-zoom-out-cur {
 }
 .video-gallery-polygon:hover {
     background: #fff;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .video-gallery-polygon {
     font-size: 24px;
@@ -4059,13 +4059,13 @@ body.mfp-zoom-out-cur {
     line-height: 55px;
     font-size: 17px;
     color: #fff;
-    border: 1px solid #BD945A;
-    background-color: #BD945A;
+    border: 1px solid #Aa9050;
+    background-color: #Aa9050;
     border-radius: 100%;
 }
 .video-gallery .item:hover .curv-butn .icon {
-    background-color: #BD945A;
-    border: 1px solid #BD945A;
+    background-color: #Aa9050;
+    border: 1px solid #Aa9050;
     color: #fff;
     border-radius: 100%;
 }
@@ -4545,13 +4545,13 @@ body.mfp-zoom-out-cur {
     transform: translateY(0);
 }
 .blog1 .item .cont .author h5 a.text-decoration-line-bottom {
-    border-bottom: 1px solid #BD945A;
+    border-bottom: 1px solid #Aa9050;
 }
 .blog1 .item .cont .author h5:hover a.text-decoration-line-bottom {
-    border-bottom: 1px solid #BD945A;
+    border-bottom: 1px solid #Aa9050;
 }
 .blog1 .item .cont .author h5:hover a {
-  color: #BD945A;
+  color: #Aa9050;
 }
 /* pagination */
 .pagination-wrap {
@@ -4583,14 +4583,14 @@ body.mfp-zoom-out-cur {
 .pagination-wrap li a:hover {
     opacity: 1;
     text-decoration: none;
-    background: #BD945A;
-    border: 1px solid #BD945A;
+    background: #Aa9050;
+    border: 1px solid #Aa9050;
     color: #fff;
     transform: translate3d(0px, -6px, 0.01px);
 }
 .pagination-wrap li a.active {
-    background-color: #BD945A;
-    border: 1px solid #BD945A;
+    background-color: #Aa9050;
+    border: 1px solid #Aa9050;
     color: #fff;
 }
 @media screen and (max-width: 991px) {
@@ -4633,7 +4633,7 @@ body.mfp-zoom-out-cur {
     color: #999;
 }
 .blog-sidebar .widget ul li a:hover {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .blog-sidebar .widget ul li:last-child {
     margin-bottom: 0;
@@ -4641,7 +4641,7 @@ body.mfp-zoom-out-cur {
 .blog-sidebar .widget ul li i {
     font-size: 10px;
     margin-right: 10px;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .blog-sidebar .widget .recent li {
     display: block;
@@ -4687,7 +4687,7 @@ body.mfp-zoom-out-cur {
     width: 50px;
     line-height: 50px;
     border: none;
-    background: #BD945A;
+    background: #Aa9050;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -4717,8 +4717,8 @@ body.mfp-zoom-out-cur {
 .blog-sidebar .tags li {
     margin: 4px !important;
     padding: 8px 24px;
-    background-color: #BD945A;
-    color: #BD945A;
+    background-color: #Aa9050;
+    color: #Aa9050;
     float: left;
     border-radius: 5px;
 }
@@ -4777,7 +4777,7 @@ body.mfp-zoom-out-cur {
     font-size: 180px;
     line-height: 180px;
     font-weight: 700;
-    color: #BD945A;
+    color: #Aa9050;
 }
 .not-found h3 {
     color: #fff;
@@ -4812,14 +4812,14 @@ body.mfp-zoom-out-cur {
     background: transparent;
     color: #fff;
     border-radius: 0px;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
     transition: all 300ms ease;
     border-radius: 30px;
 }
 .not-found .search-form .form-group input[type="text"]:focus,
 .not-found .search-form .form-group input[type="email"]:focus,
 .not-found .search-form .form-group input[type="search"]:focus {
-    border-color: #BD945A;
+    border-color: #Aa9050;
 }
 .not-found .search-form .form-group input::-webkit-input-placeholder {
     color: #999;
@@ -4832,7 +4832,7 @@ body.mfp-zoom-out-cur {
     width: 50px;
     line-height: 50px;
     border: none;
-    background: #BD945A;
+    background: #Aa9050;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -4850,7 +4850,7 @@ body.mfp-zoom-out-cur {
     outline: none;
 }
 .not-found .search-form:hover .form-group .search-button {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
     outline: none;
     -webkit-transition: all 0.7s linear;
@@ -4924,7 +4924,7 @@ body.mfp-zoom-out-cur {
 }
 .contact .item .contents span {
     font-size: 45px;
-    color: #BD945A;
+    color: #Aa9050;
     font-weight: 100;
 }
 .contact .item .contents .title {
@@ -4951,7 +4951,7 @@ body.mfp-zoom-out-cur {
     color: #101010;
 }
 .contact .item .btnx:hover {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
 }
 .map {
@@ -4967,7 +4967,7 @@ body.mfp-zoom-out-cur {
     border-radius: 5px;
 }
 .form2 .head {
-    background-color: #BD945A;
+    background-color: #Aa9050;
     border-radius: 5px 5px 0 0;
     padding: 30px;
 }
@@ -5012,7 +5012,7 @@ body.mfp-zoom-out-cur {
     height: 50px;
     line-height: 50px;
     background-color: #fff;
-    color: #BD945A;
+    color: #Aa9050;
     display: inline-block;
     text-align: center;
     font-size: 17px;
@@ -5117,8 +5117,8 @@ body.mfp-zoom-out-cur {
     margin-bottom: 15px;
 }
 .ui-datepicker .ui-datepicker-header {
-    background: #BD945A;
-    border: #BD945A;
+    background: #Aa9050;
+    border: #Aa9050;
     color: #fff;
     border-radius: 5px;
 }
@@ -5145,8 +5145,8 @@ body.mfp-zoom-out-cur {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    border: 1px solid #BD945A;
-    background: #BD945A;
+    border: 1px solid #Aa9050;
+    background: #Aa9050;
     font-weight: normal;
     color: #fff;
 }
@@ -5328,11 +5328,11 @@ body.mfp-zoom-out-cur {
     padding-left: 0;
 }
 .select2-container--default .select2-results__option[aria-selected=true] {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
 }
 /* responsive */
@@ -5415,8 +5415,8 @@ body.mfp-zoom-out-cur {
     transform-style: preserve-3d;
 }
 .button-1:hover {
-    border: 1px solid #BD945A;
-    background-color: #BD945A;
+    border: 1px solid #Aa9050;
+    background-color: #Aa9050;
     color: #fff;
     transform: translate3d(0px, -6px, 0.01px);
 }
@@ -5425,9 +5425,9 @@ body.mfp-zoom-out-cur {
     display: inline-block;
     height: auto;
     padding: 12px 27px;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
     border-radius: 5px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     text-align: center;
     font-size: 17px;
@@ -5447,9 +5447,9 @@ body.mfp-zoom-out-cur {
     display: inline-block;
     height: auto;
     padding: 12px 27px;
-    border: 1px solid #BD945A;
+    border: 1px solid #Aa9050;
     border-radius: 5px;
-    background-color: #BD945A;
+    background-color: #Aa9050;
     color: #fff;
     text-align: center;
     font-size: 17px;
@@ -5546,7 +5546,7 @@ body.mfp-zoom-out-cur {
     height: 50px;
     width: 50px;
     border: none;
-    background: #BD945A;
+    background: #Aa9050;
     font-size: 15px;
     font-weight: 400;
     color: #fff;
@@ -5607,7 +5607,7 @@ body.mfp-zoom-out-cur {
     margin: 0;
 }
 .footer .top .social-icons li:hover {
-    background: #BD945A;
+    background: #Aa9050;
     color: #fff;
     -webkit-transition: all .7s;
     -o-transition: all .7s;
@@ -5717,7 +5717,7 @@ body.mfp-zoom-out-cur {
     fill: none;
 }
 .progress-wrap svg.progress-circle path {
-    stroke: #BD945A;
+    stroke: #Aa9050;
     stroke-width: 2;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -5726,10 +5726,10 @@ body.mfp-zoom-out-cur {
     transition: all 400ms linear;
 }
 .progress-wrap::after {
-    color: #BD945A;
+    color: #Aa9050;
 }
 .progress-wrap svg.progress-circle path {
-    stroke: #BD945A;
+    stroke: #Aa9050;
 }
 
 

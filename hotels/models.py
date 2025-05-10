@@ -250,12 +250,21 @@ class Feature(models.Model):
 
 class Room(models.Model):
     BED_TYPES = [
+        ('king/twin', 'King / Twin Bed'),
         ('single', 'Single Bed'),
         ('double', 'Double Bed'),
         ('queen', 'Queen Bed'),
         ('king', 'King Bed'),
         ('twin', 'Twin Bed'),
         ('sofa', 'Sofa Bed'),
+    ]
+
+    ROOM_VIEWS = [
+        ('sea', 'Sea View'),
+        ('city', 'City View'),
+        ('garden', 'Garden View'),
+        ('pool', 'Pool View'),
+        ('mountain', 'Mountain View'),
     ]
 
     hotel = models.ForeignKey('Hotel', related_name="rooms", on_delete=models.CASCADE)
@@ -266,7 +275,8 @@ class Room(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True, editable=False)
     image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
     number_of_beds = models.PositiveIntegerField(default=1)
-    bed_type = models.CharField(max_length=20, choices=BED_TYPES, default='twin')
+    bed_type = models.CharField(max_length=20, choices=BED_TYPES, default='king/twin')
+    room_views = models.CharField(max_length=20, choices=ROOM_VIEWS, default='city')
     number_of_bathrooms = models.PositiveIntegerField(default=1)
     number_of_persons = models.CharField(max_length=50, default="1-2", null=True, blank=True)
     area = models.FloatField(help_text="Area in square meters", blank=True, null=True)
@@ -276,8 +286,9 @@ class Room(models.Model):
     is_available = models.BooleanField(default=True)
     price_per_night = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     featured = models.BooleanField(default=False)
-    check_in_notes = models.TextField(default="Check-in from 9:00 AM - anytime",blank=True)
-    check_out_notes = models.TextField(default="Check-out before 12:00 PM",blank=True)
+    room_features_section_1 = models.TextField(default="Modified_Room Featured Section (Nourhan)",blank=True)
+    room_features_section_2 = models.TextField(default="Modified_Room Featured Section 2 (Nourhan)",blank=True)
+    room_features_section_3 = models.TextField(default="Modified_Room Featured Section 3 (Nourhan)",blank=True)
     special_check_in_instructions = models.TextField(blank=True)
     children_and_extra_beds_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

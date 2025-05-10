@@ -7,13 +7,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-12 text-center">
-                <h5>Laid-back places</h5>
+                <h5>{{hotel.name}}</h5>
                 <h1>{{ room.name}}</h1>
                 <div class="details"> 
                     <span><i class="fa-thin fa-bed-front"></i>{{room.number_of_beds}} Bed</span>
                     <span><i class="fa-thin fa-expand"></i>{{ room.area }} Sqm</span>
                     <span><i class="fa-thin fa-bath"></i>{{room.number_of_bathrooms}} Bathroom</span>
-                    <span><i class="fa-thin fa-mug-saucer"></i> {% if room.includes_breakfast %}Breakfast{% else %}No Breakfast{% endif %}</span> 
+                    {% if room.includes_breakfast %}
+                    <span><i class="fa-thin fa-mug-saucer"></i> Breakfast</span> 
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -36,46 +38,36 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-30">
-                        <h5>Room Features</h5>
-                        <ul class="list-unstyled page-list">
-                            <li>
-                                <div class="page-list-icon"><span class="ti-check"></span></div>
-                                <div class="page-list-text"><p>{{ room.check_in_notes }}</p></div>
+                    <div class="col-12 mb-40">
+                        <h5 class="mb-3">Room Features</h5>
+                        <ul class="list-unstyled page-list d-flex flex-wrap">
+                            {% if room.room_features_section_1 %}
+                            <li class="d-flex align-items-start me-4 mb-2">
+                                <div class="page-list-icon me-2"><span class="ti-check"></span></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_1 }}</p></div>
                             </li>
-                            <li>
-                                <div class="page-list-icon"> <span class="ti-check"></span> </div>
-                                <div class="page-list-text">
-                                    <p>Early check-in subject to availability</p>
-                                </div>
+                            {% endif %}
+                            {% if room.room_features_section_2 %}
+                            <li class="d-flex align-items-start me-4 mb-2">
+                                <div class="page-list-icon me-2"><span class="ti-check"></span></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_2 }}</p></div>
                             </li>
+                            {% endif %}
+                            {% if room.room_features_section_3 %}
+                            <li class="d-flex align-items-start me-4 mb-2">
+                                <div class="page-list-icon me-2"><span class="ti-check"></span></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_3 }}</p></div>
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
-
-                    {% comment %} <div class="col-lg-6 col-md-12 mb-30">
-                        <h5>Check-out</h5>
-                        <ul class="list-unstyled page-list">
-                            <li>
-                                <div class="page-list-icon"><span class="ti-check"></span></div>
-                                <div class="page-list-text"><p>{{ room.check_out_notes }}</p></div>
-                            </li>
-                            <li>
-                                <div class="page-list-icon"> <span class="ti-check"></span> </div>
-                                <div class="page-list-text">
-                                    <p>Express check-out</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> {% endcomment %}
                 </div>
-
                 {% comment %} <div class="row mb-30">
                     <div class="col-md-12">
                         <h5>Special Check-in Instructions</h5>
                         <p>{{ room.special_check_in_instructions }}</p>
                     </div>
                 </div> {% endcomment %}
-
                 <div class="row">
                     <div class="col-md-12">
                         <h5>Children and Extra Beds</h5>
@@ -255,3 +247,66 @@
         </div>
     </section>
 {% endblock %}
+{% block footer_content%}
+<div class="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-30">
+                <div class="item">
+                    <div class="logo"><img src="{% static 'img/logo.png' %}" alt=""></div>
+                    <p>{{hotel.slogan}}</p>
+                    <div class="social-icons">
+                        <ul class="list-inline">
+                            <li><a href="https://instagram.com/your_page"><i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="https://facebook.com/your_page"><i class="fa-brands fa-facebook-f"></i></a></li>
+                            <li><a href="https://linkedin.com/your_page"><i class="fa-brands fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 offset-md-1 mb-30">
+                <div class="item">
+                    <h3>Contact us</h3>
+                    <p>{{ hotel.address|linebreaksbr }}</p>
+                    <div class="phone"><a href="tel:{{hotel.phone}}">{{hotel.phone}}</a></div>
+                    <div class="mail"><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-30">
+                <div class="item">
+                    <h3>Subscribe</h3>
+                    <p>Want to be notified about our services. Just sign up and we'll send you a notification by email.</p>
+                    <div class="newsletter">
+                        <form action="#">
+                            <input type="email" placeholder="Email Address" required>
+                            <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bottom -->
+<div class="bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="blog1.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 text-end">
+                <p>Copyright 2025 by <a href="#">------</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

@@ -38,7 +38,7 @@
                                 <div class="col-lg-6 col-md-12">
                                     <ul>
                                         <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
-                                        <li><i class="fa-thin fa-mug-saucer"></i> {% if room.includes_breakfast %} Breakfast {% else %} No Breakfast {% endif %}</li>
+                                        <li><i class="fa-thin fa-eye"></i> {{room.get_room_views_display }} </li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                 <div class="col-lg-6 col-md-12">
                                     <ul>
                                         <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
-                                        <li><i class="fa-thin fa-mug-saucer"></i> {% if room.includes_breakfast %} Breakfast {% else %} No Breakfast {% endif %}</li>
+                                        <li><i class="fa-thin fa-eye"></i> {{room.get_room_views_display }} </li>
                                     </ul>
                                 </div>
                             </div>
@@ -211,47 +211,42 @@
 <section class="faqs section-padding">
     <div class="container">
         <div class="row justify-content-center align-items-center">
+
+            <!-- Left side -->
             <div class="col-lg-5 col-md-12 mb-30">
                 <div class="section-subtitle">Popular Questions</div>
                 <div class="section-title">Frequently Asked Questions</div>
-                <p class="mb-25">The experience elementum sesue in the miss aucantion alesun in sapien fermen the miss caleustion in the sapien.</p> <a href="#" class="button-3">All Questions</a>
+                <p class="mb-25">Find answers to common questions about {{ room.hotel.name }}.</p>
+
+                <!-- Button to all questions page -->
+                <a href="" class="button-3">All Questions</a>
             </div>
+
+            <!-- Right side: Dynamic FAQs -->
             <div class="col-lg-6 offset-lg-1 col-md-12">
                 <ul class="accordion-box clearfix">
-                    <li class="accordion block">
-                        <div class="acc-btn">Do you have any discount code?</div>
-                        <div class="acc-content">
-                            <div class="content">
-                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                    {% for faq in faqs %}
+                        <li class="accordion block">
+                            <div class="acc-btn">{{ faq.question }}</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>{{ faq.answer }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </li> 
-                    <li class="accordion block">
-                        <div class="acc-btn">How can I get in touch with my hotel?</div>
-                        <div class="acc-content">
-                            <div class="content">
-                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
+                        </li>
+                    {% empty %}
+                        <li class="accordion block">
+                            <div class="acc-btn">No FAQs yet</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>Please contact us if you have any questions.</p>
+                                </div>
                             </div>
-                        </div>
-                    </li> 
-                    <li class="accordion block">
-                        <div class="acc-btn">Can I cancel my reservation?</div>
-                        <div class="acc-content">
-                            <div class="content">
-                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion block">
-                        <div class="acc-btn">Do you have hotels with a spa?</div>
-                        <div class="acc-content">
-                            <div class="content">
-                                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry sapien fermen drana inthe miss molestie non tempor fermen the varius vestibulum drana.</p>
-                            </div>
-                        </div>
-                    </li> 
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
+
         </div>
     </div>
 </section>
@@ -330,3 +325,66 @@
     </div>
 </section>
 {% endblock %}
+{% block footer_content%}
+<div class="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-30">
+                <div class="item">
+                    <div class="logo"><img src="{% static 'img/logo.png' %}" alt=""></div>
+                    <p>{{hotel.slogan}}</p>
+                    <div class="social-icons">
+                        <ul class="list-inline">
+                            <li><a href="https://instagram.com/your_page"><i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="https://facebook.com/your_page"><i class="fa-brands fa-facebook-f"></i></a></li>
+                            <li><a href="https://linkedin.com/your_page"><i class="fa-brands fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 offset-md-1 mb-30">
+                <div class="item">
+                    <h3>Contact us</h3>
+                    <p>{{ hotel.address|linebreaksbr }}</p>
+                    <div class="phone"><a href="tel:{{hotel.phone}}">{{hotel.phone}}</a></div>
+                    <div class="mail"><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-30">
+                <div class="item">
+                    <h3>Subscribe</h3>
+                    <p>Want to be notified about our services. Just sign up and we'll send you a notification by email.</p>
+                    <div class="newsletter">
+                        <form action="#">
+                            <input type="email" placeholder="Email Address" required>
+                            <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bottom -->
+<div class="bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="blog1.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 text-end">
+                <p>Copyright 2025 by <a href="#">------</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
