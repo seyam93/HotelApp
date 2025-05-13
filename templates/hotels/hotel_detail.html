@@ -398,6 +398,49 @@
             </div>
         </div>
     </section>
+    <!-- FAQs -->
+    <section class="faqs section-padding">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+    
+                <!-- Left side -->
+                <div class="col-lg-5 col-md-12 mb-30">
+                    <div class="section-subtitle">Popular Questions</div>
+                    <div class="section-title">Frequently Asked Questions</div>
+                    <p class="mb-25">Find answers to common questions about {{ room.hotel.name }}.</p>
+    
+                    <!-- Button to all questions page -->
+                    <a href="" class="button-3">All Questions</a>
+                </div>
+    
+                <!-- Right side: Dynamic FAQs -->
+                <div class="col-lg-6 offset-lg-1 col-md-12">
+                    <ul class="accordion-box clearfix">
+                        {% for faq in faqs %}
+                            <li class="accordion block">
+                                <div class="acc-btn">{{ faq.question }}</div>
+                                <div class="acc-content">
+                                    <div class="content">
+                                        <p>{{ faq.answer }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="accordion block">
+                                <div class="acc-btn">No FAQs yet</div>
+                                <div class="acc-content">
+                                    <div class="content">
+                                        <p>Please contact us if you have any questions.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+    
+            </div>
+        </div>
+    </section>
     <!-- Offers 2 -->
     <section class="offers2">
         <div class="container">
@@ -430,6 +473,7 @@
             <img id="tab-3" src={% static "img/banner/04.jpg"%} alt="" class="tab-img">
             <img id="tab-4" src={% static "img/banner/05.jpg"%} alt="" class="tab-img"> </div>
     </section>
+
     <!-- Booking Search -->
     <section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/01.jpg"%}>
         <div class="container">

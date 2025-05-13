@@ -20,10 +20,13 @@ from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import set_language
+from hotels import views as hotel_views
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('set-language/', set_language, name='set_language'),
+    path('', hotel_views.home, name='home-page'), # Home page
     path("", include("hotels.urls")),          # all hotel-related pages
     path("", include("restaurants.urls")),      # all restaurant-related pages
     path("", include("meeting_rooms.urls")),    # all meeting room-related pages

@@ -169,7 +169,7 @@ class Hotel(models.Model):
     address = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
-    slug = models.SlugField(unique=True, blank=True, null=True,editable=False)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
