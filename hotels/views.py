@@ -7,7 +7,11 @@ from collections import OrderedDict
 
 def home(request):
     hotels = Hotel.objects.all()
-    return render(request, 'hotels/home.html', {'hotels': hotels})
+    reviews = Review.objects.select_related('hotel').order_by('-created_at')[:6]
+    return render(request, 'hotels/home.html', {
+        'hotels': hotels,
+        'reviews': reviews,
+    })
 
 def about(request):
     return render(request, 'hotels/about.html')
