@@ -161,6 +161,7 @@ class Hotel(models.Model):
     name = models.CharField(max_length=255)
     slogan = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255, blank=True)
+    image_cover = models.ImageField(upload_to='hotel_covers/', null=True, blank=True, help_text="Signature image for carousel and listings")
     star_rating = models.PositiveSmallIntegerField(default=1, choices=[(i, f"{i} Star") for i in range(1, 6)])
     phone = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=100, blank=True)
@@ -181,8 +182,8 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
     
-
     def save(self, *args, **kwargs):
+        # Auto-generate unique slug
         if not self.slug and self.name:
             base_slug = slugify(self.name)
             slug = base_slug
@@ -191,6 +192,22 @@ class Hotel(models.Model):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = slug
+
+        # Resize image_cover if provided
+        if self.image_cover:
+            try:
+                img = Image.open(self.image_cover)
+                target_width, target_height = 1550, 1080
+                if img.width != target_width or img.height != target_height:
+                    img = img.resize((target_width, target_height), Image.LANCZOS)
+                    img_io = io.BytesIO()
+                    img_format = img.format or 'JPEG'
+                    img.save(img_io, format=img_format)
+                    img_content = ContentFile(img_io.getvalue(), self.image_cover.name)
+                    self.image_cover.save(self.image_cover.name, img_content, save=False)
+            except Exception as e:
+                print(f"Error resizing image_cover: {e}")
+
         super().save(*args, **kwargs)
 
     class Meta:

@@ -1,0 +1,45 @@
+<div class="ritz_carousel_container">
+  <div id="ritzCarltonCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      {% for hotel in hotels %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <img src="{{ hotel.image_cover.url }}" class="ritz_carousel_image" alt="{{ hotel.name }}">
+        <div class="ritz_desc_card">
+          <div class="ritz_subtitle">
+            {% if forloop.first %}NOW OPEN{% elif forloop.last %}NEW DESTINATION{% else %}FEATURED{% endif %}
+          </div>
+          <h2 class="ritz_title">{{ hotel.name }}</h2>
+          <p class="ritz_description">{{ hotel.description|truncatewords:20 }}</p>
+          <a href="{% url 'hotel-detail' hotel.slug %}" class="ritz_link">Explore More</a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="carousel-item active">
+        <img src="" class="ritz_carousel_image" alt="No Hotels Available">
+        <div class="ritz_desc_card">
+          <div class="ritz_subtitle">COMING SOON</div>
+          <h2 class="ritz_title">No Hotels Yet</h2>
+          <p class="ritz_description">Hotel data will appear here once added to the system.</p>
+          <a href="#" class="ritz_link">Return Home</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="ritz_carousel_navigation">
+      <button class="ritz_nav_button ritz_prev_button" type="button" data-target="#carousel" data-slide="prev">
+        <i class="fas fa-angle-left"></i> Previous
+      </button>
+
+      <div class="ritz_carousel_progress">
+        <div class="ritz_progress_bar" id="ritzProgressBar"></div>
+      </div>
+
+      <span class="ritz_counter" id="ritzSlideCounter">1 / {{ hotels|length|default:1 }}</span>
+
+      <button class="ritz_nav_button ritz_next_button" type="button" data-target="#carousel" data-slide="next">
+        Next <i class="fas fa-angle-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
