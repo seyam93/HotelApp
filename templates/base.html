@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Urbanist:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href={% static "css/plugins.css" %} />
     <link rel="stylesheet" href={% static "css/style.css" %} />
-    <link rel="stylesheet" href="{% static 'css/ritz_carousel.css' %}">
-    <link rel="stylesheet" href="{% static 'css/career_card.css' %}">
+    {% block extra_css %}{% endblock %}
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 </head>

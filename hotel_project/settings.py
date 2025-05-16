@@ -113,14 +113,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 # Email settings
 
+# settings.py
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.triumphhotel.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False  # important!
-EMAIL_HOST_USER = 'ahmed.seyam@triumphhotel.com'
-EMAIL_HOST_PASSWORD = '987654321'
-DEFAULT_FROM_EMAIL = 'info@triumphhotel.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ahmed.seyam.fci@gmail.com'           # your Gmail address
+EMAIL_HOST_PASSWORD = 'hswl jcqm ffdr ntrs'       # your 16-char App Password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

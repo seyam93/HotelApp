@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block title %}Careers | {{ hotel.name }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/career_card.css' %}">
+{% endblock %}
 {% block content %}
 
 <!-- Header Banner -->
@@ -72,6 +75,39 @@
         </div>
     </div>
 </section> {% endcomment %}
+<!-- Career Application Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="careerForm" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="applyModalLabel">Apply for <span id="jobTitleSpan"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="job_title" id="jobTitleInput">
+          <div class="mb-3"><input type="text" name="name" class="form-control" placeholder="Your Name" required></div>
+          <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
+          <div class="mb-3"><input type="text" name="phone" class="form-control" placeholder="Phone"></div>
+          <div class="mb-3"><textarea name="message" class="form-control" placeholder="Message (Optional)"></textarea></div>
+          <div class="mb-3"><input type="file" name="resume" class="form-control"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Send Application</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div id="careerToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="careerToastBody">Application sent successfully!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block script %}
 <script>
@@ -104,5 +140,61 @@
       }, 3000);
     }
   });
+</script>
+<script>
+  document.getElementById('careerForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+  const resumeInput = form.querySelector('[name="resume"]');
+  const resumeFile = resumeInput.files[0];
+
+  // ✅ File type and size validation
+  if (resumeFile) {
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const maxSizeMB = 5;
+
+    if (!allowedTypes.includes(resumeFile.type)) {
+      showToast('Only PDF or Word documents are allowed.', true);
+      return;
+    }
+    if (resumeFile.size > maxSizeMB * 1024 * 1024) {
+      showToast('File size must be less than 5MB.', true);
+      return;
+    }
+  }
+
+  // ✅ AJAX submission
+  fetch("{% url 'career-apply' %}", {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+    },
+    body: formData
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Application sent successfully!', false);
+        form.reset();
+        bootstrap.Modal.getInstance(document.getElementById('applyModal')).hide();
+      } else {
+        showToast('Failed to send application.', true);
+      }
+    })
+    .catch(() => showToast('Something went wrong.', true));
+});
+
+// ✅ Toast function
+function showToast(message, isError = false) {
+  const toastEl = document.getElementById('careerToast');
+  const toastBody = document.getElementById('careerToastBody');
+  toastEl.classList.remove('bg-success', 'bg-danger');
+  toastEl.classList.add(isError ? 'bg-danger' : 'bg-success');
+  toastBody.textContent = message;
+
+  new bootstrap.Toast(toastEl).show();
+}
 </script>
 {% endblock %}

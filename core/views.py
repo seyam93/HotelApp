@@ -5,7 +5,13 @@ from core.forms import CareerApplicationForm
 from hotels.models import Hotel, Review
 from hotels.models import Hotel, HotelService
 from staff.models import Manager
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail
 
+# Contact Page Function
 def hotel_contact_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
 
@@ -16,41 +22,35 @@ def hotel_contact_view(request, hotel_slug):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
 
-        # Save to database
-        ContactMessage.objects.create(
-            name=name,
-            email=email,
-            phone=phone,
-            subject=subject,
-            message=message,
-            hotel=hotel
-        )
-
-        # (Optional) Store full message string for future email logic
-        full_message = f"""
-New contact form message from {hotel.name}
+        email_body = f"""
+Hotel: {hotel.name}
 
 Name: {name}
 Email: {email}
 Phone: {phone}
-Subject: {subject}
+Subject: {subject or 'No subject'}
 
 Message:
 {message}
 """
 
-        # TEMPORARILY DISABLED:
-        # from django.core.mail import send_mail
-        # send_mail(
-        #     subject=f"[{hotel.name}] Contact Form: {subject or 'No Subject'}",
-        #     message=full_message,
-        #     from_email='no-reply@yourdomain.com',
-        #     recipient_list=['info@triumphhotel.com'],
-        #     fail_silently=False,
-        # )
+        try:
+            send_mail(
+                subject=f"[{hotel.name}] Contact Form: {subject or 'No Subject'}",
+                message=email_body,
+                from_email='no-reply@yourdomain.com',
+                recipient_list=['abo_seyam93@icloud.com'],
+                fail_silently=False,
+            )
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            messages.success(request, "Your message has been sent.")
+        except Exception as e:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': str(e)}, status=500)
+            messages.error(request, "Something went wrong.")
 
-        messages.success(request, "Your message has been sent.")
-        return redirect('hotel-contact', hotel_slug=hotel.slug)
+        return redirect('contact-page', hotel_slug=hotel.slug)  
 
     return render(request, 'hotels/contact.html', {'hotel': hotel})
 
@@ -92,6 +92,39 @@ def careers_page(request, hotel_slug):
         'careers': careers
     })
 
+# Career Application Form
+@require_POST
+@csrf_exempt  # optional if using AJAX with CSRF token correctly
+def send_career_application(request):
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
+    message = request.POST.get('message')
+    job_title = request.POST.get('job_title')
+    resume = request.FILES.get('resume')
+
+    subject = f"New Career Application for: {job_title}"
+    body = (
+        f"Job Title: {job_title}\n\n"
+        f"Name: {name}\n"
+        f"Email: {email}\n"
+        f"Phone: {phone}\n\n"
+        f"Message:\n{message}"
+    )
+
+    to_email = 'abo_seyam93@icloud.com'  # 🔴 replace with your real HR or notification email
+
+    email_msg = EmailMessage(subject, body, to=[to_email])
+
+    if resume:
+        email_msg.attach(resume.name, resume.read(), resume.content_type)
+
+    try:
+        email_msg.send()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
 # Career_details page function & form submission
 def career_detail(request, hotel_slug, career_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)

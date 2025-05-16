@@ -1,47 +1,52 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}Contact | {{ hotel.name }}{% endblock %}
+{% block title %}Contact | {{ hotel.name|default:"Our Hotel" }}{% endblock %}
 
 {% block content %}
 
 <!-- Header Banner -->
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% if hotel.contact_banner %}{{ hotel.contact_banner.url }}{% else %}{% static 'img/contact.jpg' %}{% endif %}">
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{% if hotel.contact_banner %}{{ hotel.contact_banner.url }}{% else %}{% static 'img/contact.jpg' %}{% endif %}">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="subtitle">Get in touch</div> <br>
-                <div class="subtitle">{{hotel.name}}</div>
+            <div class="col-md-12 text-center">
+                <div class="subtitle">Get in touch</div><br>
+                <div class="subtitle">{{ hotel.name|default:"Our Hotel" }}</div>
                 <div class="title">Contact Us</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contact -->
+<!-- Contact Section -->
 <section class="contact section-padding">
     <div class="container">
         <div class="row">
-            <!-- Hotel Info Boxes -->
+            <!-- Hotel Info -->
             <div class="col-lg-7 col-md-12">
                 <div class="row mb-30">
+                    <!-- Address Card -->
                     <div class="col-lg-6 col-md-12 mb-25">
                         <div class="item">
                             <div class="front">
                                 <div class="contents">
                                     <span class="fa-thin fa-location-dot"></span>
-                                    <h2 class="title">{{ hotel.name }}</h2>
-                                    <p class="text">{{ hotel.address|default:"Hotel address not provided." }}</p>
+                                    <h2 class="title">{{ hotel.name|default:"Hotel Name" }}</h2>
+                                    <p class="text">{{ hotel.address|default:"Address not provided." }}</p>
                                 </div>
                             </div>
                             <div class="back">
-                                <img class="img img-fluid" src="{% if hotel.contact_image1 %}{{ hotel.contact_image1.url }}{% else %}{% static 'img/contact2.jpg' %}{% endif %}" alt="{{ hotel.name }} Location">
+                                <img class="img img-fluid"
+                                     src="{% if hotel.contact_image1 %}{{ hotel.contact_image1.url }}{% else %}{% static 'img/contact2.jpg' %}{% endif %}"
+                                     alt="{{ hotel.name }} Location">
                                 <div class="contents">
                                     <div class="btnx">Location map</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Phone Card -->
                     <div class="col-lg-6 col-md-12 mb-25">
                         <div class="item">
                             <div class="front">
@@ -52,7 +57,9 @@
                                 </div>
                             </div>
                             <div class="back">
-                                <img class="img img-fluid" src="{% if hotel.contact_image2 %}{{ hotel.contact_image2.url }}{% else %}{% static 'img/contact3.jpg' %}{% endif %}" alt="{{ hotel.name }} Contact">
+                                <img class="img img-fluid"
+                                     src="{% if hotel.contact_image2 %}{{ hotel.contact_image2.url }}{% else %}{% static 'img/contact3.jpg' %}{% endif %}"
+                                     alt="{{ hotel.name }} Contact">
                                 <div class="contents">
                                     <div class="btnx">Talk with us</div>
                                 </div>
@@ -61,54 +68,63 @@
                     </div>
                 </div>
 
-                <!-- Map Section -->
+                <!-- Embedded Map -->
+                {% if hotel.map_embed_url %}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="map">
-                            <iframe src="{{ hotel.map_embed_url }}" width="100%" height="450" style="border:0; border-radius: 5px;" allowfullscreen="" loading="lazy"></iframe>
+                            <iframe src="{{ hotel.map_embed_url }}" width="100%" height="450" style="border:0; border-radius: 5px;" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
                 </div>
-                <!-- Weather Widget -->
-                    <div class="weather-widget-container" style="margin: 30px 0;">
-                        <a class="weatherwidget-io" href="https://forecast7.com/en/30d0431d24/cairo/" data-label_1="CAIRO" data-label_2="WEATHER" data-font="Verdana" data-icons="Climacons Animated" data-theme="original" >CAIRO WEATHER</a>
-                    </div>
+                {% endif %}
 
-<!-- Weather Widget Script -->
-<script>
-!function(d,s,id){
-  var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){
-    js=d.createElement(s);js.id=id;
-    js.src='https://weatherwidget.io/js/widget.min.js';
-    fjs.parentNode.insertBefore(js,fjs);
-  }
-}(document,'script','weatherwidget-io-js');
-</script>
+                <!-- Weather Widget -->
+                {% if hotel.city and hotel.latitude and hotel.longitude %}
+                <div class="weather-widget-container my-4">
+                    <a class="weatherwidget-io"
+                       href="https://forecast7.com/en/{{ hotel.latitude|stringformat:"0.2f" }}d{{ hotel.longitude|stringformat:"0.2f" }}/{{ hotel.city|slugify }}/"
+                       data-label_1="{{ hotel.city|upper }}" data-label_2="WEATHER" data-font="Verdana"
+                       data-icons="Climacons Animated" data-theme="original">
+                        {{ hotel.city|upper }} WEATHER
+                    </a>
+                </div>
+                <script>
+                    !function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = 'https://weatherwidget.io/js/widget.min.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'weatherwidget-io-js');
+                </script>
+                {% endif %}
             </div>
 
             <!-- Contact Form -->
             <div class="col-lg-4 offset-lg-1 col-md-12">
                 <div class="form2-sidebar mt--240">
-                    <form method="POST" action="{% url 'contact-page' hotel.slug %}" class="form2">
+                    <form method="POST" action="{% url 'contact-page' hotel.slug %}" class="form2" id="contactForm">
                         {% csrf_token %}
                         <div class="head"><h5>Get in touch!</h5></div>
                         <div class="cont">
                             <div class="row">
                                 <div class="col-lg-12 form-group">
-                                    <input type="text" name="name" placeholder="Name" value="{{ request.POST.name }}" required>
+                                    <input type="text" name="name" placeholder="Name" required>
                                 </div>
                                 <div class="col-lg-12 form-group">
-                                    <input type="email" name="email" placeholder="Email" value="{{ request.POST.email }}" required>
+                                    <input type="email" name="email" placeholder="Email" required>
                                 </div>
                                 <div class="col-lg-12 form-group">
-                                    <input type="text" name="phone" placeholder="Phone" value="{{ request.POST.phone }}" required>
+                                    <input type="text" name="phone" placeholder="Phone" required>
                                 </div>
                                 <div class="col-md-12 form-group">
-                                    <input type="text" name="subject" placeholder="Subject" value="{{ request.POST.subject }}">
+                                    <input type="text" name="subject" placeholder="Subject">
                                 </div>
                                 <div class="col-md-12 form-group">
-                                    <textarea name="message" rows="4" placeholder="Message" required>{{ request.POST.message }}</textarea>
+                                    <textarea name="message" rows="4" placeholder="Message" required></textarea>
                                 </div>
                                 <div class="col-md-12">
                                     <button type="submit" class="button-3"><i class="fa-light fa-paper-plane"></i> Submit</button>
@@ -117,11 +133,26 @@
                         </div>
                     </form>
 
+                    <!-- Bootstrap Toast -->
+                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+                        <div id="contactToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+                            <div class="d-flex">
+                                <div class="toast-body" id="contactToastBody">Message sent successfully!</div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            </div>
+                        </div>
+                    </div>
+
                     {% if messages %}
                         {% for message in messages %}
-                            <div class="alert alert-success mt-3" role="alert">
-                                {{ message }}
-                            </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const toastBody = document.getElementById('contactToastBody');
+                                    toastBody.textContent = "{{ message|escapejs }}";
+                                    const toast = new bootstrap.Toast(document.getElementById('contactToast'));
+                                    toast.show();
+                                });
+                            </script>
                         {% endfor %}
                     {% endif %}
                 </div>

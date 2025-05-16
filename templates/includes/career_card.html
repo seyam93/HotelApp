@@ -1,11 +1,12 @@
+{% load static %}
 <div class="job-card">
   <div class="row">
     <div class="col">
       <div class="d-flex align-items-start">
         <!-- Company Logo with improved spacing -->
-        <div class="company-logo spaced-logo text-center">
-          Triumph Hotels
-        </div>
+      <div class="company-logo spaced-logo text-center">
+          <img src="{% static 'img/favicon.png' %}" alt="Triumph Hotels Logo" style="height: 60px;">
+      </div>
 
         <!-- Career Content -->
         <div>
@@ -32,9 +33,9 @@
           </div>
 
           <div class="action-buttons">
-            <a href="" class="btn btn-apply">
+            <button class="btn btn-apply" data-bs-toggle="modal" data-bs-target="#applyModal" data-job="{{ career.job_title }}">
               <i class="fas fa-paper-plane mr-1"></i> Apply Now
-            </a>
+            </button>
           </div>
         </div>
       </div>
