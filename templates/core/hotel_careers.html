@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Careers | {{ hotel.name }}{% endblock %}
+{% block content %}
+
+<!-- Header Banner -->
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% if hotel.contact_banner %}{{ hotel.contact_banner.url }}{% else %}{% static 'img/contact.jpg' %}{% endif %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="subtitle">Careers</div> <br>
+                <div class="subtitle">{{hotel.name}}</div>
+                <div class="title">Apply Now</div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Careers Section -->
+<div class="container mt-5">
+  <div class="row">
+    {% for career in careers %}
+      <div class="col-md-6 mb-4">
+        {% include "includes/career_card.html" with career=career %}
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p>No career opportunities available right now.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+            {% comment %} <!-- Contact Form -->
+            <div class="col-lg-4 offset-lg-1 col-md-12">
+                <div class="form2-sidebar mt--240">
+                    <form method="POST" action="{% url 'contact-page' hotel.slug %}" class="form2">
+                        {% csrf_token %}
+                        <div class="head"><h5>Apply Now !!</h5></div>
+                        <div class="cont">
+                            <div class="row">
+                                <div class="col-lg-12 form-group">
+                                    <input type="text" name="name" placeholder="Name" value="{{ request.POST.name }}" required>
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <input type="email" name="email" placeholder="Email" value="{{ request.POST.email }}" required>
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <input type="text" name="phone" placeholder="Phone" value="{{ request.POST.phone }}" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <input type="text" name="subject" placeholder="Subject" value="{{ request.POST.subject }}">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <textarea name="message" rows="4" placeholder="Message" required>{{ request.POST.message }}</textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="button-3"><i class="fa-light fa-paper-plane"></i> Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success mt-3" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section> {% endcomment %}
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#favoriteBtn').on('click', function () {
+      $(this).toggleClass('active');
+      const message = $(this).hasClass('active')
+              ? 'Job saved to favorites!'
+              : 'Job removed from favorites!';
+      showToast(message);
+    });
+
+    function showToast(message) {
+      $('#toastMessage').text(message);
+      $('#toastNotification')
+              .removeClass('animate__fadeOutRight')
+              .addClass('animate__fadeInRight')
+              .css('display', 'block');
+
+      setTimeout(() => {
+        $('#toastNotification')
+                .removeClass('animate__fadeInRight')
+                .addClass('animate__fadeOutRight');
+
+        setTimeout(() => {
+          $('#toastNotification').css('display', 'none');
+        }, 1000);
+      }, 3000);
+    }
+  });
+</script>
+{% endblock %}

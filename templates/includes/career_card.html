@@ -1,0 +1,51 @@
+<div class="job-card">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex align-items-start">
+        <!-- Company Logo with improved spacing -->
+        <div class="company-logo spaced-logo text-center">
+          Triumph Hotels
+        </div>
+
+        <!-- Career Content -->
+        <div>
+          <div class="category-tag mb-1">{{ career.hotel.name }} Careers</div>
+          <h3 class="job-title mb-1">{{ career.job_title }}</h3>
+          <div class="job-description">{{ career.job_description }}</div>
+
+          <div class="job-requirements">
+            <h6>Job Requirements:</h6>
+            <ul>
+              {% for req in career.job_requirements.splitlines %}
+                <li>{{ req }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="job-date">
+            <i class="far fa-calendar-alt mr-1"></i>
+            Posted: {{ career.created_at|date:"F j, Y" }}
+          </div>
+
+          <div>
+            <span class="job-badge">{{ career.get_job_type_display }}</span>
+          </div>
+
+          <div class="action-buttons">
+            <a href="" class="btn btn-apply">
+              <i class="fas fa-paper-plane mr-1"></i> Apply Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favorite Icon -->
+    {% comment %} <div class="col-auto">
+      <div class="tooltip-wrapper">
+        <i class="fas fa-heart heart-icon"></i>
+        <div class="tooltip-custom">Save Job</div>
+      </div>
+    </div> {% endcomment %}
+  </div>
+</div>

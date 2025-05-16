@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 # Create your models here.
 class FAQ(models.Model):
@@ -143,3 +144,51 @@ class HotelArticle(models.Model):
         verbose_name = "Hotel Article"
         verbose_name_plural = "Hotel Articles"
         ordering = ['-created_at']
+
+# This model is used to store career opportunities for hotels.
+class Career(models.Model):
+    hotel = models.ForeignKey('hotels.Hotel', on_delete=models.CASCADE, related_name='careers')
+    job_title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+
+    job_description = models.TextField()
+    job_requirements = models.TextField(help_text="Separate each requirement with a line break", blank=True, null=True)
+    job_location = models.CharField(max_length=255, null=True, blank=True)
+    job_type = models.CharField(
+        max_length=50,
+        choices=[('full_time', 'Full Time'), ('part_time', 'Part Time'), ('internship', 'Internship')],
+        null=True, blank=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.job_title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.job_title)
+            unique_slug = base_slug
+            counter = 1
+            while Career.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Career"
+        verbose_name_plural = "Careers"
+        ordering = ['-created_at']
+
+# This model is used to store career applications.
+class CareerApplication(models.Model):
+    career = models.ForeignKey('Career', on_delete=models.CASCADE, related_name='applications')
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    message = models.TextField(blank=True)
+    resume = models.FileField(upload_to='careers/resumes/', blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.career.job_title}"

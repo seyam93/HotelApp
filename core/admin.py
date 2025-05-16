@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions, HotelArticle, ContactMessage, Partner
+from core.models import FAQ, Contact, Newsletter, Feedback, PrivacyPolicy, TermsAndConditions, HotelArticle, ContactMessage, Partner, Career, CareerApplication
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
@@ -76,3 +76,20 @@ class TermsAndConditionsAdmin(admin.ModelAdmin):
     def get_hotels(self, obj):
         return ", ".join([h.name for h in obj.hotels.all()])
     get_hotels.short_description = "Hotels"
+
+@admin.register(Career)
+class CareerAdmin(admin.ModelAdmin):
+    list_display = ('job_title', 'created_at')
+    search_fields = ('job_title', 'location')
+    ordering = ['-created_at']
+
+@admin.register(CareerApplication)
+class CareerApplicationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'get_job_title', 'submitted_at')
+    search_fields = ('name', 'email', 'career__job_title')
+    list_filter = ('career__hotel',)
+    ordering = ['-submitted_at']
+
+    def get_job_title(self, obj):
+        return obj.career.job_title
+    get_job_title.short_description = "Job Title"

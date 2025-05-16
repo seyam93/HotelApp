@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}FAQs | {{ hotel.name}}{% endblock %}
+{% block content %}
+    <!-- Header Banner -->
+    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="img/banner/19.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="subtitle">F.A.Qs</div>
+                    <div class="title">Hotel Questions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQs -->
+    <section class="faqs section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-12 mb-30">
+                <ul class="accordion-box clearfix">
+                    {% for faq in faqs %}
+                        <li class="accordion block">
+                            <div class="acc-btn">{{ faq.question }}</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>{{ faq.answer }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="accordion block">
+                            <div class="acc-btn">No FAQs found.</div>
+                            <div class="acc-content">
+                                <div class="content">
+                                    <p>This hotel currently has no FAQs available.</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div> 
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center mt-30">
+                <div class="section-info">
+                    <div class="tag">Questions</div>
+                    <div class="desc">
+                        You can send your questions to the mail address:
+                        <a href="mailto:{{hotel.email}}" class="text-decoration-line-bottom">{{hotel.email}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

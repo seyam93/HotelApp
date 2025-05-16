@@ -13,6 +13,7 @@
     <link rel="stylesheet" href={% static "css/plugins.css" %} />
     <link rel="stylesheet" href={% static "css/style.css" %} />
     <link rel="stylesheet" href="{% static 'css/ritz_carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/career_card.css' %}">
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 </head>
@@ -48,17 +49,17 @@
             <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-detail' hotel.slug %}">{% trans "Home" %}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">{% trans "Dining" %}</a></li>
-
-                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-detail' hotel.slug %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms & Suites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'restaurant-list' hotel_slug=hotel.slug %}">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}">Services</a></li>
+                    {% comment %} <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Services <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Facilities</span></a></li>
-                            {% comment %} <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li> {% endcomment %}
+                            <li><a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Amenities</span></a></li>
                             <li><a href="{% url 'offer-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Special Offers</span></a></li>
                         </ul>
-                    </li>
+                    </li> {% endcomment %}
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Events <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             {% comment %} <li><a href="{% url 'hotel-event-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Events</span></a></li> {% endcomment %}
@@ -66,18 +67,20 @@
                             <li><a href="{% url 'wedding-meeting-rooms' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Wedding Venues</span></a></li>   
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'offer-page' hotel_slug=hotel.slug %}">Offers</a></li>
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Gallery <i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'image-gallery-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Image Gallery</span></a></li>
                             <li><a href="{% url 'video-gallery-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Video Gallery</span></a></li>  
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact-page' hotel_slug=hotel.slug %}">Contact Us</a></li>
                     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">About<i class="fa-light fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>About Us</span></a></li>
-                            <li><a href="faq.html" class="dropdown-item"><span>FAQs</span></a></li>
+                            <li><a href="{% url 'contact-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Contact Us</span></a></li>
+                            <li><a href="{% url 'faqs-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>FAQs</span></a></li>
                             <li><a href="{% url 'team-list-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Our Team</span></a></li>
+                            <li><a href="{% url 'careers-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Careers</span></a></li>
                         </ul>
                     </li>
                 </ul>

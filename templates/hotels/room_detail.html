@@ -10,9 +10,15 @@
                 <h5>{{hotel.name}}</h5>
                 <h1>{{ room.name}}</h1>
                 <div class="details"> 
-                    <span><i class="fa-thin fa-bed-front"></i>{{room.number_of_beds}} Bed</span>
+                    {% if room.number_of_beds %}
+                        <span><i class="fa-thin fa-bed-front"></i>{{ room.number_of_beds }} Bed</span>
+                    {% endif %}
+                    {% if room.area %}
                     <span><i class="fa-thin fa-expand"></i>{{ room.area }} Sqm</span>
+                    {% endif %}
+                    {% if room.number_of_bathrooms %}
                     <span><i class="fa-thin fa-bath"></i>{{room.number_of_bathrooms}} Bathroom</span>
+                    {% endif %}
                     {% if room.includes_breakfast %}
                     <span><i class="fa-thin fa-mug-saucer"></i> Breakfast</span> 
                     {% endif %}
