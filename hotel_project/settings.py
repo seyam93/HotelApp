@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "restaurants",
     "meeting_rooms",
     "core",
+    "common",
     "events",
     "jazzmin",
     "django_extensions",

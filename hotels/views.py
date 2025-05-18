@@ -4,9 +4,10 @@ import json
 from django.db.models import Prefetch
 from core.models import FAQ
 from collections import OrderedDict
-from hotels.utils import get_page_banner
+from common.utils import get_page_banner
 from urllib.parse import urlencode
 
+# Main Hotels Home Page
 def home(request):
     hotels = Hotel.objects.all()
     reviews = Review.objects.select_related('hotel').order_by('-created_at')[:6]
@@ -17,10 +18,12 @@ def home(request):
         'banner': banner,
     })
 
+# About Page
 def about(request):
     banner = get_page_banner(None, 'about')
     return render(request, 'hotels/about.html', {'banner': banner})
 
+# Single Hotel Home Page 
 def hotel_detail(request, slug):
     hotel_qs = Hotel.objects.prefetch_related(
         'rooms', 'hotel_images', 'welcome_messages', 'facilities', 'reviews',
@@ -50,18 +53,21 @@ def hotel_detail(request, slug):
         'banner': banner,
     })
 
+# All Rooms Page For a certain Hotel
 def hotel_rooms(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
     banner = get_page_banner(hotel, 'rooms')
     return render(request, 'hotels/hotel_rooms.html', {'hotel': hotel, 'rooms': rooms, 'banner': banner})
 
+# Room Detail For certain Hotel
 def room_detail(request, hotel_slug, room_slug):
     room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
     faqs = room.hotel.faqs.all()[:4]
     banner = get_page_banner(room.hotel, 'rooms')
     return render(request, 'hotels/room_detail.html', {'room': room, 'hotel': room.hotel, 'faqs': faqs, 'banner': banner})
 
+# Facilities Page
 def hotel_facilities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     featured_active_facilities = Facility.objects.filter(hotel=hotel, is_active=True, is_featured=True).prefetch_related('images').order_by('type', 'name')
@@ -76,24 +82,28 @@ def hotel_facilities_view(request, hotel_slug):
         'banner': banner,
     })
 
+# Offers Page
 def offer_list_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     offers = hotel.offers.filter(is_active=True).order_by('-start_date')
     banner = get_page_banner(hotel, 'offers')
     return render(request, 'hotels/hotel_offers.html', {'hotel': hotel, 'offers': offers, 'banner': banner})
 
+# Amenities Page
 def hotel_amenities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     services = HotelService.objects.filter(hotel=hotel, featured=True, is_active=True).order_by('title')
     banner = get_page_banner(hotel, 'services')
     return render(request, 'hotels/hotel_amenities.html', {'hotel': hotel, 'services': services, 'banner': banner})
 
+# Image Gallery Page
 def image_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='image', image__isnull=False)
     banner = get_page_banner(hotel, 'images')
     return render(request, 'hotels/image_gallery.html', {'hotel': hotel, 'items': items, 'banner': banner})
 
+# Video Gallery Page
 def video_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='video')

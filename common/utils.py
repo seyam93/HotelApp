@@ -1,4 +1,4 @@
-from .models import HotelVideoBanner, HotelPageBanner
+from hotels.models import HotelVideoBanner, HotelPageBanner
 
 def get_page_banner(hotel, page):
     video = HotelVideoBanner.objects.filter(hotel=hotel, page=page).first()
