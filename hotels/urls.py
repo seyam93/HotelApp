@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from django.views.generic import TemplateView
+from .views import booking_redirect
 
 urlpatterns = [
     path('', views.home, name='home-page'),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('home/<slug:hotel_slug>/image-gallery/', views.image_gallery, name='image-gallery-page'),
     path('home/<slug:hotel_slug>/video-gallery/', views.video_gallery, name='video-gallery-page'),
     path('test-gallery/', TemplateView.as_view(template_name='hotels/test_gallery.html')),
+    path('booking/redirect/', booking_redirect, name='booking-redirect'),
 ]

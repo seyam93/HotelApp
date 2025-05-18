@@ -1,0 +1,75 @@
+<!-- includes/booking_form.html -->
+<form action="{% url 'booking-redirect' %}" method="post" class="form1 clearfix">
+  {% csrf_token %}
+  <input type="hidden" name="hotel_id" value="{{ hotel.synxis_hotel_id }}">
+
+  <!-- Check-in -->
+  <div class="col1 c1">
+    <div class="input1_wrapper border-l border-b border-t border-r br-5005">
+      <label>Check in</label>
+      <div class="input1_inner">
+        <input type="text" name="arrival" class="form-control input datepicker" placeholder="Check in" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-out -->
+  <div class="col1 c2">
+    <div class="input1_wrapper border-l border-b border-t border-r">
+      <label>Check out</label>
+      <div class="input1_inner">
+        <input type="text" name="departure" class="form-control input datepicker" placeholder="Check out" required>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adults -->
+  <div class="col2 c3">
+    <div class="select1_wrapper border-l border-b border-t border-r">
+      <label>Adults</label>
+      <div class="select1_inner">
+        <select name="adults" class="select2 select" style="width: 100%">
+          <option value="1">1 Adult</option>
+          <option value="2">2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Children -->
+  <div class="col2 c4">
+    <div class="select1_wrapper border-l border-b border-t border-r">
+      <label>Children</label>
+      <div class="select1_inner">
+        <select name="children" class="select2 select" style="width: 100%">
+          <option value="0">No Children</option>
+          <option value="1">1 Child</option>
+          <option value="2">2 Children</option>
+          <option value="3">3 Children</option>
+          <option value="4">4 Children</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rooms (optional) -->
+  <div class="col2 c5">
+    <div class="select1_wrapper border-l border-b border-t border-r">
+      <label>Rooms</label>
+      <div class="select1_inner">
+        <select name="rooms" class="select2 select" style="width: 100%">
+          <option value="1">1 Room</option>
+          <option value="2">2 Rooms</option>
+          <option value="3">3 Rooms</option>
+          <option value="4">4 Rooms</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col3 c6">
+    <button type="submit" class="btn-form1-submit">Check Now</button>
+  </div>
+</form>

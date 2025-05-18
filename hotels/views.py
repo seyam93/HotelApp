@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
 from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer
 import json 
 from django.db.models import Prefetch
 from core.models import FAQ
 from collections import OrderedDict
 from hotels.utils import get_page_banner
+from urllib.parse import urlencode
 
 def home(request):
     hotels = Hotel.objects.all()
@@ -99,3 +100,20 @@ def video_gallery(request, hotel_slug):
     banner = get_page_banner(hotel, 'video')
     return render(request, 'hotels/video_gallery.html', {'hotel': hotel, 'videos': items, 'banner': banner})
 
+# booking Engine Views 
+def booking_redirect(request):
+    if request.method == 'POST':
+        base_url = "https://be.synxis.com/"
+        chain_id = "29071"
+        hotel_id = request.POST.get('hotel_id')
+
+        params = {
+            'chain': chain_id,
+            'hotel': hotel_id,
+            'arrive': request.POST.get('arrival'),
+            'depart': request.POST.get('departure'),
+            'adult': request.POST.get('adults', 1),
+            'child': request.POST.get('children', 0),
+        }
+
+        return redirect(f"{base_url}?{urlencode(params)}")

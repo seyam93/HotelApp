@@ -159,6 +159,12 @@ class FacilityImage(models.Model):
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
+    synxis_hotel_id = models.CharField(
+        max_length=20,
+        help_text="The hotel ID used by SynXis booking engine",
+        null=True,
+        blank=True
+    )
     slogan = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255, blank=True)
     image_cover = models.ImageField(upload_to='hotel_covers/', null=True, blank=True, help_text="Signature image for carousel and listings")
