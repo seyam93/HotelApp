@@ -173,7 +173,30 @@
             </div>
         </div>
     </section>
-    <!-- Testimonials -->
+        <!-- Video -->
+    <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background={% static "img/banner/01.jpg"%}>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-12 text-center rotatex">
+                    <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
+                        <div class="rotate-circle rotate-text">
+                            <svg class="textcircle" viewBox="0 0 500 500">
+                                <defs>
+                                    <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
+                                </defs>
+                                <text>
+                                    <textPath xlink:href="#textcircle" textLength="900"> {{hotel.name}} </textPath>
+                                </text>
+                            </svg>
+                        </div> <span class="icon"> <i class="fas fa-play"></i> </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- video text -->
+        <div class="video-text">videos</div>
+    </section>
+    {% comment %} <!-- Testimonials -->
     <section class="testimonials">
         <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{% static 'img/banner/02.jpg' %}">
             <div class="container">
@@ -219,16 +242,16 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- Amenities -->
     <section class="amenities section-padding">
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-4 col-md-12 mb-30">
                     <div class="section-subtitle">Hotel Services</div>
-                    <div class="section-title">Amenities</div>
+                    <div class="section-title">Facilities & Services</div>
                     <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
-                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">All Amenities</a>
+                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">More</a>
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="row">
@@ -258,30 +281,8 @@
             </div>
         </div>
     </section>
-    <!-- Video -->
-    <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background={% static "img/banner/01.jpg"%}>
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-md-12 text-center rotatex">
-                    <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
-                        <div class="rotate-circle rotate-text">
-                            <svg class="textcircle" viewBox="0 0 500 500">
-                                <defs>
-                                    <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
-                                </defs>
-                                <text>
-                                    <textPath xlink:href="#textcircle" textLength="900"> {{hotel.name}} </textPath>
-                                </text>
-                            </svg>
-                        </div> <span class="icon"> <i class="fas fa-play"></i> </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- video text -->
-        <div class="video-text">videos</div>
-    </section>
-    <!-- Pricing 1 -->
+
+    {% comment %} <!-- Pricing 1 -->
     <section class="pricing1 section-padding">
         <div class="container">
             <div class="row justify-content-center">
@@ -337,6 +338,38 @@
                 </div>
             </div>
         </div>
+    </section> {% endcomment %}
+      <!-- Offers 2 -->
+    <section class="offers2">
+        <div class="container">
+            <div class="row gx-0">
+                <div class="col-lg-3">
+                    <a href="#" class="item" data-tab="tab-1">
+                        <h5>Stay</h5>
+                    </a>
+                </div>
+                <div class="col-lg-3">
+                    <a href="#" class="item" data-tab="tab-2">
+                        <h5>Dine</h5>
+                    </a>
+                </div>
+                <div class="col-lg-3">
+                    <a href="#" class="item" data-tab="tab-3">
+                        <h5>Relax</h5>
+                    </a>
+                </div>
+                <div class="col-lg-3">
+                    <a href="#" class="item" data-tab="tab-4">
+                        <h5>Weddings</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="glry-img"> 
+            <img id="tab-1" src={% static "img/rooms/01.jpg"%} alt="" class="tab-img current">
+            <img id="tab-2" src={% static "img/banner/03.jpg"%} alt="" class="tab-img">
+            <img id="tab-3" src={% static "img/banner/04.jpg"%} alt="" class="tab-img">
+            <img id="tab-4" src={% static "img/banner/05.jpg"%} alt="" class="tab-img"> </div>
     </section>
     <!-- FAQs -->
     <section class="faqs section-padding">
@@ -381,38 +414,7 @@
             </div>
         </div>
     </section>
-    <!-- Offers 2 -->
-    <section class="offers2">
-        <div class="container">
-            <div class="row gx-0">
-                <div class="col-lg-3">
-                    <a href="#" class="item" data-tab="tab-1">
-                        <h5>Stay</h5>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="#" class="item" data-tab="tab-2">
-                        <h5>Dine</h5>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="#" class="item" data-tab="tab-3">
-                        <h5>Relax</h5>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="#" class="item" data-tab="tab-4">
-                        <h5>Weddings</h5>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="glry-img"> 
-            <img id="tab-1" src={% static "img/rooms/01.jpg"%} alt="" class="tab-img current">
-            <img id="tab-2" src={% static "img/banner/03.jpg"%} alt="" class="tab-img">
-            <img id="tab-3" src={% static "img/banner/04.jpg"%} alt="" class="tab-img">
-            <img id="tab-4" src={% static "img/banner/05.jpg"%} alt="" class="tab-img"> </div>
-    </section>
+
     {% comment %} <!-- Booking Search -->
     <section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/01.jpg"%}>
     <div class="booking-wrapper">
