@@ -39,7 +39,7 @@ Message:
                 subject=f"[{hotel.name}] Contact Form: {subject or 'No Subject'}",
                 message=email_body,
                 from_email='no-reply@yourdomain.com',
-                recipient_list=['abo_seyam93@icloud.com'],
+                recipient_list=['info@triumphhotel.com'],
                 fail_silently=False,
             )
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -112,7 +112,7 @@ def send_career_application(request):
         f"Message:\n{message}"
     )
 
-    to_email = 'abo_seyam93@icloud.com'  # 🔴 replace with your real HR or notification email
+    to_email = 'info@triumphhotel.com'  # 🔴 replace with your real HR or notification email
 
     email_msg = EmailMessage(subject, body, to=[to_email])
 
