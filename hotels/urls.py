@@ -16,4 +16,5 @@ urlpatterns = [
     path('home/<slug:hotel_slug>/video-gallery/', views.video_gallery, name='video-gallery-page'),
     path('test-gallery/', TemplateView.as_view(template_name='hotels/test_gallery.html')),
     path('booking/redirect/', booking_redirect, name='booking-redirect'),
+    path('subscribe/', views.subscribe_newsletter, name='subscribe-newsletter'),
 ]

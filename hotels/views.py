@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
-from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer
+from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer, NewsletterSubscriber
 import json 
 from django.db.models import Prefetch
 from core.models import FAQ
 from collections import OrderedDict
 from common.utils import get_page_banner
 from urllib.parse import urlencode
+from django.shortcuts import redirect
+from django.contrib import messages
+
 
 # Main Hotels Home Page
 def home(request):
@@ -127,3 +130,12 @@ def booking_redirect(request):
         }
 
         return redirect(f"{base_url}?{urlencode(params)}")
+    
+# Newsletter Subscription
+def subscribe_newsletter(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        if email:
+            NewsletterSubscriber.objects.get_or_create(email=email)
+            messages.success(request, "Thanks for subscribing!")
+    return redirect(request.META.get('HTTP_REFERER', '/'))

@@ -159,13 +159,9 @@ class FacilityImage(models.Model):
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
-    synxis_hotel_id = models.CharField(
-        max_length=20,
-        help_text="The hotel ID used by SynXis booking engine",
-        null=True,
-        blank=True
-    )
+    synxis_hotel_id = models.CharField(max_length=20, help_text="The hotel ID used by SynXis booking engine", null=True,blank=True)
     slogan = models.CharField(max_length=255, blank=True)
+    logo = models.ImageField(upload_to='hotel_logos/', null=True, blank=True, help_text="Logo for the hotel")
     title = models.CharField(max_length=255, blank=True)
     image_cover = models.ImageField(upload_to='hotel_covers/', null=True, blank=True, help_text="Signature image for carousel and listings")
     star_rating = models.PositiveSmallIntegerField(default=1, choices=[(i, f"{i} Star") for i in range(1, 6)])
@@ -219,18 +215,22 @@ class Hotel(models.Model):
     class Meta:
         ordering = ['name']
 
+# Social Media Links Models
 class SocialLink(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='social_links', on_delete=models.CASCADE)
     platform = models.CharField(max_length=50, choices=SOCIAL_CHOICES)
     url = models.URLField()
+    icon = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.hotel.name} - {self.get_platform_display()}"
 
+# Hotel Image Models
 class HotelImage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="hotel_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='hotel_images/')
     caption = models.CharField(max_length=255, blank=True, null=True)
+    
 
     def save(self, *args, **kwargs):
 
@@ -249,7 +249,7 @@ class HotelImage(models.Model):
     def __str__(self):
         return f"Image for {self.hotel.name}"
 
-
+# Welcome Message Models
 class WelcomeMessage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name="welcome_messages", on_delete=models.CASCADE)
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -271,6 +271,7 @@ class Feature(models.Model):
     def __str__(self):
         return self.name
 
+# Room Models
 class Room(models.Model):
     BED_TYPES = [
         ('king/twin', 'King / Twin Bed'),
@@ -348,7 +349,8 @@ class Room(models.Model):
                 self.image_cover.save(self.image_cover.name, img_content, save=False)
 
         super().save(*args, **kwargs)
-                
+
+# Room Image Models                
 class RoomImage(models.Model):
     room = models.ForeignKey('Room', related_name="room_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to=rename_uploaded_image)
@@ -376,6 +378,7 @@ class RoomImage(models.Model):
     def __str__(self):
         return f"Image for {self.room.name}"
 
+# Room Amenity Models
 class Amenity(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
@@ -388,7 +391,8 @@ class Amenity(models.Model):
         verbose_name = "Room's Amenity"
         verbose_name_plural = "Room Amenities"
         ordering = ['name']
-    
+
+# Room Specification Models    
 class Specification(models.Model):
     room = models.ForeignKey(Room, related_name="specifications", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -730,3 +734,10 @@ class GalleryItem(models.Model):
         verbose_name_plural = "Gallery Items"
         ordering = ['-created_at']
 
+# Newsletter Models
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

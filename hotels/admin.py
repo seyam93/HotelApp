@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem
+    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem, NewsletterSubscriber
 )
 
 # ========== Inlines ==========
@@ -156,3 +156,17 @@ class GalleryItemAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="200" />', obj.image.url)
         return "-"
     image_preview.short_description = 'Image Preview'
+
+# ========== SocialLink ==========
+@admin.register(SocialLink)
+class SocialLinkAdmin(admin.ModelAdmin):
+    list_display = ('hotel', 'platform', 'url')
+    list_filter = ('hotel', 'platform')
+    search_fields = ('hotel__name', 'platform')
+
+# ========== Newsletter Subscriber ==========
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscribed_at') 
+    search_fields = ('email',)
+    list_filter = ('subscribed_at',)            

@@ -6,8 +6,25 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/ritz_carousel.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+  #hotelShowcase {
+  position: relative;
+  min-height: 220px; /* adjust as needed */
+}
+.hotel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.hotel-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+</style>
 {% endblock extra_css %}
-
 {% block navbar %}
 <nav class="navbar navbar-expand-lg">
   <div class="container">
@@ -162,13 +179,137 @@
   </div>
 </section>
 {% endblock content %}
+<footer class="footer">
+  {% block footer_content %}
+  <div class="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-30">
+  <div class="item position-relative" id="hotelShowcase">
+    {% for hotel in hotels %}
+      <div class="hotel-slide {% if forloop.first %}active{% endif %}">
+        
+        <!-- Hotel Logo -->
+        <div class="logo mb-2">
+          {% if hotel.logo %}
+            <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
+          {% else %}
+            <img src="{% static 'img/logo.png' %}" alt="No Logo">
+          {% endif %}
+        </div>
 
+        <!-- Hotel Slogan -->
+        <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
+
+        <!-- Social Links (max 4) -->
+        <div class="social-icons">
+          <ul class="list-inline">
+            {% for link in hotel.social_links.all|slice:":4" %}
+              <li>
+                <a href="{{ link.url }}" target="_blank">
+                  <i class="fa-brands fa-{{link.icon}}"></i>
+                </a>
+              </li>
+            {% empty %}
+              <li><small>None</small></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</div>
+                    <div class="col-md-3 mb-30">
+                      <div class="item">
+                        <h3>Contact us</h3>
+                        <p>Block 19 In front of، Katameya Heights<br>Egypt,Cairo 11861</p>
+                        <div class="phone"><a href="tel:+410315520900">+1 123 567 8910</a></div>
+                        <div class="mail"><a href="mailto:hi@rixoshotel.com">info@triumphhotel.com</a></div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-3 mb-30">
+                      <div class="item">
+                        <h3>Subscribe</h3>
+                        <p>Want to stay informed? Subscribe to our newsletter.</p>
+                        <div class="newsletter">
+                          <form action="{% url 'subscribe-newsletter' %}" method="post">
+                            {% csrf_token %}
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-3 mb-30">
+                        <div class="item text-center">
+                          <h3>Our App</h3>
+                      
+                          <div class="d-flex align-items-center justify-content-center">
+                            <!-- Left: Mobile Image -->
+                            <div class="me-3">
+                              <img src="{% static 'img/mobile-app.png' %}" alt="Our App" style="max-width: 80px;">
+                            </div>
+                      
+                            <!-- Right: Store Buttons stacked vertically -->
+                            <div class="d-flex flex-column gap-2">
+                                <a href="https://apps.apple.com" target="_blank">
+                                    <img src="{% static 'img/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg' %}" 
+                                         alt="App Store" 
+                                         style="width: 170px; height: auto;">
+                                  </a>
+                              <a href="https://play.google.com/store" target="_blank">
+                                <img src="{% static 'img/GetItOnGooglePlay_Badge_Web_color_English.png' %}" alt="Play Store" style="height: 50px;">
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
+        </div>
+        <!-- bottom -->
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="links">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="portfolio.html">Portfolio</a></li>
+                                <li><a href="blog1.html">Blog</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-end">
+                        <p>Copyright 2025 by <a href="https://www.triumphhotel.com">Triumph Hotels Egypt</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </footer>  
 {% block script %}
 <!-- jQuery + Bootstrap + Owl -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll("#hotelShowcase .hotel-slide");
+    let current = 0;
 
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 6000); // change every 6 seconds
+  });
+</script>
 <script>
   flatpickr(".datepicker", {
     dateFormat: "Y-m-d",
