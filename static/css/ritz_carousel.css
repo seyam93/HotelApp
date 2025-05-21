@@ -14,7 +14,7 @@
   height: 550px;
   object-fit: cover;
   border-radius: 20px 0 0 20px;
-  transition: transform 0.6s ease-in-out;
+  transition: transform 0.1s ease-in-out !important;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -27,7 +27,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background: #fff;
+  background: #FFFFF0;
   padding: 50px 40px;
   width: 35%;
   height: 100%;
@@ -104,7 +104,7 @@
 
 .ritz_carousel_progress {
   height: 5px;
-  background-color: #eee;
+  background-color: #FFFFF0;
   width: 120px;
   position: relative;
   margin: 0 20px;

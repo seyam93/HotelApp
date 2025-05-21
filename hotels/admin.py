@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem, NewsletterSubscriber
+    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem, NewsletterSubscriber, HoverSection,HoverImageTab
 )
 
 # ========== Inlines ==========
@@ -34,6 +34,11 @@ class FacilityImageInline(admin.TabularInline):
 class SocialLinkInline(admin.TabularInline):
     model = SocialLink
     extra = 1
+
+class HoverImageTabInline(admin.TabularInline):
+    model = HoverImageTab
+    extra = 1
+
 # ========== Facility ==========
 @admin.register(FacilityImage)
 class FacilityImageAdmin(admin.ModelAdmin):
@@ -169,4 +174,9 @@ class SocialLinkAdmin(admin.ModelAdmin):
 class NewsletterSubscriberAdmin(admin.ModelAdmin):
     list_display = ('email', 'subscribed_at') 
     search_fields = ('email',)
-    list_filter = ('subscribed_at',)            
+    list_filter = ('subscribed_at',)       
+
+# ========== Hover Section ==========
+@admin.register(HoverSection)
+class HoverSectionAdmin(admin.ModelAdmin):
+    inlines = [HoverImageTabInline]   

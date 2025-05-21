@@ -114,7 +114,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Great Vibes', cursive;
+    font-family: "Urbanist", sans-serif;
     font-weight: 400;
     line-height: 1.25em;
     margin: 0 0 15px 0;
@@ -1809,7 +1809,7 @@ blockquote cite:before {
     position: relative;
 }
 .kenburns-inner .caption h5 {
-    font-family: "Urbanist", sans-serif;
+    font-family: '"Urbanist", sans-serif;'
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
@@ -1819,9 +1819,9 @@ blockquote cite:before {
 }
 .kenburns-inner .caption h1 {
     position: relative;
-    font-family: "Gilda Display", serif;
+    font-family: 'great vibes', serif;
     font-weight: 400;
-    font-size: 70px;
+    font-size: 30px;
     line-height: 80px;
     color: #fff;
     margin-bottom: 15px;

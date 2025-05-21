@@ -195,7 +195,7 @@ class Hotel(models.Model):
                 counter += 1
             self.slug = slug
 
-        # Resize image_cover if provided
+        # Resize image_cover
         if self.image_cover:
             try:
                 img = Image.open(self.image_cover)
@@ -256,6 +256,7 @@ class WelcomeMessage(models.Model):
     description = models.TextField(default="Welcome to our hotel.")
     image = models.ImageField(upload_to='welcome_messages/', null=True, blank=True)
     message = models.TextField(default="We’re happy to have you with us.")
+    location_info = models.TextField(default="Location information goes here.")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -741,3 +742,23 @@ class NewsletterSubscriber(models.Model):
 
     def __str__(self):
         return self.email
+    
+# Hover Image Models
+class HoverSection(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="Must Be slug of the hotel or page")
+
+    def __str__(self):
+        return self.name
+
+
+class HoverImageTab(models.Model):
+    section = models.ForeignKey(HoverSection, related_name="tabs", on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='hover_tabs/')
+
+    def __str__(self):
+        return f"{self.title} ({self.section.name})"
+
+    class Meta:
+        ordering = ['id']  # Ensures order of display
+

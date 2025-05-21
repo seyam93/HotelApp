@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
-from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer, NewsletterSubscriber
+from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer, NewsletterSubscriber, HoverSection, HoverImageTab
 import json 
 from django.db.models import Prefetch
 from core.models import FAQ
@@ -32,11 +32,13 @@ def hotel_detail(request, slug):
         'rooms', 'hotel_images', 'welcome_messages', 'facilities', 'reviews',
         'hotel_services', 'page_backgrounds')
     hotel = get_object_or_404(hotel_qs, slug=slug)
-
+    section = HoverSection.objects.filter(name=hotel.slug).first()
+    tab_items = section.tabs.all() if section else []
     tab_facilities = hotel.facilities.filter(is_active=True, is_featured=True).order_by('type', 'name')
     tab_facility_types = list(OrderedDict.fromkeys(f.type for f in tab_facilities))
     backgrounds_list = [{'src': bg.image.url} for bg in hotel.page_backgrounds.all()]
     backgrounds_json = json.dumps(backgrounds_list)
+    faqs = hotel.faqs.all()[:4]
 
     banner = get_page_banner(hotel, 'home')
 
@@ -54,6 +56,8 @@ def hotel_detail(request, slug):
         'backgrounds': hotel.page_backgrounds.all(),
         'backgrounds_json': backgrounds_json,
         'banner': banner,
+        'tab_items': tab_items,
+        'faqs': faqs,
     })
 
 # All Rooms Page For a certain Hotel
@@ -139,3 +143,15 @@ def subscribe_newsletter(request):
             NewsletterSubscriber.objects.get_or_create(email=email)
             messages.success(request, "Thanks for subscribing!")
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+# Why Triumph Page 
+def why_triumph(request):
+    banner = get_page_banner(None, 'about')
+    hotels = Hotel.objects.all()
+    welcome_message = WelcomeMessage.objects.order_by('created_at').first() 
+
+    return render(request, 'hotels/why_triumph.html', {
+        'banner': banner,
+        'hotels': hotels,
+        'welcome_message': welcome_message  
+    })

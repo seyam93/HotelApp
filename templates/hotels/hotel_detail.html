@@ -35,7 +35,7 @@
                     <div class="section-title">{{ hotel.title }}</div>
                     <p>{{hotel.description}}</p>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <a href="#" class="button-3 mb-15">About {{ hotel.name }}</a>
+                        <a href="{% url 'about-page' hotel_slug=hotel.slug %}" class="button-3 mb-15">About {{ hotel.name }}</a>
                         {% if hotel.fact_sheet %}
                         <a href="{{ hotel.fact_sheet.url }}" class="button-3 mb-15" target="_blank">
                             View Hotel Fact Sheet
@@ -173,7 +173,7 @@
             </div>
         </div>
     </section>
-        <!-- Video -->
+    <!-- Video -->
     <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background={% static "img/banner/01.jpg"%}>
         <div class="container">
             <div class="row justify-content-center align-items-center">
@@ -193,8 +193,8 @@
                 </div>
             </div>
         </div>
-        <!-- video text -->
-        <div class="video-text">videos</div>
+    <!-- video text -->
+    <div class="video-text">videos</div>
     </section>
     {% comment %} <!-- Testimonials -->
     <section class="testimonials">
@@ -249,8 +249,7 @@
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-4 col-md-12 mb-30">
                     <div class="section-subtitle">Hotel Services</div>
-                    <div class="section-title">Facilities & Services</div>
-                    <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
+                    <div class="section-title">Facilities <span> & </span> Services</div>
                     <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">More</a>
                 </div>
                 <div class="col-lg-8 col-md-12">
@@ -281,7 +280,6 @@
             </div>
         </div>
     </section>
-
     {% comment %} <!-- Pricing 1 -->
     <section class="pricing1 section-padding">
         <div class="container">
@@ -339,8 +337,9 @@
             </div>
         </div>
     </section> {% endcomment %}
-      <!-- Offers 2 -->
-    <section class="offers2">
+    <!-- Offers 2 -->
+    {% include "includes/hover_image_tabs.html" with tab_items=tab_items %}
+    {% comment %} <section class="offers2">
         <div class="container">
             <div class="row gx-0">
                 <div class="col-lg-3">
@@ -370,7 +369,7 @@
             <img id="tab-2" src={% static "img/banner/03.jpg"%} alt="" class="tab-img">
             <img id="tab-3" src={% static "img/banner/04.jpg"%} alt="" class="tab-img">
             <img id="tab-4" src={% static "img/banner/05.jpg"%} alt="" class="tab-img"> </div>
-    </section>
+    </section> {% endcomment %}
     <!-- FAQs -->
     <section class="faqs section-padding">
         <div class="container">

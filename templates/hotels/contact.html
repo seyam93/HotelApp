@@ -75,6 +75,12 @@
                         <div class="map">
                             <iframe src="{{ hotel.map_embed_url }}" width="100%" height="450" style="border:0; border-radius: 5px;" allowfullscreen loading="lazy"></iframe>
                         </div>
+                        <div>
+                        <a class="weatherwidget-io" href="https://forecast7.com/en/30d0431d24/cairo/" data-label_1="CAIRO" data-label_2="WEATHER" data-font="Times New Roman" data-icons="Climacons Animated" data-theme="desert" data-basecolor="#AA9050" data-textcolor="#101010" data-suncolor="#ffd667" >CAIRO WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+</div>
                     </div>
                 </div>
                 {% endif %}
@@ -83,23 +89,9 @@
                 {% if hotel.city and hotel.latitude and hotel.longitude %}
                 <div class="weather-widget-container my-4">
                     <a class="weatherwidget-io"
-                       href="https://forecast7.com/en/{{ hotel.latitude|stringformat:"0.2f" }}d{{ hotel.longitude|stringformat:"0.2f" }}/{{ hotel.city|slugify }}/"
-                       data-label_1="{{ hotel.city|upper }}" data-label_2="WEATHER" data-font="Verdana"
-                       data-icons="Climacons Animated" data-theme="original">
-                        {{ hotel.city|upper }} WEATHER
+                       href="https://forecast7.com/en/30d0431d24/cairo/" >  
                     </a>
                 </div>
-                <script>
-                    !function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (!d.getElementById(id)) {
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = 'https://weatherwidget.io/js/widget.min.js';
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }
-                    }(document, 'script', 'weatherwidget-io-js');
-                </script>
                 {% endif %}
             </div>
 

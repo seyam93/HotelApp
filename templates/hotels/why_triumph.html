@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Why Triumph{{ hotel.name }}{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <div class="logo-wrapper">
+      <a class="logo" href="{% url 'home-page' %}">
+        <img src="{% static 'img/logo.png' %}" class="logo-img" alt="">
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+      aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="fa-light fa-bars"></i></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'why-triumph' %}">Why Triumph</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            Our Hotels <i class="fa-light fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            {% for hotel in hotels %}
+              <li>
+                <a href="{% url 'hotel-detail' hotel.slug %}" class="dropdown-item">
+                  <span>{{ hotel.name }}</span>
+                </a>
+              </li>
+            {% empty %}
+              <li><span class="dropdown-item text-muted">No hotels available</span></li>
+            {% endfor %}
+          </ul>
+          <li class="nav-item"><a class="nav-link" href="https://triumphmanagement.net/">Our Company</a></li>
+        </li>
+      </ul>
+      <div class="navbar-right">
+        <div class="phonex"><a href="tel:01028688882"><i class="fa-solid fa-phone"></i> 01028688882</a></div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+    <!-- Header Banner -->
+    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/banner/20.jpg" %}>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="subtitle">{{hotel.name}}</div>
+                    <div class="title">Why Triumph</div>
+                </div>
+            </div>
+        </div>
+    </section>
+  {% for hotel in hotels %}
+<!-- About Section for {{ hotel.name }} -->
+<section class="about section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Hotel Info -->
+            <div class="col-lg-5 col-md-12 mb-15">
+                <div class="section-subtitle">About {{ hotel.name }}</div>
+                <div class="section-title">{{ hotel.title }}</div>
+                <p>
+                    {{ hotel.description }}
+                </p>
+                <a href="{% url 'hotel-detail' hotel.slug %}" class="button-3 mb-15">About {{ hotel.name }}</a>
+                <div class="phone">
+                    <a href="tel:+{{ hotel.phone }}">
+                        <i class="fa-light fa-phone"></i> {{ hotel.phone }}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hotel Images -->
+            {% with hotel.image_covers.all as covers %}
+                {% if covers|length > 0 %}
+                    <div class="col-lg-3 offset-lg-1 col-md-6 mb-20 mt-45">
+                        <img class="rounded-2 animation-float1" src="{{ covers.0.image.url }}" alt="{{ hotel.name }}">
+                    </div>
+                {% endif %}
+                {% if covers|length > 1 %}
+                    <div class="col-lg-3 col-md-6 mb-20">
+                        <img class="rounded-2 animation-float2" src="{{ covers.1.image.url }}" alt="{{ hotel.name }}">
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</section>
+{% endfor %}
+   {% comment %} <!-- Team -->
+    <section class="team section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center mb-20">
+                    <div class="section-subtitle">Our Experts</div>
+                    <div class="section-title">Meet The Team</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        {% for manager in managers %}
+                        <div class="item">
+                            <div class="img">
+                                {% if manager.image %}
+                                    <img src="{{ manager.image.url }}" alt="{{ manager.name }}" class="img-cover">
+                                {% else %}
+                                    <img src="{% static 'img/team/default.jpg' %}" alt="Default Team Member" class="img-cover">
+                                {% endif %}
+                                <div class="social-icons">
+                                    {% if manager.facebook %}
+                                        <a href="{{ manager.facebook }}" target="_blank"> <i class="fab fa-facebook-f"></i> </a>
+                                    {% endif %}
+                                    {% if manager.instagram %}
+                                        <a href="{{ manager.instagram }}" target="_blank"> <i class="fab fa-instagram"></i> </a>
+                                    {% endif %}
+                                    {% if manager.linkedin %}
+                                        <a href="{{ manager.linkedin }}" target="_blank"> <i class="fab fa-linkedin-in"></i> </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="info">
+                                <h5>{{ manager.name }}</h5>
+                                <p>{{ manager.position }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+    <!-- Video -->
+    <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-12 text-center rotatex">
+                    <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
+                        <div class="rotate-circle rotate-text">
+                            <svg class="textcircle" viewBox="0 0 500 500">
+                                <defs>
+                                    <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
+                                </defs>
+                                <text>
+                                    <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
+                                </text>
+                            </svg>
+                        </div> <span class="icon"> <i class="fas fa-play"></i> </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- video text -->
+        <div class="video-text">videos</div>
+    </section>
+{%endblock%}

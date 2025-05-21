@@ -1,0 +1,19 @@
+<section class="offers2">
+  <div class="container">
+    <div class="row gx-0">
+      {% for item in tab_items %}
+        <div class="col-lg-3">
+          <a href="#" class="item" data-tab="tab-{{ forloop.counter }}">
+            <h5>{{ item.title }}</h5>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="glry-img">
+    {% for item in tab_items %}
+      <img id="tab-{{ forloop.counter }}" src="{{ item.image.url }}" alt="{{ item.title }}" class="tab-img {% if forloop.first %}current{% endif %}">
+    {% endfor %}
+  </div>
+</section>
