@@ -14,6 +14,7 @@ class Restaurant(models.Model):
     slogan = models.CharField(max_length=255, null=True, blank=True,default="Address Of Taste")
     description = models.TextField()
     short_description = models.TextField(null=True, blank=True)
+    no_of_seats = models.PositiveIntegerField(default=0, null=True, blank=True)
     opening_hours = models.CharField(max_length=100,null=True, blank=True)
     breakfast_hours = models.CharField(max_length=100, null=True, blank=True,default="Breakfast: 6.00 am – 11.00 am (daily)")
     lunch_hours = models.CharField(max_length=100,null=True, blank=True,default="Lunch: 12.00 pm – 3.00 pm (daily)")

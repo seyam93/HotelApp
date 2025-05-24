@@ -8,6 +8,7 @@ from common.utils import get_page_banner
 from urllib.parse import urlencode
 from django.shortcuts import redirect
 from django.contrib import messages
+from datetime import date, timedelta
 
 
 # Main Hotels Home Page
@@ -64,8 +65,19 @@ def hotel_detail(request, slug):
 def hotel_rooms(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
+    offers = hotel.offers.filter(is_active=True, is_card=True).order_by('-start_date')[:4]
     banner = get_page_banner(hotel, 'rooms')
-    return render(request, 'hotels/hotel_rooms.html', {'hotel': hotel, 'rooms': rooms, 'banner': banner})
+    today = date.today().strftime('%Y-%m-%d')
+    tomorrow = (date.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+
+    return render(request, 'hotels/hotel_rooms.html', {
+        'hotel': hotel,
+        'rooms': rooms,
+        'offers': offers,
+        'banner': banner,
+        'today': today,
+        'tomorrow': tomorrow,
+    })
 
 # Room Detail For certain Hotel
 def room_detail(request, hotel_slug, room_slug):
@@ -92,9 +104,25 @@ def hotel_facilities_view(request, hotel_slug):
 # Offers Page
 def offer_list_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-    offers = hotel.offers.filter(is_active=True).order_by('-start_date')
+
+    # Section 1: Active + Featured offers
+    offers_featured = hotel.offers.filter(
+        is_active=True, is_featured=True
+    ).order_by('-start_date')
+
+    # Section 2: Active + Card offers (max 4)
+    offers_card = hotel.offers.filter(
+        is_active=True, is_card=True
+    ).order_by('-start_date')[:4]
+
     banner = get_page_banner(hotel, 'offers')
-    return render(request, 'hotels/hotel_offers.html', {'hotel': hotel, 'offers': offers, 'banner': banner})
+
+    return render(request, 'hotels/hotel_offers.html', {
+        'hotel': hotel,
+        'offers_featured': offers_featured,
+        'offers_card': offers_card,
+        'banner': banner,
+    })
 
 # Amenities Page
 def hotel_amenities_view(request, hotel_slug):

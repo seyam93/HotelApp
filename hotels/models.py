@@ -159,6 +159,7 @@ class FacilityImage(models.Model):
 # Hotel Models
 class Hotel(models.Model):
     name = models.CharField(max_length=255)
+    synxis_chain_id = models.CharField(max_length=20, help_text="The chain ID used by SynXis booking engine", null=True, blank=True)
     synxis_hotel_id = models.CharField(max_length=20, help_text="The hotel ID used by SynXis booking engine", null=True,blank=True)
     slogan = models.CharField(max_length=255, blank=True)
     logo = models.ImageField(upload_to='hotel_logos/', null=True, blank=True, help_text="Logo for the hotel")
@@ -172,7 +173,7 @@ class Hotel(models.Model):
     address = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(blank=True, null=True,editable=True)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -423,7 +424,10 @@ class Offer(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     terms_and_conditions = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='offer_images/', null=True, blank=True)
+    image_cover = models.ImageField(upload_to='offer_images/', null=True, blank=True)
+    image_card = models.ImageField(upload_to='offer_cards/', null=True, blank=True, help_text="Dimension: 375x500 & Showing only in cards and not offer main page")
+    is_featured = models.BooleanField(default=False, help_text="Activating this makes the offer appear in the Offer Main page")
+    is_card = models.BooleanField(default=False, help_text="Activating this makes the offer appear in the Offer Card section")
     validity_period = models.CharField(max_length=100, null=True, blank=True)
     offer_code = models.CharField(max_length=50, null=True, blank=True)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=0, null=True, blank=True)
@@ -433,34 +437,40 @@ class Offer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = "Offer"
         verbose_name_plural = "Offers"
         ordering = ['-start_date']
 
+    def __str__(self):
+        return self.title
+
+    def resize_image(self, field, target_size):
+        image_field = getattr(self, field)
+        if not image_field:
+            return
+
+        img = Image.open(image_field)
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        if img.size != target_size:
+            img = img.resize(target_size, Image.LANCZOS)
+
+        img_io = io.BytesIO()
+        img_format = img.format or 'JPEG'
+        img.save(img_io, format=img_format)
+        img_io.seek(0)
+
+        new_image = ContentFile(img_io.read(), name=image_field.name)
+        setattr(self, field, new_image)
+
     def save(self, *args, **kwargs):
-        if self.image:
-            img = Image.open(self.image)
-
-        
-            if img.mode in ("RGBA", "P"):
-                img = img.convert("RGB")
-
-            target_width, target_height = 1920, 1180
-            if img.width != target_width or img.height != target_height:
-                img = img.resize((target_width, target_height), Image.LANCZOS)
-
-            img_io = io.BytesIO()
-            img_format = img.format if img.format else 'JPEG'
-            img.save(img_io, format=img_format)
-            img_io.seek(0)
-            img_content = ContentFile(img_io.getvalue(), self.image.name)
-            self.image.save(self.image.name, img_content, save=False)
-
-        super().save(*args, **kwargs)  
+        if self.image_cover:
+            self.resize_image('image_cover', (1920, 1180))
+        if self.image_card:
+            self.resize_image('image_card', (375, 500))
+        super().save(*args, **kwargs)
 
 # Service Models ( Breakfast - laundry - etc )
 class HotelService(models.Model):

@@ -109,6 +109,113 @@
   </div>
 </div>
 {% endblock %}
+{% block footer_content %}
+<footer class="footer">
+    <!-- top -->
+    <div class="top">
+        <div class="container">
+            <div class="row">
+
+                <!-- Hotel Info -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <div class="logo">
+                            {% if hotel.logo %}
+                                <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
+                            {% else %}
+                                <img src="{% static 'img/logo.png' %}" alt="{{ hotel.name }}">
+                            {% endif %}
+                        </div>
+                        <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
+                        <div class="social-icons">
+                            <ul class="list-inline">
+                                {% for link in hotel.social_links.all|slice:":4" %}
+                                    <li>
+                                        <a href="{{ link.url }}" target="_blank">
+                                            <i class="fa-brands fa-{{ link.icon }}"></i>
+                                        </a>
+                                    </li>
+                                {% empty %}
+                                    <li><small>No social links</small></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <h3>Contact us</h3>
+                        <p>{{ hotel.address|default:"Block 19 In front of، Katameya Heights, Cairo 11861" }}</p>
+                        <div class="phone"><a href="tel:{{ hotel.phone|default:'+1235678910' }}">{{ hotel.phone|default:'+1 123 567 8910' }}</a></div>
+                        <div class="mail"><a href="mailto:{{ hotel.email|default:'info@triumphhotel.com' }}">{{ hotel.email|default:'info@triumphhotel.com' }}</a></div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <h3>Subscribe</h3>
+                        <p>Want to stay informed? Subscribe to our newsletter.</p>
+                        <div class="newsletter">
+                            <form action="{% url 'subscribe-newsletter' %}" method="post">
+                                {% csrf_token %}
+                                <input type="email" name="email" placeholder="Email Address" required>
+                                <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App Store Buttons -->
+                <div class="col-md-3 mb-30">
+                    <div class="item text-center">
+                        <h3>Our App</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="me-3">
+                                <img src="{% static 'img/mobile-app.png' %}" alt="Our App" style="max-width: 80px;">
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                                <a href="https://apps.apple.com" target="_blank">
+                                    <img src="{% static 'img/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg' %}" alt="App Store" style="width: 170px; height: auto;">
+                                </a>
+                                <a href="https://play.google.com/store" target="_blank">
+                                    <img src="{% static 'img/GetItOnGooglePlay_Badge_Web_color_English.png' %}" alt="Play Store" style="height: 50px;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- bottom -->
+    <div class="bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="links">
+                        <ul>
+                            <li><a href="{% url 'hotel-detail' hotel.slug %}">Home</a></li>
+                            <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}">About</a></li>
+                            <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}">Services</a></li>
+                            <li><a href="{% url 'contact-page' hotel_slug=hotel.slug %}">Contact</a></li>
+                            <li><a href="{% url 'faqs-page' hotel_slug=hotel.slug %}">FAQs</a></li>
+                            <li><a href="{% url 'careers-page' hotel_slug=hotel.slug %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 text-end">
+                    <p>© 2025 <a href="https://www.triumphhotel.com">Triumph Hotels Egypt</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
 {% block script %}
 <script>
   $(document).ready(function () {

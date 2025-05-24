@@ -106,7 +106,7 @@
         </div>
     </div>
 </section>
-<!-- Restaurant Menu -->
+{% comment %} <!-- Restaurant Menu -->
 {% if restaurant.menu_categories.exists %}
 <section id="menu" class="restaurant-menu menu section-padding bg-darkgray">
     <div class="container">
@@ -145,7 +145,7 @@
         </div>
     </div>
 </section>
-{% endif %}
+{% endif %} {% endcomment %}
 
 <!-- Gallery -->
 {% if restaurant.gallery_images.exists %}

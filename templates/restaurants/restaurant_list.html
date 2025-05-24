@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="subtitle">{{ hotel.name }}</div>
-                <div class="title">Rooms <span>&</span>Suites</div>
+                <div class="title">Our Restaurants</div>
             </div>
         </div>
     </div>
@@ -46,8 +46,8 @@
                                 {% if restaurant.opening_hours %}
                                 <li><i class="fa-thin fa-clock"></i> {{ restaurant.opening_hours }}</li>
                                 {% endif %}
-                                {% if restaurant.phone %}
-                                <li><i class="fa-thin fa-phone"></i> {{ restaurant.phone }}</li>
+                                {% if restaurant.no_of_seats %}
+                                <li><i class="fa-thin fa-chair"></i> {{ restaurant.no_of_seats }} Seats</li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -117,8 +117,8 @@
                                 {% if restaurant.opening_hours %}
                                 <li><i class="fa-thin fa-clock"></i> {{ restaurant.opening_hours }}</li>
                                 {% endif %}
-                                {% if restaurant.phone %}
-                                <li><i class="fa-thin fa-phone"></i> {{ restaurant.phone }}</li>
+                                {% if restaurant.no_of_seats %}
+                                <li><i class="fa-thin fa-chair"></i> {{ restaurant.no_of_seats }} Seats</li>
                                 {% endif %}
                             </ul>
                         </div>

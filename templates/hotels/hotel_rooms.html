@@ -60,7 +60,13 @@
                                 </div>
                                 {% endif %}
                                 <div>
-                                    <a href="" class="button-3" onclick="event.stopPropagation();">Book now</a>
+                                    <a href="https://be.synxis.com/?adult=1&child=0&rooms=1
+          &arrive={{ today }}
+          &depart={{ tomorrow }}
+          &chain={{ hotel.synxis_chain_id }}
+          &hotel={{ hotel.synxis_hotel_id }}
+          &level=hotel"
+   target="_blank" class="button-3" onclick="event.stopPropagation();">Book now</a>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +131,13 @@
                                     <div class="price">${{ room.price_per_night }} <span>/ night</span></div>
                                 </div>
                                 <div>
-                                    <a href="" class="button-3" onclick="event.stopPropagation();">Book now</a>
+                                    <a href="https://be.synxis.com/?adult=1&child=0&rooms=1
+          &arrive={{ today }}
+          &depart={{ tomorrow }}
+          &chain={{ hotel.synxis_chain_id }}
+          &hotel={{ hotel.synxis_hotel_id }}
+          &level=hotel"
+   target="_blank" class="button-3" onclick="event.stopPropagation();">Book now</a>
                                 </div>
                             </div>
                         </div>
@@ -137,29 +149,6 @@
         {% endfor %}
     </div>
 </section>
-<!-- Video -->
-<section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-12 text-center rotatex">
-                <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
-                    <div class="rotate-circle rotate-text">
-                        <svg class="textcircle" viewBox="0 0 500 500">
-                            <defs>
-                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
-                            </defs>
-                            <text>
-                                <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
-                            </text>
-                        </svg>
-                    </div> <span class="icon"> <i class="fas fa-play"></i> </span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- video text -->
-    <div class="video-text">videos</div>
-</section>
 <!-- Offers 1 -->
 <section class="offers1 section-padding bg-darkgray">
     <div class="container">
@@ -170,161 +159,34 @@
             </div>
         </div>
         <div class="row">
+            {% for offer in offers %}
             <div class="col-lg-3 col-md-6">
                 <div class="item">
-                    <div class="img"> <img src="{% static 'img/offers/01.jpg' %}" alt=""> </div>
+                    <div class="img">
+                        {% if offer.image_card %}
+                            <img src="{{ offer.image_card.url }}" alt="{{ offer.title }}">
+                        {% else %}
+                            <img src="{% static 'img/offers/default.jpg' %}" alt="Offer">
+                        {% endif %}
+                    </div>
                     <div class="con">
-                        <div class="title">Stay</div>
-                        <div class="arrow"> <a href="#"><span class="fa-light fa-arrow-right"></span></a> </div>
-                    </div>
-                    <div class="price">30% off</div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="item">
-                    <div class="img"> <img src="{% static 'img/offers/02.jpg' %}" alt=""> </div>
-                    <div class="con">
-                        <div class="title">Dine</div>
-                        <div class="arrow"> <a href="#"><span class="fa-light fa-arrow-right"></span></a> </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="item">
-                    <div class="img"> <img src="{% static 'img/offers/03.jpg' %}" alt=""> </div>
-                    <div class="con">
-                        <div class="title">Relax</div>
-                        <div class="arrow"> <a href="#"><span class="fa-light fa-arrow-right"></span></a> </div>
-                    </div>
-                    <div class="price">20% off</div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="item">
-                    <div class="img"> <img src="{% static 'img/offers/04.jpg' %}" alt=""> </div>
-                    <div class="con">
-                        <div class="title">Weddings</div>
-                        <div class="arrow"> <a href="#"><span class="fa-light fa-arrow-right"></span></a> </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- FAQs -->
-<section class="faqs section-padding">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-
-            <!-- Left side -->
-            <div class="col-lg-5 col-md-12 mb-30">
-                <div class="section-subtitle">Popular Questions</div>
-                <div class="section-title">Frequently Asked Questions</div>
-                <p class="mb-25">Find answers to common questions about {{ room.hotel.name }}.</p>
-
-                <!-- Button to all questions page -->
-                <a href="" class="button-3">All Questions</a>
-            </div>
-
-            <!-- Right side: Dynamic FAQs -->
-            <div class="col-lg-6 offset-lg-1 col-md-12">
-                <ul class="accordion-box clearfix">
-                    {% for faq in faqs %}
-                        <li class="accordion block">
-                            <div class="acc-btn">{{ faq.question }}</div>
-                            <div class="acc-content">
-                                <div class="content">
-                                    <p>{{ faq.answer }}</p>
-                                </div>
-                            </div>
-                        </li>
-                    {% empty %}
-                        <li class="accordion block">
-                            <div class="acc-btn">No FAQs yet</div>
-                            <div class="acc-content">
-                                <div class="content">
-                                    <p>Please contact us if you have any questions.</p>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-        </div>
-    </div>
-</section>
-<!-- Booking Search -->
-<section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/01.jpg"%}>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center mb-20">
-                <div class="section-subtitle">Hotel Experience</div>
-                <div class="section-title white">Booking Form</div>
-            </div>
-        </div>
-        <div class="booking-inner clearfix">
-            <form action="#" class="form1 clearfix">
-                <div class="col1 c1">
-                    <div class="input1_wrapper border-l border-b border-t border-r">
-                        <label>Check in</label>
-                        <div class="input1_inner">
-                            <input type="text" class="form-control input datepicker" placeholder="Check in">
+                        <div class="title">{{ offer.title }}</div>
+                        <div class="arrow">
+                                <a href="{% url 'offer-page' hotel_slug=hotel.slug %}" target="_blank">
+                                    <span class="fa-light fa-arrow-right"></span>
+                                </a>
                         </div>
                     </div>
+                    {% if offer.discount_percentage %}
+                        <div class="price">{{ offer.discount_percentage }}% off</div>
+                    {% endif %}
                 </div>
-                <div class="col1 c2">
-                    <div class="input1_wrapper border-l border-b border-t border-r">
-                        <label>Check out</label>
-                        <div class="input1_inner">
-                            <input type="text" class="form-control input datepicker" placeholder="Check out">
-                        </div>
-                    </div>
-                </div>
-                <div class="col2 c3">
-                    <div class="select1_wrapper border-l border-b border-t border-r">
-                        <label>Adults</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="1">1 Adult</option>
-                                <option value="2">2 Adults</option>
-                                <option value="3">3 Adults</option>
-                                <option value="4">4 Adults</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col2 c4">
-                    <div class="select1_wrapper border-l border-b border-t border-r">
-                        <label>Children</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="1">Children</option>
-                                <option value="1">1 Child</option>
-                                <option value="2">2 Children</option>
-                                <option value="3">3 Children</option>
-                                <option value="4">4 Children</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col2 c5">
-                    <div class="select1_wrapper border-l border-b border-t border-r">
-                        <label>Rooms</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="1">1 Room</option>
-                                <option value="2">2 Rooms</option>
-                                <option value="3">3 Rooms</option>
-                                <option value="4">4 Rooms</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 c6">
-                    <button type="submit" class="btn-form1-submit">Check Now</button>
-                </div>
-            </form>
+            </div>
+            {% empty %}
+            <div class="col-md-12 text-center">
+                <p class="text-muted">No offers available right now.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
