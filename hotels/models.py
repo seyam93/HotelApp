@@ -618,6 +618,7 @@ class HotelVideoBanner(models.Model):
     ])
     video_url = models.URLField(blank=True, null=True)
     video_file = models.FileField(upload_to='hotel_video_banners/', blank=True, null=True)
+    video_image_cover = models.ImageField(upload_to='hotel_video_banners/', blank=True, null=True, help_text="Dimension: 1920x1080")
     title = models.CharField(max_length=255, blank=True, null=True)
     subtitle = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

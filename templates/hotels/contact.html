@@ -5,19 +5,21 @@
 {% block content %}
 
 <!-- Header Banner -->
+{% if banner and banner.type == 'image' %}
 <section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
-         data-background="{% if hotel.contact_banner %}{{ hotel.contact_banner.url }}{% else %}{% static 'img/contact.jpg' %}{% endif %}">
+         data-background="{{ banner.object.image.url }}"
+         style="padding: 150px 0; min-height: 600px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="subtitle">Get in touch</div><br>
-                <div class="subtitle">{{ hotel.name|default:"Our Hotel" }}</div>
+                <div class="subtitle">{{ hotel.name }}</div>
                 <div class="title">Contact Us</div>
             </div>
         </div>
     </div>
 </section>
-
+{% endif %}
 <!-- Contact Section -->
 <section class="contact section-padding">
     <div class="container">

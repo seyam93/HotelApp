@@ -2,7 +2,24 @@
 {% load static %}
 {% block title %}FAQs | {{ hotel.name}}{% endblock %}
 {% block content %}
-    <!-- Header Banner -->
+
+<!-- Header Banner -->
+{% if banner and banner.type == 'image' %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.object.image.url }}"
+         style="padding: 150px 0; min-height: 600px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">F.A.Qs</div><br>
+                <div class="subtitle">{{hotel.name}}</div>
+                <div class="title">Hotel Questions</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+    {% comment %} <!-- Header Banner -->
     <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="img/banner/19.jpg">
         <div class="container">
             <div class="row">
@@ -12,7 +29,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <!-- FAQs -->
     <section class="faqs section-padding">
     <div class="container">

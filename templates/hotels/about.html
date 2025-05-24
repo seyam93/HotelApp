@@ -5,16 +5,19 @@
 
 {% block content %}
     <!-- Header Banner -->
-    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="img/banner/20.jpg">
+    {% if banner and banner.type == 'image' %}
+    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{{ banner.object.image.url }}"
+    style="padding: 150px 0; min-height: 750px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="subtitle">{{hotel.name}}</div>
+                    <div class="subtitle">{{ hotel.name }}</div>
                     <div class="title">About Hotel</div>
                 </div>
             </div>
         </div>
     </section>
+    {% endif %}
     <!-- About -->
     <section class="about section-padding">
         <div class="container">
@@ -22,7 +25,7 @@
                 <div class="col-lg-5 col-md-12 mb-15">
                     <div class="section-subtitle">About {{ hotel.name }}</div>
                     <div class="section-title">{{ hotel.title }}</div>
-                    <p>Welcome to the <b>best {{ hotel.star_rating }}-star hotel</b> in {{ hotel.city }}. {{hotel.description}}</p>
+                    <p>{{hotel.description}}</p>
                     <a href="#" class="button-3 mb-15">About{{ hotel.name }}</a>
                     <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i>{{ hotel.phone }}</a></div>
                 </div>
@@ -38,49 +41,6 @@
                         </div>
                     {% endif %}
                 {% endwith %}
-            </div>
-        </div>
-    </section>
-   <!-- Team -->
-    <section class="team section-padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 text-center mb-20">
-                    <div class="section-subtitle">Our Experts</div>
-                    <div class="section-title">Meet The Team</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="owl-carousel owl-theme">
-                        {% for manager in managers %}
-                        <div class="item">
-                            <div class="img">
-                                {% if manager.image %}
-                                    <img src="{{ manager.image.url }}" alt="{{ manager.name }}" class="img-cover">
-                                {% else %}
-                                    <img src="{% static 'img/team/default.jpg' %}" alt="Default Team Member" class="img-cover">
-                                {% endif %}
-                                <div class="social-icons">
-                                    {% if manager.facebook %}
-                                        <a href="{{ manager.facebook }}" target="_blank"> <i class="fab fa-facebook-f"></i> </a>
-                                    {% endif %}
-                                    {% if manager.instagram %}
-                                        <a href="{{ manager.instagram }}" target="_blank"> <i class="fab fa-instagram"></i> </a>
-                                    {% endif %}
-                                    {% if manager.linkedin %}
-                                        <a href="{{ manager.linkedin }}" target="_blank"> <i class="fab fa-linkedin-in"></i> </a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="info">
-                                <h5>{{ manager.name }}</h5>
-                                <p>{{ manager.position }}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -159,10 +119,9 @@
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-4 col-md-12 mb-30">
-                    <div class="section-subtitle">Hotel Services</div>
-                    <div class="section-title">Amenities</div>
-                    <p class="mb-25">{{ hotel.description|truncatewords:25 }}</p>
-                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">All Amenities</a>
+                    <div class="section-subtitle">{{hotel.name}}</div>
+                    <div class="section-title">Facilities <span> & </span> Services</div>
+                    <a href="{% url 'hotel-amenities-page' hotel_slug=hotel.slug %}" class="button-3">More ...</a>
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="row">

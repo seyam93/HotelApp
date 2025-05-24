@@ -22,11 +22,6 @@ def home(request):
         'banner': banner,
     })
 
-# About Page
-def about(request):
-    banner = get_page_banner(None, 'about')
-    return render(request, 'hotels/about.html', {'banner': banner})
-
 # Single Hotel Home Page 
 def hotel_detail(request, slug):
     hotel_qs = Hotel.objects.prefetch_related(
@@ -40,7 +35,6 @@ def hotel_detail(request, slug):
     backgrounds_list = [{'src': bg.image.url} for bg in hotel.page_backgrounds.all()]
     backgrounds_json = json.dumps(backgrounds_list)
     faqs = hotel.faqs.all()[:4]
-
     banner = get_page_banner(hotel, 'home')
 
     return render(request, 'hotels/hotel_detail.html', {
@@ -84,6 +78,7 @@ def room_detail(request, hotel_slug, room_slug):
     room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
     faqs = room.hotel.faqs.all()[:4]
     banner = get_page_banner(room.hotel, 'rooms')
+
     return render(request, 'hotels/room_detail.html', {'room': room, 'hotel': room.hotel, 'faqs': faqs, 'banner': banner})
 
 # Facilities Page
@@ -92,6 +87,7 @@ def hotel_facilities_view(request, hotel_slug):
     featured_active_facilities = Facility.objects.filter(hotel=hotel, is_active=True, is_featured=True).prefetch_related('images').order_by('type', 'name')
     active_facilities = Facility.objects.filter(hotel=hotel, is_active=True).prefetch_related('images').order_by('type', 'name')
     banner = get_page_banner(hotel, 'services')
+
     return render(request, 'hotels/hotel_facilities.html', {
         'hotel': hotel,
         'tab_facilities': featured_active_facilities,
@@ -129,6 +125,7 @@ def hotel_amenities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     services = HotelService.objects.filter(hotel=hotel, featured=True, is_active=True).order_by('title')
     banner = get_page_banner(hotel, 'services')
+
     return render(request, 'hotels/hotel_amenities.html', {'hotel': hotel, 'services': services, 'banner': banner})
 
 # Image Gallery Page
@@ -136,6 +133,7 @@ def image_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='image', image__isnull=False)
     banner = get_page_banner(hotel, 'images')
+
     return render(request, 'hotels/image_gallery.html', {'hotel': hotel, 'items': items, 'banner': banner})
 
 # Video Gallery Page
@@ -143,6 +141,7 @@ def video_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='video')
     banner = get_page_banner(hotel, 'video')
+
     return render(request, 'hotels/video_gallery.html', {'hotel': hotel, 'videos': items, 'banner': banner})
 
 # booking Engine Views 
@@ -170,6 +169,7 @@ def subscribe_newsletter(request):
         if email:
             NewsletterSubscriber.objects.get_or_create(email=email)
             messages.success(request, "Thanks for subscribing!")
+            
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 # Why Triumph Page 

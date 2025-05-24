@@ -7,8 +7,10 @@
 {% endblock %}
 {% block content %}
 
+{% if banner and banner.type == 'image' %}
 <!-- Header Banner -->
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% if hotel.contact_banner %}{{ hotel.contact_banner.url }}{% else %}{% static 'img/contact.jpg' %}{% endif %}">
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{{ banner.object.image.url }}"
+         style="padding: 150px 0; min-height: 600px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -19,6 +21,7 @@
         </div>
     </div>
 </section>
+{% endif %} 
 <!-- Careers Section -->
 <div class="container mt-5">
   <div class="row">

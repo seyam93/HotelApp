@@ -25,16 +25,20 @@
 </style>
 {% block content %} 
 <!-- Header Banner -->
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background={% static "img/rooms/02.jpg"%}>
+{% if banner and banner.type == 'image' %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.object.image.url }}"
+         style="padding: 150px 0; min-height: 700px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="subtitle">{{ hotel.name }}</div>
-                <div class="title">Special Offers</div>
+                <div class="title">Exclusive Offers</div>
             </div>
         </div>
     </div>
 </section>
+{% endif %}
 <!-- Featured Offers Section -->
 <section class="rooms2 section-padding">
     <div class="container">

@@ -78,7 +78,7 @@
                             <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>About Us</span></a></li>
                             <li><a href="{% url 'contact-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>Contact Us</span></a></li>
                             <li><a href="{% url 'faqs-page' hotel_slug=hotel.slug %}" class="dropdown-item"><span>FAQs</span></a></li>
-                            <li><a href="{% url 'team-list-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Our Team</span></a></li>
+                            {% comment %} <li><a href="{% url 'team-list-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Our Team</span></a></li> {% endcomment %}
                             <li><a href="{% url 'careers-page' hotel_slug=hotel.slug%}" class="dropdown-item"><span>Careers</span></a></li>
                         </ul>
                     </li>

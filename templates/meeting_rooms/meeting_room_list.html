@@ -34,12 +34,21 @@
     }
 </style>
 
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/08.jpg' %}">
-    <div class="container text-center">
-        <div class="subtitle">{{ hotel.name }}</div>
-        <div class="title">Meeting Rooms</div>
+<!-- Header Banner -->
+{% if banner and banner.type == 'image' %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.object.image.url }}"
+         style="padding: 150px 0; min-height: 700px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">{{ hotel.name }}</div>
+                <div class="title">Meeting Rooms</div>
+            </div>
+        </div>
     </div>
 </section>
+{% endif %}
 
 <section class="facilities2">
     <div class="border-bottom">
