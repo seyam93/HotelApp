@@ -180,47 +180,47 @@
   </div>
 </section>
 {% endblock content %}
+{% block footer_content %}
 <footer class="footer">
-  {% block footer_content %}
   <div class="top">
     <div class="container">
       <div class="row">
         <div class="col-md-3 mb-30">
-  <div class="item position-relative" id="hotelShowcase">
-    {% for hotel in hotels %}
-      <div class="hotel-slide {% if forloop.first %}active{% endif %}">
-        
-        <!-- Hotel Logo -->
-        <div class="logo mb-2">
-          {% if hotel.logo %}
-            <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
-          {% else %}
-            <img src="{% static 'img/logo.png' %}" alt="No Logo">
-          {% endif %}
-        </div>
+          <div class="item position-relative" id="hotelShowcase">
+            {% for hotel in hotels %}
+              <div class="hotel-slide {% if forloop.first %}active{% endif %}">
+                
+                <!-- Hotel Logo -->
+                <div class="logo mb-2">
+                  {% if hotel.logo %}
+                    <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
+                  {% else %}
+                    <img src="{% static 'img/logo.png' %}" alt="No Logo">
+                  {% endif %}
+                </div>
 
-        <!-- Hotel Slogan -->
-        <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
+                <!-- Hotel Slogan -->
+                <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
 
-        <!-- Social Links (max 4) -->
-        <div class="social-icons">
-          <ul class="list-inline">
-            {% for link in hotel.social_links.all|slice:":4" %}
-              <li>
-                <a href="{{ link.url }}" target="_blank">
-                  <i class="fa-brands fa-{{link.icon}}"></i>
-                </a>
-              </li>
-            {% empty %}
-              <li><small>None</small></li>
+                <!-- Social Links (max 4) -->
+                <div class="social-icons">
+                  <ul class="list-inline">
+                    {% for link in hotel.social_links.all|slice:":4" %}
+                      <li>
+                        <a href="{{ link.url }}" target="_blank">
+                          <i class="fa-brands fa-{{link.icon}}"></i>
+                        </a>
+                      </li>
+                    {% empty %}
+                      <li><small>None</small></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+              </div>
             {% endfor %}
-          </ul>
+          </div>
         </div>
-
-      </div>
-    {% endfor %}
-  </div>
-</div>
                     <div class="col-md-3 mb-30">
                       <div class="item">
                         <h3>Contact us</h3>
@@ -277,12 +277,9 @@
                     <div class="col-lg-8 col-md-12">
                         <div class="links">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="portfolio.html">Portfolio</a></li>
-                                <li><a href="blog1.html">Blog</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{% url 'home-page' %}">Home</a></li>
+                                <li><a href="{% url 'why-triumph' %}">Why Triumph</a></li>
+                                <li><a href="https://triumphmanagement.net/">Our Company</a></li>
                             </ul>
                         </div>
                     </div>
@@ -292,8 +289,9 @@
                 </div>
             </div>
         </div>
-        {% endblock %}
-    </footer>  
+</footer>  
+{% endblock %}
+
 {% block script %}
 <!-- jQuery + Bootstrap + Owl -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

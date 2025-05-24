@@ -96,10 +96,10 @@
             </div>
         </div>
     </nav>
-    {% endblock navbar %}
-    {% block content %} {% endblock content %}
-    <footer class="footer">
-        {% block footer_content %}
+{% endblock navbar %}
+{% block content %} {% endblock content %}
+{% block footer_content %}
+<footer class="footer">
         <!-- top -->
         <div class="top">
             <div class="container">
@@ -173,12 +173,13 @@
                     <div class="col-lg-8 col-md-12">
                         <div class="links">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="portfolio.html">Portfolio</a></li>
-                                <li><a href="blog1.html">Blog</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{% url 'hotel-detail' hotel.slug %}">Home</a></li>
+                                <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}">About</a></li>
+                                <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}">Services</a></li>
+                                <li><a href="{% url 'contact-page' hotel_slug=hotel.slug %}">Contact</a></li>
+                                <li><a href="{% url 'faqs-page' hotel_slug=hotel.slug %}">FAQs</a></li>
+                                <li><a href="{% url 'careers-page' hotel_slug=hotel.slug%}">Careers</a></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -188,8 +189,9 @@
                 </div>
             </div>
         </div>
-        {% endblock %}
-    </footer>    
+</footer> 
+{% endblock %}
+    
     <!-- jQuery -->
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-3.4.1.min.js' %}"></script>
