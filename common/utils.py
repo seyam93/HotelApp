@@ -10,3 +10,13 @@ def get_page_banner(hotel, page):
         return {'type': 'image', 'object': image}
 
     return None  # No banner found
+
+def get_video_banner(hotel, page):
+    """
+    Returns the video banner object for the specified hotel and page.
+    If no video banner exists, returns None.
+    """
+    try:
+        return HotelVideoBanner.objects.get(hotel=hotel, page=page)
+    except HotelVideoBanner.DoesNotExist:
+        return None # No video banner found

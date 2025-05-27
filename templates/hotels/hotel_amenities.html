@@ -86,86 +86,49 @@
     </div>
 </section>
 
-<!-- Booking Section -->
-<section class="section-padding bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/rooms/01.jpg' %}">
+{% endblock %}
+<!-- Video Banner -->
+{% if video_banner %}
+<section class="video-wrapper section-padding bg-img"
+         data-overlay-dark="4"
+         style="min-height: 450px;"
+         data-background="{% if video_banner.video_image_cover %}{{ video_banner.video_image_cover.url }}{% else %}{% static 'img/banner/01.jpg' %}{% endif %}">
+
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 text-center mb-20">
-                <div class="section-subtitle">Hotel Experience</div>
-                <div class="section-title white">Booking Form</div>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center rotatex">
+                
+                {% if video_banner.video_file %}
+                    <a href="{{ video_banner.video_file.url }}" data-lity="video" class="rotate-box vid">
+                {% elif video_banner.video_url %}
+                    <a href="{{ video_banner.video_url }}" data-lity="video" class="rotate-box vid">
+                {% else %}
+                    <a href="#" class="rotate-box vid">
+                {% endif %}
+                
+                    <div class="rotate-circle rotate-text">
+                        <svg class="textcircle" viewBox="0 0 500 500">
+                            <defs>
+                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"></path>
+                            </defs>
+                            <text>
+                                <textPath xlink:href="#textcircle" textLength="900">
+                                    {{ hotel.name|default:"Our Hotel" }}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </a>
+
             </div>
         </div>
-        <div class="booking-inner clearfix">
-            <form action="#" class="form1 clearfix">
-                <!-- Check-in / Check-out -->
-                <div class="col1 c1">
-                    <div class="input1_wrapper border">
-                        <label>Check in</label>
-                        <div class="input1_inner">
-                            <input type="text" class="form-control input datepicker" placeholder="Check in">
-                        </div>
-                    </div>
-                </div>
-                <div class="col1 c2">
-                    <div class="input1_wrapper border">
-                        <label>Check out</label>
-                        <div class="input1_inner">
-                            <input type="text" class="form-control input datepicker" placeholder="Check out">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Adults / Children -->
-                <div class="col2 c3">
-                    <div class="select1_wrapper border">
-                        <label>Adults</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="1">1 Adult</option>
-                                <option value="2">2 Adults</option>
-                                <option value="3">3 Adults</option>
-                                <option value="4">4 Adults</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col2 c4">
-                    <div class="select1_wrapper border">
-                        <label>Children</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="0">No Children</option>
-                                <option value="1">1 Child</option>
-                                <option value="2">2 Children</option>
-                                <option value="3">3 Children</option>
-                                <option value="4">4 Children</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rooms / Submit -->
-                <div class="col2 c5">
-                    <div class="select1_wrapper border">
-                        <label>Rooms</label>
-                        <div class="select1_inner">
-                            <select class="select2 select" style="width: 100%">
-                                <option value="1">1 Room</option>
-                                <option value="2">2 Rooms</option>
-                                <option value="3">3 Rooms</option>
-                                <option value="4">4 Rooms</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col3 c6">
-                    <button type="submit" class="btn-form1-submit">Check Now</button>
-                </div>
-            </form>
-        </div>
     </div>
+
+    <!-- video text -->
+    <div class="video-text">{{ video_banner.title|default:"Videos" }}</div>
 </section>
-{% endblock %}
+{% endif %}
 {% block footer_content %}
 <footer class="footer">
     <!-- top -->

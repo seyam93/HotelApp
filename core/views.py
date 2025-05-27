@@ -10,12 +10,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
-from common.utils import get_page_banner
+from common.utils import get_page_banner, get_video_banner
 
 # Contact Page Function
 def hotel_contact_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     banner = get_page_banner(hotel, 'contact')
+    video_banner = get_video_banner(hotel, 'contact')
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -54,12 +55,13 @@ Message:
 
         return redirect('contact-page', hotel_slug=hotel.slug)  
 
-    return render(request, 'hotels/contact.html', {'hotel': hotel, 'banner': banner})
+    return render(request, 'hotels/contact.html', {'hotel': hotel, 'banner': banner, 'video_banner': video_banner})
 
 # About Page Function
 def about_page(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     banner = get_page_banner(hotel, 'about')
+    video_banner = get_video_banner(hotel, 'about')
     partners = Partner.objects.filter(hotel=hotel)
     managers = Manager.objects.filter(hotel=hotel)
     services = HotelService.objects.filter(hotel=hotel, is_active=True)
@@ -74,6 +76,7 @@ def about_page(request, hotel_slug):
         'reviews': reviews,
         'amenity_services': amenity_services,
         'banner': banner,
+        'video_banner': video_banner,
     }
     return render(request, 'hotels/about.html', context)
 
@@ -82,10 +85,12 @@ def hotel_faqs(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     faqs = hotel.faqs.all()  # using the related_name='faqs' from the FAQ model
     banner = get_page_banner(hotel, 'faqs')
+    video_banner = get_video_banner(hotel, 'faqs')
     return render(request, 'core/hotel_faqs.html', {
         'hotel': hotel,
         'faqs': faqs,
         'banner': banner,
+        'video_banner': video_banner,
     })
 
 # Careers page function
@@ -93,11 +98,13 @@ def careers_page(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     careers = hotel.careers.all()  # Use related_name from your ForeignKey
     banner = get_page_banner(hotel, 'careers')
+    video_banner = get_video_banner(hotel, 'careers')  
 
     return render(request, 'core/hotel_careers.html', {
         'hotel': hotel,
         'careers': careers,
         'banner': banner,
+        'video_banner': video_banner,
     })
 
 # Career Application Form
@@ -133,24 +140,3 @@ def send_career_application(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
     
-# # Career_details page function & form submission
-# def career_detail(request, hotel_slug, career_slug):
-#     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-#     career = get_object_or_404(Career, slug=career_slug, hotel=hotel)
-
-#     if request.method == 'POST':
-#         form = CareerApplicationForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             application = form.save(commit=False)
-#             application.career = career
-#             application.save()
-#             # Optional: add success message
-#             return redirect('career-thank-you')  # or same page with success
-#     else:
-#         form = CareerApplicationForm()
-
-#     return render(request, 'core/career_detail.html', {
-#         'career': career,
-#         'form': form,
-#         'hotel': hotel
-#     })

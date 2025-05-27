@@ -602,7 +602,9 @@ class HotelVideoBanner(models.Model):
     page = models.CharField(max_length=100, choices=[
         ('home', 'Home Page'),
         ('rooms', 'Rooms Page'),
+        ('detailroom', 'Detailed Rooms Page'),
         ('dining', 'Dining Page'),
+        ('detaildining', 'Detailed Dining Page'),
         ('offers', 'Offers Page'),
         ('services', 'Services Page'),
         ('meeting', 'Meeting Page'),

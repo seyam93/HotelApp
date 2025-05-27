@@ -44,29 +44,48 @@
             </div>
         </div>
     </section>
-    <!-- Video -->
-    <section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="img/banner/01.jpg">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-md-12 text-center rotatex">
-                    <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
-                        <div class="rotate-circle rotate-text">
-                            <svg class="textcircle" viewBox="0 0 500 500">
-                                <defs>
-                                    <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"> </path>
-                                </defs>
-                                <text>
-                                    <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
-                                </text>
-                            </svg>
-                        </div> <span class="icon"> <i class="fas fa-play"></i> </span>
-                    </a>
-                </div>
+<!-- Video Banner -->
+{% if video_banner %}
+<section class="video-wrapper section-padding bg-img"
+         data-overlay-dark="4"
+         style="min-height: 450px;"
+         data-background="{% if video_banner.video_image_cover %}{{ video_banner.video_image_cover.url }}{% else %}{% static 'img/banner/01.jpg' %}{% endif %}">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center rotatex">
+                
+                {% if video_banner.video_file %}
+                    <a href="{{ video_banner.video_file.url }}" data-lity="video" class="rotate-box vid">
+                {% elif video_banner.video_url %}
+                    <a href="{{ video_banner.video_url }}" data-lity="video" class="rotate-box vid">
+                {% else %}
+                    <a href="#" class="rotate-box vid">
+                {% endif %}
+                
+                    <div class="rotate-circle rotate-text">
+                        <svg class="textcircle" viewBox="0 0 500 500">
+                            <defs>
+                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"></path>
+                            </defs>
+                            <text>
+                                <textPath xlink:href="#textcircle" textLength="900">
+                                    {{ hotel.name|default:"Our Hotel" }}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </a>
+
             </div>
         </div>
-        <!-- video text -->
-        <div class="video-text">videos</div>
-    </section>
+    </div>
+
+    <!-- video text -->
+    <div class="video-text">{{ video_banner.title|default:"Videos" }}</div>
+</section>
+{% endif %}
     <!-- Testimonials -->
     <section class="testimonials">
         <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{% static 'img/banner/02.jpg' %}">

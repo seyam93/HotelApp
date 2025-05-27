@@ -4,7 +4,7 @@ import json
 from django.db.models import Prefetch
 from core.models import FAQ
 from collections import OrderedDict
-from common.utils import get_page_banner
+from common.utils import get_page_banner, get_video_banner
 from urllib.parse import urlencode
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -16,10 +16,12 @@ def home(request):
     hotels = Hotel.objects.all()
     reviews = Review.objects.select_related('hotel').order_by('-created_at')[:6]
     banner = get_page_banner(None, 'home')
+    video_banner = get_video_banner(None, 'home')
     return render(request, 'hotels/home.html', {
         'hotels': hotels,
         'reviews': reviews,
         'banner': banner,
+        'video_banner': video_banner,
     })
 
 # Single Hotel Home Page 
@@ -36,6 +38,7 @@ def hotel_detail(request, slug):
     backgrounds_json = json.dumps(backgrounds_list)
     faqs = hotel.faqs.all()[:4]
     banner = get_page_banner(hotel, 'home')
+    video_banner = get_video_banner(hotel, 'home')
 
     return render(request, 'hotels/hotel_detail.html', {
         'hotel': hotel,
@@ -53,6 +56,7 @@ def hotel_detail(request, slug):
         'banner': banner,
         'tab_items': tab_items,
         'faqs': faqs,
+        'video_banner': video_banner,
     })
 
 # All Rooms Page For a certain Hotel
@@ -63,6 +67,7 @@ def hotel_rooms(request, hotel_slug):
     banner = get_page_banner(hotel, 'rooms')
     today = date.today().strftime('%Y-%m-%d')
     tomorrow = (date.today() + timedelta(days=1)).strftime('%Y-%m-%d')
+    video_banner = get_video_banner(hotel, 'rooms')
 
     return render(request, 'hotels/hotel_rooms.html', {
         'hotel': hotel,
@@ -71,6 +76,7 @@ def hotel_rooms(request, hotel_slug):
         'banner': banner,
         'today': today,
         'tomorrow': tomorrow,
+        'video_banner': video_banner,
     })
 
 # Room Detail For certain Hotel
@@ -78,8 +84,9 @@ def room_detail(request, hotel_slug, room_slug):
     room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
     faqs = room.hotel.faqs.all()[:4]
     banner = get_page_banner(room.hotel, 'rooms')
+    video_banner = get_video_banner(room.hotel, 'detailroom')
 
-    return render(request, 'hotels/room_detail.html', {'room': room, 'hotel': room.hotel, 'faqs': faqs, 'banner': banner})
+    return render(request, 'hotels/room_detail.html', {'room': room, 'hotel': room.hotel, 'faqs': faqs, 'banner': banner, 'video_banner': video_banner})
 
 # Facilities Page
 def hotel_facilities_view(request, hotel_slug):
@@ -87,6 +94,7 @@ def hotel_facilities_view(request, hotel_slug):
     featured_active_facilities = Facility.objects.filter(hotel=hotel, is_active=True, is_featured=True).prefetch_related('images').order_by('type', 'name')
     active_facilities = Facility.objects.filter(hotel=hotel, is_active=True).prefetch_related('images').order_by('type', 'name')
     banner = get_page_banner(hotel, 'services')
+    video_banner = get_video_banner(hotel, 'services')
 
     return render(request, 'hotels/hotel_facilities.html', {
         'hotel': hotel,
@@ -95,6 +103,7 @@ def hotel_facilities_view(request, hotel_slug):
         'active_facilities': active_facilities,
         'active_facility_types': list(OrderedDict.fromkeys(f.type for f in active_facilities)),
         'banner': banner,
+        'video_banner': video_banner,
     })
 
 # Offers Page
@@ -112,12 +121,14 @@ def offer_list_view(request, hotel_slug):
     ).order_by('-start_date')[:4]
 
     banner = get_page_banner(hotel, 'offers')
+    video_banner = get_video_banner(hotel, 'offers')
 
     return render(request, 'hotels/hotel_offers.html', {
         'hotel': hotel,
         'offers_featured': offers_featured,
         'offers_card': offers_card,
         'banner': banner,
+        'video_banner': video_banner,
     })
 
 # Amenities Page
@@ -125,8 +136,9 @@ def hotel_amenities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     services = HotelService.objects.filter(hotel=hotel, featured=True, is_active=True).order_by('title')
     banner = get_page_banner(hotel, 'services')
+    video_banner = get_video_banner(hotel, 'services')
 
-    return render(request, 'hotels/hotel_amenities.html', {'hotel': hotel, 'services': services, 'banner': banner})
+    return render(request, 'hotels/hotel_amenities.html', {'hotel': hotel, 'services': services, 'banner': banner, 'video_banner': video_banner})
 
 # Image Gallery Page
 def image_gallery(request, hotel_slug):

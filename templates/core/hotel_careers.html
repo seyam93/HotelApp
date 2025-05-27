@@ -36,48 +36,6 @@
     {% endfor %}
   </div>
 </div>
-            {% comment %} <!-- Contact Form -->
-            <div class="col-lg-4 offset-lg-1 col-md-12">
-                <div class="form2-sidebar mt--240">
-                    <form method="POST" action="{% url 'contact-page' hotel.slug %}" class="form2">
-                        {% csrf_token %}
-                        <div class="head"><h5>Apply Now !!</h5></div>
-                        <div class="cont">
-                            <div class="row">
-                                <div class="col-lg-12 form-group">
-                                    <input type="text" name="name" placeholder="Name" value="{{ request.POST.name }}" required>
-                                </div>
-                                <div class="col-lg-12 form-group">
-                                    <input type="email" name="email" placeholder="Email" value="{{ request.POST.email }}" required>
-                                </div>
-                                <div class="col-lg-12 form-group">
-                                    <input type="text" name="phone" placeholder="Phone" value="{{ request.POST.phone }}" required>
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <input type="text" name="subject" placeholder="Subject" value="{{ request.POST.subject }}">
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <textarea name="message" rows="4" placeholder="Message" required>{{ request.POST.message }}</textarea>
-                                </div>
-                                <div class="col-md-12">
-                                    <button type="submit" class="button-3"><i class="fa-light fa-paper-plane"></i> Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success mt-3" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section> {% endcomment %}
 <!-- Career Application Modal -->
 <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -111,6 +69,48 @@
     </div>
   </div>
 </div>
+<!-- Video Banner -->
+{% if video_banner %}
+<section class="video-wrapper section-padding bg-img"
+         data-overlay-dark="4"
+         style="min-height: 450px;"
+         data-background="{% if video_banner.video_image_cover %}{{ video_banner.video_image_cover.url }}{% else %}{% static 'img/banner/01.jpg' %}{% endif %}">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center rotatex">
+                
+                {% if video_banner.video_file %}
+                    <a href="{{ video_banner.video_file.url }}" data-lity="video" class="rotate-box vid">
+                {% elif video_banner.video_url %}
+                    <a href="{{ video_banner.video_url }}" data-lity="video" class="rotate-box vid">
+                {% else %}
+                    <a href="#" class="rotate-box vid">
+                {% endif %}
+                
+                    <div class="rotate-circle rotate-text">
+                        <svg class="textcircle" viewBox="0 0 500 500">
+                            <defs>
+                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"></path>
+                            </defs>
+                            <text>
+                                <textPath xlink:href="#textcircle" textLength="900">
+                                    {{ hotel.name|default:"Our Hotel" }}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- video text -->
+    <div class="video-text">{{ video_banner.title|default:"Videos" }}</div>
+</section>
+{% endif %}
 {% endblock %}
 {% block footer_content %}
 <footer class="footer">
