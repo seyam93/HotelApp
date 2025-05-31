@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 from django.shortcuts import redirect
 from django.contrib import messages
 from datetime import date, timedelta
+from django.http import JsonResponse
 
 
 # Main Hotels Home Page
@@ -195,3 +196,22 @@ def why_triumph(request):
         'hotels': hotels,
         'welcome_message': welcome_message  
     })
+
+# live search view 
+def live_search(request):
+    query = request.GET.get('q', '').strip()
+    hotels_data = []
+    rooms_data = []
+
+    if query:
+        hotels = Hotel.objects.filter(name__icontains=query)[:5]
+        rooms = Room.objects.filter(name__icontains=query)[:5]
+
+        hotels_data = [{'name': h.name, 'slug': h.slug} for h in hotels]
+        rooms_data = [{'name': r.name, 'hotel_name': r.hotel.name} for r in rooms]
+
+    return JsonResponse({'hotels': hotels_data, 'rooms': rooms_data})
+
+# Custom 404 handler
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)

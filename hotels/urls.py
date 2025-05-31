@@ -16,4 +16,5 @@ urlpatterns = [
     path('why-triumph/', views.why_triumph, name='why-triumph'),
     path('booking/redirect/', booking_redirect, name='booking-redirect'),
     path('subscribe/', views.subscribe_newsletter, name='subscribe-newsletter'),
+    path('live-search/', views.live_search, name='live-search'),
 ]

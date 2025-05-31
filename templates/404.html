@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Page Not Found | {{ hotel.name|default:"Triumph Hotels" }}{% endblock %}
+
+{% block content %}
+<!-- Header Banner -->
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/19.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">404 Error Page</div>
+                <div class="title">Page not found!</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Not Found Section with AJAX Search -->
+<section class="not-found section-padding bg-darkgray">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-12 text-center">
+                <h1>404</h1>
+                <h3>Sorry, We can't find that page!</h3>
+                <p>The page you are looking for was moved, removed, renamed or never existed.</p>
+
+                <!-- Live Search Form -->
+                <div class="search-form mt-4">
+                    <div class="form-group clearfix position-relative">
+                        <input type="search" id="searchInput" name="text" class="form-control" placeholder="Search hotels or rooms..." required="">
+                        <button type="button" class="search-button"><span class="fa-light fa-magnifying-glass"></span></button>
+                    </div>
+                    <div id="searchResults" class="text-start bg-white p-3 rounded shadow mt-2" style="display: none;"></div>
+                </div>
+
+                <a href="{% url 'home-page' %}" class="btn btn-outline-light mt-4">Go to Homepage</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('searchInput');
+    const resultsBox = document.getElementById('searchResults');
+
+    input.addEventListener('keyup', function () {
+        const query = this.value.trim();
+
+        if (query.length < 2) {
+            resultsBox.innerHTML = "";
+            resultsBox.style.display = "none";
+            return;
+        }
+
+        fetch(`/live-search/?q=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+
+                if (data.hotels.length === 0 && data.rooms.length === 0) {
+                    html = '<p class="text-muted mb-0">No results found.</p>';
+                } else {
+                    if (data.hotels.length) {
+                        html += '<h6 class="mb-2">Hotels</h6><ul class="mb-3">';
+                        data.hotels.forEach(h => {
+                            html += `<li><a href="/hotels/${h.slug}/">${h.name}</a></li>`;
+                        });
+                        html += '</ul>';
+                    }
+
+                    if (data.rooms.length) {
+                        html += '<h6 class="mb-2">Rooms</h6><ul>';
+                        data.rooms.forEach(r => {
+                            html += `<li>${r.name} (${r.hotel_name})</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                }
+
+                resultsBox.innerHTML = html;
+                resultsBox.style.display = "block";
+            });
+    });
+});
+</script>
+{% endblock %}

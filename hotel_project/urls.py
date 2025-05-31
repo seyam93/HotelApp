@@ -21,6 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import set_language
 from hotels import views as hotel_views
+from django.conf.urls import handler404
+from django.shortcuts import render
 
 
 urlpatterns = [
@@ -37,3 +39,9 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+handler404 = custom_404_view

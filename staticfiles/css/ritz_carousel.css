@@ -1,0 +1,155 @@
+/* Ritz-Carlton Enhanced Carousel */
+
+.ritz_carousel_container {
+  position: relative;
+  max-width: 90%;
+  padding: 0 5%;
+  margin: 60px auto;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.ritz_carousel_image {
+  width: 65%;
+  height: 550px;
+  object-fit: cover;
+  border-radius: 20px 0 0 20px;
+  transition: transform 0.1s ease-in-out !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.ritz_carousel_image:hover {
+  transform: scale(1.1);
+  filter: brightness(102%);
+}
+
+.ritz_desc_card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #FFFFF0;
+  padding: 50px 40px;
+  width: 35%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 5px solid #Aa9050;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  z-index: 2;
+}
+
+.ritz_desc_card .ritz_subtitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  color: #999;
+  font-weight: 500;
+}
+
+.ritz_desc_card .ritz_title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #Aa9050;
+}
+
+.ritz_desc_card .ritz_description {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+.ritz_desc_card .ritz_link {
+  color: #Aa9050;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid #Aa9050;
+  display: inline-block;
+  padding-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+.ritz_desc_card .ritz_link:hover {
+  border-color: transparent;
+  color: #886e35;
+}
+
+.ritz_carousel_navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding: 0 5%;
+}
+
+.ritz_nav_button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #Aa9050; /* Gold tone */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ritz_nav_button:hover {
+  color: #886e35; /* Darker gold */
+  text-decoration: underline;
+}
+
+.ritz_carousel_progress {
+  height: 5px;
+  background-color: #FFFFF0;
+  width: 120px;
+  position: relative;
+  margin: 0 20px;
+  border-radius: 10px;
+}
+
+.ritz_progress_bar {
+  position: absolute;
+  height: 100%;
+  background-color: #Aa9050;
+  width: 0;
+  transition: width 0.4s ease;
+  border-radius: 10px;
+}
+
+.ritz_counter {
+  font-size: 15px;
+  color: #Aa9050;
+  font-weight: 600;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .ritz_carousel_container {
+    padding: 0;
+  }
+
+  .ritz_carousel_image {
+    width: 100%;
+    height: 300px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .ritz_desc_card {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-left: none;
+    border-top: 4px solid #Aa9050;
+    border-radius: 0 0 20px 20px;
+    padding: 30px 25px;
+  }
+
+  .ritz_carousel_navigation {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+}
