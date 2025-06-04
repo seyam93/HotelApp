@@ -93,11 +93,11 @@
         {% csrf_token %}
 
         <!-- Destination -->
-        <div class="col1 c1" style="width: 42%;">
+        <div class="col1 c1" style="width: 35%;">
           <div class="select1_wrapper border-l border-b border-t border-r br-5005">
             <label>Destination</label>
             <div class="select1_inner">
-              <select name="hotel_id" class="select2 select" style="width:100%" required>
+              <select name="hotel_id" class="select2 select" style="width:50%" required>
                 <option value="" disabled selected>Your Destination</option>
                 {% for hotel in hotels %}
                   <option value="{{ hotel.synxis_hotel_id }}">{{ hotel.name }}</option>
@@ -108,7 +108,7 @@
         </div>
 
         <!-- Check-in -->
-        <div class="col1 c2">
+        <div class="col1 c2" style="width: 13%;">
           <div class="input1_wrapper border-l border-b border-t border-r">
             <label>Check in</label>
             <div class="input1_inner">
@@ -118,7 +118,7 @@
         </div>
 
         <!-- Check-out -->
-        <div class="col1 c3">
+        <div class="col1 c3" style="width: 13%;">
           <div class="input1_wrapper border-l border-b border-t border-r">
             <label>Check out</label>
             <div class="input1_inner">
@@ -127,9 +127,40 @@
           </div>
         </div>
 
+        <!-- Adults -->
+  <div class="col2 c3" style="width: 12%;">
+    <div class="select1_wrapper border-l border-b border-t border-r">
+      <label>Adults</label>
+      <div class="select1_inner">
+        <select name="adults" class="select2 select" style="width: 100%">
+          <option value="1">1 Adult</option>
+          <option value="2">2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Children -->
+  <div class="col2 c4" style="width: 12%;">
+    <div class="select1_wrapper border-l border-b border-t border-r">
+      <label>Children</label>
+      <div class="select1_inner">
+        <select name="children" class="select2 select" style="width: 100%">
+          <option value="0">No Children</option>
+          <option value="1">1 Child</option>
+          <option value="2">2 Children</option>
+          <option value="3">3 Children</option>
+          <option value="4">4 Children</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
         <!-- Submit Button -->
-        <div class="col3 c6">
-          <button type="submit" class="btn-form1-submit">Check Now</button>
+        <div class="col3 c6" style="width: 15%;">
+          <button type="submit" class="btn-form1-submit">Book Now</button>
         </div>
       </form>
     </div>
@@ -303,7 +334,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugins -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  {% comment %} <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> {% endcomment %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
   <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 
