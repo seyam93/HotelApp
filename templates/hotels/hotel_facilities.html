@@ -41,15 +41,15 @@
 </style>
 
 <!-- Header Banner -->
-{% if banner and banner.type == 'image' %}
+{% if banner and banner.image %}
 <section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
-         data-background="{{ banner.object.image.url }}"
-         style="padding: 150px 0; min-height: 750px;">
+         data-background="{{ banner.image.url }}"
+         style="padding: 150px 0; min-height: 650px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="subtitle">{{ hotel.name }}</div>
-                <div class="title">Facilities <span>&</span> Services</div>
+                <div class="title">Facilities <span>&</span>Services</div>
             </div>
         </div>
     </div>

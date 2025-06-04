@@ -3,6 +3,7 @@ bleach==6.2.0
 certifi==2025.4.26
 charset-normalizer==3.4.2
 Django==5.1.4
+django-admin-sortable2==2.2.8
 django-cleanup==9.0.0
 django-cors-headers==4.7.0
 django-extensions==4.1

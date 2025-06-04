@@ -12,6 +12,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, null=True)
     slogan = models.CharField(max_length=255, null=True, blank=True,default="Address Of Taste")
+    display_order = models.PositiveIntegerField(default=0, null=True, blank=True)
     description = models.TextField()
     short_description = models.TextField(null=True, blank=True)
     no_of_seats = models.PositiveIntegerField(default=0, null=True, blank=True)
@@ -25,6 +26,9 @@ class Restaurant(models.Model):
     image_cover = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)
     menu_file = models.FileField(upload_to='restaurant_menus/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['display_order']
 
     def save(self, *args, **kwargs):
         if self.image_cover:

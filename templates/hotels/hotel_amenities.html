@@ -48,16 +48,20 @@
     }
 </style>
 <!-- Header Banner -->
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/09.jpg' %}">
+{% if banner and banner.image %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.image.url }}"
+         style="padding: 150px 0; min-height: 650px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <div class="subtitle">Our Services</div>
-                <div class="title">Hotel Amenities</div>
+                <div class="subtitle">{{ hotel.name }}</div>
+                <div class="title">Amenities</div>
             </div>
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Amenities Carousel -->
 <section class="amenities section-padding">

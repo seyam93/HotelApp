@@ -1,27 +1,29 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
-from .models import Hotel, Room, PageBackground, HotelImage, WelcomeMessage, Facility, Review, Amenity, FacilityImage, HotelService, Offer, NewsletterSubscriber, HoverSection, HoverImageTab
+from .models import (
+    Hotel, Room, PageBackground, HotelImage, WelcomeMessage,
+    Facility, Review, Amenity, FacilityImage, HotelService, Offer,
+    NewsletterSubscriber, HoverSection, HoverImageTab,
+    HotelPageBanner, HotelVideoBanner
+)
 import json 
 from django.db.models import Prefetch
 from core.models import FAQ
 from collections import OrderedDict
-from common.utils import get_page_banner, get_video_banner
 from urllib.parse import urlencode
-from django.shortcuts import redirect
 from django.contrib import messages
 from datetime import date, timedelta
 from django.http import JsonResponse
-
 
 # Main Hotels Home Page
 def home(request):
     hotels = Hotel.objects.all()
     reviews = Review.objects.select_related('hotel').order_by('-created_at')[:6]
-    banner = get_page_banner(None, 'home')
-    video_banner = get_video_banner(None, 'home')
+    image_banner = HotelPageBanner.objects.filter(hotel=None, page='home').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=None, page='home').first()
     return render(request, 'hotels/home.html', {
         'hotels': hotels,
         'reviews': reviews,
-        'banner': banner,
+        'banner': image_banner,
         'video_banner': video_banner,
     })
 
@@ -38,8 +40,8 @@ def hotel_detail(request, slug):
     backgrounds_list = [{'src': bg.image.url} for bg in hotel.page_backgrounds.all()]
     backgrounds_json = json.dumps(backgrounds_list)
     faqs = hotel.faqs.all()[:4]
-    banner = get_page_banner(hotel, 'home')
-    video_banner = get_video_banner(hotel, 'home')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='home').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='home').first()
 
     return render(request, 'hotels/hotel_detail.html', {
         'hotel': hotel,
@@ -54,7 +56,7 @@ def hotel_detail(request, slug):
         'featured_services': hotel.hotel_services.filter(featured=True)[:3],
         'backgrounds': hotel.page_backgrounds.all(),
         'backgrounds_json': backgrounds_json,
-        'banner': banner,
+        'banner': image_banner,
         'tab_items': tab_items,
         'faqs': faqs,
         'video_banner': video_banner,
@@ -63,18 +65,18 @@ def hotel_detail(request, slug):
 # All Rooms Page For a certain Hotel
 def hotel_rooms(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-    rooms = hotel.rooms.filter(is_available=True).prefetch_related('room_images')
+    rooms = hotel.rooms.filter(is_available=True).order_by('display_order').prefetch_related('room_images')
     offers = hotel.offers.filter(is_active=True, is_card=True).order_by('-start_date')[:4]
-    banner = get_page_banner(hotel, 'rooms')
     today = date.today().strftime('%Y-%m-%d')
     tomorrow = (date.today() + timedelta(days=1)).strftime('%Y-%m-%d')
-    video_banner = get_video_banner(hotel, 'rooms')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='rooms').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='rooms').first()
 
     return render(request, 'hotels/hotel_rooms.html', {
         'hotel': hotel,
         'rooms': rooms,
         'offers': offers,
-        'banner': banner,
+        'banner': image_banner,
         'today': today,
         'tomorrow': tomorrow,
         'video_banner': video_banner,
@@ -84,18 +86,24 @@ def hotel_rooms(request, hotel_slug):
 def room_detail(request, hotel_slug, room_slug):
     room = get_object_or_404(Room, slug=room_slug, hotel__slug=hotel_slug)
     faqs = room.hotel.faqs.all()[:4]
-    banner = get_page_banner(room.hotel, 'rooms')
-    video_banner = get_video_banner(room.hotel, 'detailroom')
+    image_banner = HotelPageBanner.objects.filter(hotel=room.hotel, page='rooms').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=room.hotel, page='detailroom').first()
 
-    return render(request, 'hotels/room_detail.html', {'room': room, 'hotel': room.hotel, 'faqs': faqs, 'banner': banner, 'video_banner': video_banner})
+    return render(request, 'hotels/room_detail.html', {
+        'room': room,
+        'hotel': room.hotel,
+        'faqs': faqs,
+        'banner': image_banner,
+        'video_banner': video_banner
+    })
 
 # Facilities Page
 def hotel_facilities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     featured_active_facilities = Facility.objects.filter(hotel=hotel, is_active=True, is_featured=True).prefetch_related('images').order_by('type', 'name')
     active_facilities = Facility.objects.filter(hotel=hotel, is_active=True).prefetch_related('images').order_by('type', 'name')
-    banner = get_page_banner(hotel, 'services')
-    video_banner = get_video_banner(hotel, 'services')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='services').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='services').first()
 
     return render(request, 'hotels/hotel_facilities.html', {
         'hotel': hotel,
@@ -103,7 +111,7 @@ def hotel_facilities_view(request, hotel_slug):
         'tab_facility_types': list(OrderedDict.fromkeys(f.type for f in featured_active_facilities)),
         'active_facilities': active_facilities,
         'active_facility_types': list(OrderedDict.fromkeys(f.type for f in active_facilities)),
-        'banner': banner,
+        'banner': image_banner,
         'video_banner': video_banner,
     })
 
@@ -111,24 +119,17 @@ def hotel_facilities_view(request, hotel_slug):
 def offer_list_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
 
-    # Section 1: Active + Featured offers
-    offers_featured = hotel.offers.filter(
-        is_active=True, is_featured=True
-    ).order_by('-start_date')
+    offers_featured = hotel.offers.filter(is_active=True, is_featured=True).order_by('-start_date')
+    offers_card = hotel.offers.filter(is_active=True, is_card=True).order_by('-start_date')[:4]
 
-    # Section 2: Active + Card offers (max 4)
-    offers_card = hotel.offers.filter(
-        is_active=True, is_card=True
-    ).order_by('-start_date')[:4]
-
-    banner = get_page_banner(hotel, 'offers')
-    video_banner = get_video_banner(hotel, 'offers')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='offers').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='offers').first()
 
     return render(request, 'hotels/hotel_offers.html', {
         'hotel': hotel,
         'offers_featured': offers_featured,
         'offers_card': offers_card,
-        'banner': banner,
+        'banner': image_banner,
         'video_banner': video_banner,
     })
 
@@ -136,28 +137,41 @@ def offer_list_view(request, hotel_slug):
 def hotel_amenities_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     services = HotelService.objects.filter(hotel=hotel, featured=True, is_active=True).order_by('title')
-    banner = get_page_banner(hotel, 'services')
-    video_banner = get_video_banner(hotel, 'services')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='services').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='services').first()
 
-    return render(request, 'hotels/hotel_amenities.html', {'hotel': hotel, 'services': services, 'banner': banner, 'video_banner': video_banner})
+    return render(request, 'hotels/hotel_amenities.html', {
+        'hotel': hotel,
+        'services': services,
+        'banner': image_banner,
+        'video_banner': video_banner
+    })
 
 # Image Gallery Page
 def image_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='image', image__isnull=False)
-    banner = get_page_banner(hotel, 'images')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='images').first()
 
-    return render(request, 'hotels/image_gallery.html', {'hotel': hotel, 'items': items, 'banner': banner})
+    return render(request, 'hotels/image_gallery.html', {
+        'hotel': hotel,
+        'items': items,
+        'banner': image_banner
+    })
 
 # Video Gallery Page
 def video_gallery(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     items = hotel.gallery_items.filter(gallery_type='video')
-    banner = get_page_banner(hotel, 'video')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='video').first()
 
-    return render(request, 'hotels/video_gallery.html', {'hotel': hotel, 'videos': items, 'banner': banner})
+    return render(request, 'hotels/video_gallery.html', {
+        'hotel': hotel,
+        'videos': items,
+        'banner': image_banner
+    })
 
-# booking Engine Views 
+# Booking Engine Redirect
 def booking_redirect(request):
     if request.method == 'POST':
         base_url = "https://be.synxis.com/"
@@ -174,7 +188,7 @@ def booking_redirect(request):
         }
 
         return redirect(f"{base_url}?{urlencode(params)}")
-    
+
 # Newsletter Subscription
 def subscribe_newsletter(request):
     if request.method == "POST":
@@ -182,22 +196,22 @@ def subscribe_newsletter(request):
         if email:
             NewsletterSubscriber.objects.get_or_create(email=email)
             messages.success(request, "Thanks for subscribing!")
-            
+
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
-# Why Triumph Page 
+# Why Triumph Page
 def why_triumph(request):
-    banner = get_page_banner(None, 'about')
+    image_banner = HotelPageBanner.objects.filter(hotel=None, page='about').first()
     hotels = Hotel.objects.all()
-    welcome_message = WelcomeMessage.objects.order_by('created_at').first() 
+    welcome_message = WelcomeMessage.objects.order_by('created_at').first()
 
     return render(request, 'hotels/why_triumph.html', {
-        'banner': banner,
+        'banner': image_banner,
         'hotels': hotels,
-        'welcome_message': welcome_message  
+        'welcome_message': welcome_message
     })
 
-# live search view 
+# Live Search
 def live_search(request):
     query = request.GET.get('q', '').strip()
     hotels_data = []
@@ -212,6 +226,6 @@ def live_search(request):
 
     return JsonResponse({'hotels': hotels_data, 'rooms': rooms_data})
 
-# Custom 404 handler
+# Custom 404 Page
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)

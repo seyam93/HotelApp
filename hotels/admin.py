@@ -3,8 +3,12 @@ from django.contrib import admin
 from .models import (
     Hotel, HotelImage, WelcomeMessage, Room, RoomImage,
     Feature, Specification, Facility, Amenity, Offer,
-    Review, FacilityImage, SocialLink, ImageCover, HotelService, PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem, NewsletterSubscriber, HoverSection,HoverImageTab
+    Review, FacilityImage, SocialLink, ImageCover, HotelService,
+    PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem,
+    NewsletterSubscriber, HoverSection, HoverImageTab
 )
+from adminsortable2.admin import SortableTabularInline
+from adminsortable2.admin import SortableAdminBase
 
 # ========== Inlines ==========
 class HotelImageInline(admin.TabularInline):
@@ -15,9 +19,11 @@ class ImageCoverInline(admin.TabularInline):
     model = ImageCover
     extra = 1
 
-class RoomInline(admin.TabularInline):
+class RoomInline(SortableTabularInline):
     model = Room
     extra = 1
+    fields = ('name', 'display_order', 'is_available')
+    readonly_fields = ('display_order',)
 
 class RoomImageInline(admin.TabularInline):
     model = RoomImage
@@ -55,28 +61,26 @@ class FacilityAdmin(admin.ModelAdmin):
 
 # ========== Hotel ==========
 @admin.register(Hotel)
-class HotelAdmin(admin.ModelAdmin):
+class HotelAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('id', 'name', 'location', 'created_at')
     search_fields = ('name', 'location')
     list_filter = ('location',)
     readonly_fields = ('slug',)
     inlines = [HotelImageInline, ImageCoverInline, RoomInline, SocialLinkInline]
 
+# ========== Room (basic admin, no ordering here) ==========
+@admin.register(Room)
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ('display_order', 'id', 'name', 'hotel', 'price_per_night', 'is_available')
+    list_filter = ('is_available', 'is_suit', 'hotel')
+    search_fields = ('name', 'hotel__name')
+    readonly_fields = ('slug',)
 
 # ========== Amenity ==========
 @admin.register(Amenity)
 class AmenityAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
-
-# ========== Room ==========
-@admin.register(Room)
-class RoomAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'hotel', 'price_per_night', 'is_available')
-    list_filter = ('is_available', 'is_suit', 'hotel')
-    search_fields = ('name', 'hotel__name')
-    readonly_fields = ('slug',)
-    inlines = [ImageCoverInline, RoomImageInline, SpecificationInline]
 
 # ========== Feature ==========
 @admin.register(Feature)
@@ -105,8 +109,7 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ('hotel__name', 'name')
     list_filter = ('hotel', 'rating', 'created_at')
 
-#========== Hotel Service ==========
-
+# ========== Hotel Service ==========
 @admin.register(HotelService)
 class HotelServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'hotel', 'pricing_type', 'price')
@@ -116,7 +119,7 @@ class HotelServiceAdmin(admin.ModelAdmin):
 # ========== WelcomeMessage ==========
 admin.site.register(WelcomeMessage)
 
-# ========== Pages Background ==========
+# ========== Page Background ==========
 @admin.register(PageBackground)
 class PageBackgroundAdmin(admin.ModelAdmin):
     list_display = ('hotel', 'page', 'image', 'created_at')
@@ -149,7 +152,7 @@ class HotelVideoBannerAdmin(admin.ModelAdmin):
         return "-"
     video_link.short_description = 'Video URL'
 
-# ========== Gallery =============
+# ========== Gallery Item ==========
 @admin.register(GalleryItem)
 class GalleryItemAdmin(admin.ModelAdmin):
     list_display = ('hotel', 'image_preview')
@@ -174,9 +177,9 @@ class SocialLinkAdmin(admin.ModelAdmin):
 class NewsletterSubscriberAdmin(admin.ModelAdmin):
     list_display = ('email', 'subscribed_at') 
     search_fields = ('email',)
-    list_filter = ('subscribed_at',)       
+    list_filter = ('subscribed_at',)
 
 # ========== Hover Section ==========
 @admin.register(HoverSection)
 class HoverSectionAdmin(admin.ModelAdmin):
-    inlines = [HoverImageTabInline]   
+    inlines = [HoverImageTabInline]

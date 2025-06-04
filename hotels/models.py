@@ -299,6 +299,7 @@ class Room(models.Model):
     short_description = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True, editable=False)
+    display_order = models.PositiveIntegerField(default=0)
     image_cover = models.ImageField(upload_to='room_covers/', null=True, blank=True)
     number_of_beds = models.PositiveIntegerField(default=1)
     bed_type = models.CharField(max_length=20, choices=BED_TYPES, default='king/twin')
@@ -321,6 +322,9 @@ class Room(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     amenities = models.ManyToManyField('Amenity', related_name='rooms', blank=True)
     features = models.ManyToManyField('Feature', related_name='rooms', blank=True)
+
+    class Meta:
+        ordering = ['display_order']
 
     def __str__(self):
         return f"{self.name} ({self.hotel.name})"

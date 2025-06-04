@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from core.models import ContactMessage, Partner, FAQ, Career, CareerApplication
 from core.forms import CareerApplicationForm
-from hotels.models import Hotel, Review
+from hotels.models import Hotel, Review, HotelPageBanner, HotelVideoBanner
 from hotels.models import Hotel, HotelService
 from staff.models import Manager
 from django.core.mail import EmailMessage
@@ -10,13 +10,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
-from common.utils import get_page_banner, get_video_banner
 
 # Contact Page Function
 def hotel_contact_view(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-    banner = get_page_banner(hotel, 'contact')
-    video_banner = get_video_banner(hotel, 'contact')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='contact').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='contact').first()
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -55,28 +54,24 @@ Message:
 
         return redirect('contact-page', hotel_slug=hotel.slug)  
 
-    return render(request, 'hotels/contact.html', {'hotel': hotel, 'banner': banner, 'video_banner': video_banner})
+    return render(request, 'hotels/contact.html', {'hotel': hotel, 'banner': image_banner, 'video_banner': video_banner})
 
 # About Page Function
 def about_page(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
-    banner = get_page_banner(hotel, 'about')
-    video_banner = get_video_banner(hotel, 'about')
-    partners = Partner.objects.filter(hotel=hotel)
-    managers = Manager.objects.filter(hotel=hotel)
-    services = HotelService.objects.filter(hotel=hotel, is_active=True)
-    reviews = Review.objects.filter(hotel=hotel).order_by('-created_at')
-    amenity_services = HotelService.objects.filter(hotel=hotel, is_active=True)
+
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='about').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='about').first()
 
     context = {
         'hotel': hotel,
-        'partners': partners,
-        'managers': managers,
-        'services': services,
-        'reviews': reviews,
-        'amenity_services': amenity_services,
-        'banner': banner,
-        'video_banner': video_banner,
+        'banner': image_banner,          # ✅ only image banner goes here
+        'video_banner': video_banner,    # ✅ only video banner here
+        'partners': Partner.objects.filter(hotel=hotel),
+        'managers': Manager.objects.filter(hotel=hotel),
+        'services': HotelService.objects.filter(hotel=hotel, is_active=True),
+        'reviews': Review.objects.filter(hotel=hotel).order_by('-created_at'),
+        'amenity_services': HotelService.objects.filter(hotel=hotel, is_active=True),
     }
     return render(request, 'hotels/about.html', context)
 
@@ -84,12 +79,12 @@ def about_page(request, hotel_slug):
 def hotel_faqs(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     faqs = hotel.faqs.all()  # using the related_name='faqs' from the FAQ model
-    banner = get_page_banner(hotel, 'faqs')
-    video_banner = get_video_banner(hotel, 'faqs')
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='faqs').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='faqs').first()
     return render(request, 'core/hotel_faqs.html', {
         'hotel': hotel,
         'faqs': faqs,
-        'banner': banner,
+        'banner': image_banner,
         'video_banner': video_banner,
     })
 
@@ -97,13 +92,13 @@ def hotel_faqs(request, hotel_slug):
 def careers_page(request, hotel_slug):
     hotel = get_object_or_404(Hotel, slug=hotel_slug)
     careers = hotel.careers.all()  # Use related_name from your ForeignKey
-    banner = get_page_banner(hotel, 'careers')
-    video_banner = get_video_banner(hotel, 'careers')  
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='careers').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='careers').first() 
 
     return render(request, 'core/hotel_careers.html', {
         'hotel': hotel,
         'careers': careers,
-        'banner': banner,
+        'banner': image_banner,
         'video_banner': video_banner,
     })
 

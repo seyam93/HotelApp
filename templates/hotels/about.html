@@ -5,19 +5,20 @@
 
 {% block content %}
     <!-- Header Banner -->
-    {% if banner and banner.type == 'image' %}
-    <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{{ banner.object.image.url }}"
-    style="padding: 150px 0; min-height: 750px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="subtitle">{{ hotel.name }}</div>
-                    <div class="title">About Hotel</div>
-                </div>
+{% if banner and banner.image %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.image.url }}"
+         style="padding: 150px 0; min-height: 650px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="subtitle">{{ hotel.name }}</div>
+                <div class="title">About Hotel</div>
             </div>
         </div>
-    </section>
-    {% endif %}
+    </div>
+</section>
+{% endif %}
     <!-- About -->
     <section class="about section-padding">
         <div class="container">
