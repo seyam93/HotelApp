@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Restaurant
+from .models import Restaurant, RestaurantMenu
 from hotels.models import Hotel, HotelPageBanner, HotelVideoBanner
 
 # Restaurant views
@@ -26,4 +26,14 @@ def restaurant_detail(request, hotel_slug, slug):
         'restaurant': restaurant,
         'banner' : image_banner,
         'video_banner': video_banner,
+    })
+
+# Restaurant Menu View
+def menu_view(request, slug):
+    menu = get_object_or_404(RestaurantMenu, slug=slug)
+    hotel = menu.restaurant.hotel if hasattr(menu.restaurant, 'hotel') else None  # Optional if there's a link
+
+    return render(request, 'restaurants/restaurant_menus.html', {
+        'menu': menu,
+        'hotel': hotel  # only if you use it in template
     })

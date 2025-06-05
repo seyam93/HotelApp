@@ -19,131 +19,126 @@
     </div>
 </section>
 {% endif %}
- <!-- Rooms 2 -->
- <section class="rooms2 section-padding">
+<!-- Rooms Section -->
+<section class="rooms2 section-padding">
     <div class="container">
         {% for room in rooms %}
         <div class="row g-0 justify-content-center align-items-center {% cycle 'bg-lightbrown br-0550 mb-90' 'bg-lightbrown br-5005 mb-90' %}">
             {% if forloop.counter|divisibleby:"2" %}
-                {# Even items: Text Left, Image Right #}
-                <div class="col-lg-5 col-md-12">
-                    <a href="{{ room.get_absolute_url }}" class="room-card" style="text-decoration: none; color: inherit; display: block;">
-                        <div class="item">
-                            <h3 class="title">{{ room.name }}</h3>
-                            <p>{{ room.description|truncatewords:30 }}</p>
+            <!-- Even: Text Left, Image Right -->
+            <div class="col-lg-5 col-md-12">
+                <a href="{{ room.get_absolute_url }}" class="room-card" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="item">
+                        <h3 class="title">{{ room.name }}</h3>
+                        <p>{{ room.description|truncatewords:30 }}</p>
 
-                            <div class="row room-features">
-                                <div class="col-lg-6 col-md-12">
-                                    <ul>
-                                        <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
-                                        <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <ul>
-                                        <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
-                                        <li><i class="fa-thin fa-eye"></i> {{room.get_room_views_display }} </li>
-                                    </ul>
-                                </div>
+                        <div class="row room-features">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
+                                    <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
+                                </ul>
                             </div>
-
-                            <div class="line-dec"></div>
-
-                            <div class="book d-flex justify-content-between align-items-center">
-                                {% if room.price_per_night%}
-                                <div>
-                                    <div class="price">${{ room.price_per_night }} <span>/ night</span></div>
-                                </div>
-                                {% else %}
-                                <div>
-                                    <div > </div>
-                                </div>
-                                {% endif %}
-                                <div>
-                                    <a href="https://be.synxis.com/?adult=1&child=0&rooms=1
-          &arrive={{ today }}
-          &depart={{ tomorrow }}
-          &chain={{ hotel.synxis_chain_id }}
-          &hotel={{ hotel.synxis_hotel_id }}
-          &level=hotel"
-   target="_blank" class="button-3" onclick="event.stopPropagation();">Book now</a>
-                                </div>
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
+                                    <li><i class="fa-thin fa-eye"></i> {{ room.get_room_views_display }}</li>
+                                </ul>
                             </div>
                         </div>
-                    </a>
-                </div>
 
-                <div class="col-lg-7 col-md-12">
-                    <div class="owl-carousel owl-theme">
-                        {% for image in room.room_images.all %}
-                            <div class="img">
-                                <img src="{{ image.image.url }}" class="img-fluid br-0550" alt="{{ image.caption|default:room.name }}">
+                        <div class="line-dec"></div>
+
+                        <div class="book d-flex justify-content-between align-items-center">
+                            {% if room.virtual_tour_link %}
+                            <div>
+                                <a href="{{ room.virtual_tour_link }}" target="_blank" class="button-3">
+                                    View Virtual Tour
+                                </a>
                             </div>
-                        {% empty %}
-                            <div class="img">
-                                <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
+                            {% endif %}
+                            <div>
+                                <a href="https://be.synxis.com/?adult=1&child=0&rooms=1&arrive={{ today }}&depart={{ tomorrow }}&chain={{ hotel.synxis_chain_id }}&hotel={{ hotel.synxis_hotel_id }}&level=hotel"
+                                   target="_blank" class="button-3" onclick="event.stopPropagation();">
+                                    Book now
+                                </a>
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
+                </a>
+            </div>
+
+            <div class="col-lg-7 col-md-12">
+                <div class="owl-carousel owl-theme">
+                    {% for image in room.room_images.all %}
+                    <div class="img">
+                        <img src="{{ image.image.url }}" class="img-fluid br-0550" alt="{{ image.caption|default:room.name }}">
+                    </div>
+                    {% empty %}
+                    <div class="img">
+                        <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
+                    </div>
+                    {% endfor %}
                 </div>
+            </div>
 
             {% else %}
-                {# Odd items: Image Left, Text Right #}
-                <div class="col-lg-7 col-md-12">
-                    <div class="owl-carousel owl-theme">
-                        {% for image in room.room_images.all %}
-                            <div class="img">
-                                <img src="{{ image.image.url }}" class="img-fluid br-0550" alt="{{ image.caption|default:room.name }}">
-                            </div>
-                        {% empty %}
-                            <div class="img">
-                                <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
-                            </div>
-                        {% endfor %}
+            <!-- Odd: Image Left, Text Right -->
+            <div class="col-lg-7 col-md-12">
+                <div class="owl-carousel owl-theme">
+                    {% for image in room.room_images.all %}
+                    <div class="img">
+                        <img src="{{ image.image.url }}" class="img-fluid br-0550" alt="{{ image.caption|default:room.name }}">
                     </div>
+                    {% empty %}
+                    <div class="img">
+                        <img src="{% static 'img/default_room.jpg' %}" class="img-fluid br-0550" alt="Room">
+                    </div>
+                    {% endfor %}
                 </div>
+            </div>
 
-                <div class="col-lg-5 col-md-12">
-                    <a href="{{ room.get_absolute_url }}" class="room-card" style="text-decoration: none; color: inherit; display: block;">
-                        <div class="item">
-                            <h3 class="title">{{ room.name }}</h3>
-                            <p>{{ room.description|truncatewords:30 }}</p>
+            <div class="col-lg-5 col-md-12">
+                <a href="{{ room.get_absolute_url }}" class="room-card" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="item">
+                        <h3 class="title">{{ room.name }}</h3>
+                        <p>{{ room.description|truncatewords:30 }}</p>
 
-                            <div class="row room-features">
-                                <div class="col-lg-6 col-md-12">
-                                    <ul>
-                                        <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
-                                        <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <ul>
-                                        <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
-                                        <li><i class="fa-thin fa-eye"></i> {{room.get_room_views_display }} </li>
-                                    </ul>
-                                </div>
+                        <div class="row room-features">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-user"></i> {{ room.number_of_persons }} Persons</li>
+                                    <li><i class="fa-thin fa-expand"></i> {{ room.area }} sqft room</li>
+                                </ul>
                             </div>
-
-                            <div class="line-dec"></div>
-
-                            <div class="book d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="price">${{ room.price_per_night }} <span>/ night</span></div>
-                                </div>
-                                <div>
-                                    <a href="https://be.synxis.com/?adult=1&child=0&rooms=1
-          &arrive={{ today }}
-          &depart={{ tomorrow }}
-          &chain={{ hotel.synxis_chain_id }}
-          &hotel={{ hotel.synxis_hotel_id }}
-          &level=hotel"
-   target="_blank" class="button-3" onclick="event.stopPropagation();">Book now</a>
-                                </div>
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li><i class="fa-thin fa-bed-front"></i> {{ room.get_bed_type_display }}</li>
+                                    <li><i class="fa-thin fa-eye"></i> {{ room.get_room_views_display }}</li>
+                                </ul>
                             </div>
                         </div>
-                    </a>
-                </div>
 
+                        <div class="line-dec"></div>
+
+                        <div class="book d-flex justify-content-between align-items-center">
+                            {% if room.virtual_tour_link %}
+                            <div>
+                                <a href="{{ room.virtual_tour_link }}" target="_blank" class="button-3">
+                                    View Virtual Tour
+                                </a>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <a href="https://be.synxis.com/?adult=1&child=0&rooms=1&arrive={{ today }}&depart={{ tomorrow }}&chain={{ hotel.synxis_chain_id }}&hotel={{ hotel.synxis_hotel_id }}&level=hotel"
+                                   target="_blank" class="button-3" onclick="event.stopPropagation();">
+                                    Book now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
             {% endif %}
         </div>
         {% endfor %}

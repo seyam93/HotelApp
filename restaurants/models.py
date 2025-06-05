@@ -5,6 +5,9 @@ from django.core.files.base import ContentFile
 from PIL import Image
 import io
 from django.urls import reverse
+from django.utils.html import mark_safe
+from django.conf import settings
+from utils.qr_code_generator import generate_qr_code 
 
 # Restaurant Models
 class Restaurant(models.Model):
@@ -56,7 +59,39 @@ class Restaurant(models.Model):
             'hotel_slug': self.hotel.slug,
             'slug': self.slug
         })
-    
+
+# Restaurant Menus Model  
+class RestaurantMenu(models.Model):
+    restaurant = models.OneToOneField('Restaurant', on_delete=models.CASCADE, related_name='menu')
+    slug = models.SlugField(unique=True, blank=True)
+
+    general_pdf = models.FileField(upload_to='menus/general/', blank=True, null=True)
+    breakfast_pdf = models.FileField(upload_to='menus/breakfast/', blank=True, null=True)
+    lunch_pdf = models.FileField(upload_to='menus/lunch/', blank=True, null=True)
+    dinner_pdf = models.FileField(upload_to='menus/dinner/', blank=True, null=True)
+    beverage_pdf = models.FileField(upload_to='menus/beverage/', blank=True, null=True)
+    offers_pdf = models.FileField(upload_to='menus/offers/', blank=True, null=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.restaurant.name)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('restaurant-menu', kwargs={'slug': self.slug})
+
+    def qr_code_preview(self):
+        full_url = f"{settings.SITE_DOMAIN}{self.get_absolute_url()}"
+        qr_data_uri = generate_qr_code(full_url)
+        return mark_safe(f'<img src="{qr_data_uri}" width="150" height="150" />')
+
+    qr_code_preview.short_description = "QR Code"
+
+    def __str__(self):
+        return f"{self.restaurant.name} Menus"
+
+  
 class RestaurantImage(models.Model):
     restaurant = models.ForeignKey(Restaurant, related_name="gallery_images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='restaurant_gallery/', null=True, blank=True)

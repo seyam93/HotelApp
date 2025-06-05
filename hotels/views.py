@@ -42,6 +42,8 @@ def hotel_detail(request, slug):
     faqs = hotel.faqs.all()[:4]
     image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='home').first()
     video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='home').first()
+    image_url = request.build_absolute_uri(hotel.image_cover.url) if hotel.image_cover else ""
+
 
     return render(request, 'hotels/hotel_detail.html', {
         'hotel': hotel,
@@ -60,6 +62,7 @@ def hotel_detail(request, slug):
         'tab_items': tab_items,
         'faqs': faqs,
         'video_banner': video_banner,
+        'image_url': image_url,
     })
 
 # All Rooms Page For a certain Hotel

@@ -3,11 +3,15 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+
 <head>
-    <meta charset="utf-8">
+    <title>{% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}</title>
+{% block meta_tags %}
+{% endblock %}
+    {% comment %} <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>{% block title %}My Hotel Site{% endblock %}</title>
+    <title>{% block title %}My Hotel Site{% endblock %}</title> {% endcomment %}
     <link rel="shortcut icon" href={% static "img/favicon.png"%} />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Urbanist:wght@300;400;500;600&display=swap">
     <link rel="stylesheet" href={% static "css/plugins.css" %} />

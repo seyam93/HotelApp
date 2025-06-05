@@ -162,6 +162,9 @@ class Hotel(models.Model):
     synxis_chain_id = models.CharField(max_length=20, help_text="The chain ID used by SynXis booking engine", null=True, blank=True)
     synxis_hotel_id = models.CharField(max_length=20, help_text="The hotel ID used by SynXis booking engine", null=True,blank=True)
     slogan = models.CharField(max_length=255, blank=True)
+    meta_title = models.CharField(max_length=70, blank=True, help_text="Custom SEO title (max 70 characters). Defaults to hotel name if empty.")
+    meta_description = models.TextField(max_length=160, blank=True, help_text="SEO description for search engines (max 160 characters).")
+    meta_keywords = models.CharField(max_length=255, blank=True, help_text="Comma-separated keywords for search relevance.")
     logo = models.ImageField(upload_to='hotel_logos/', null=True, blank=True, help_text="Logo for the hotel")
     title = models.CharField(max_length=255, blank=True)
     image_cover = models.ImageField(upload_to='hotel_covers/', null=True, blank=True, help_text="Signature image for carousel and listings")
@@ -322,6 +325,7 @@ class Room(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     amenities = models.ManyToManyField('Amenity', related_name='rooms', blank=True)
     features = models.ManyToManyField('Feature', related_name='rooms', blank=True)
+    virtual_tour_link = models.URLField(blank=True, null=True, help_text="Link to a virtual tour of the room")
 
     class Meta:
         ordering = ['display_order']

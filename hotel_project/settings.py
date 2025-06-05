@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "jazzmin",
     'adminsortable2',
     "django_extensions",
+    'django.contrib.sitemaps',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,7 +65,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "hotel_project.urls"
-
+SITE_ID = 1
+SITE_DOMAIN = "http://127.0.0.1:8000"
+# Templates
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

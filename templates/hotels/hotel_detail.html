@@ -1,6 +1,44 @@
 {% extends "base.html" %}
-{% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}
 {% load static %}
+{% block title %}{{ hotel.meta_title|default:hotel.name }}{% endblock %}
+
+{% block meta_tags %}
+  <meta name="description" content="{{ hotel.meta_description|default:hotel.description|truncatewords:30 }}">
+  <meta name="keywords" content="{{ hotel.meta_keywords }}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ hotel.meta_title|default:hotel.name }}" />
+  <meta property="og:description" content="{{ hotel.meta_description|default:hotel.description|truncatewords:30 }}" />
+  <meta property="og:image" content="{{ image_url }}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ hotel.meta_title|default:hotel.name }}" />
+  <meta name="twitter:description" content="{{ hotel.meta_description|default:hotel.description|truncatewords:30 }}" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Hotel",
+    "name": "{{ hotel.name|escapejs }}",
+    "description": "{{ hotel.meta_description|default:hotel.description|truncatewords:30|escapejs }}",
+    "image": "{{ image_url }}",
+    "url": "{{ request.build_absolute_uri }}",
+    "telephone": "{{ hotel.phone|default:'' }}",
+    "email": "{{ hotel.email|default:'' }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ hotel.address|default:''|escapejs }}",
+      "addressLocality": "{{ hotel.city|default:'' }}",
+      "addressCountry": "{{ hotel.country|default:'' }}"
+    }
+  }
+  </script>
+{% endblock %}
 {% block content %}
     <!-- Kenburns SlideShow -->
     <aside class="kenburns-section" id="kenburnsSliderContainer" data-overlay-dark="5">

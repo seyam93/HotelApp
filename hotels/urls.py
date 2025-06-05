@@ -2,6 +2,12 @@ from django.urls import path
 from . import views
 from django.views.generic import TemplateView
 from .views import booking_redirect
+from django.contrib.sitemaps.views import sitemap
+from hotels.sitemaps import HotelSitemap
+
+sitemaps = {
+    'hotels': HotelSitemap,
+}
 
 urlpatterns = [
     path('', views.home, name='home-page'),
@@ -17,4 +23,8 @@ urlpatterns = [
     path('booking/redirect/', booking_redirect, name='booking-redirect'),
     path('subscribe/', views.subscribe_newsletter, name='subscribe-newsletter'),
     path('live-search/', views.live_search, name='live-search'),
+
+    # ✅ SEO Essentials
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
 ]

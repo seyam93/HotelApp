@@ -31,8 +31,8 @@
     .company-logo {
       width: 70px;
       height: 70px;
-      background-color: var(--primary-dark);
-      border-radius: 10px;
+      background-color: white;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -40,19 +40,18 @@
       color: var(--primary-gold);
       font-weight: bold;
       transition: all 0.3s ease;
-      border: 1px solid var(--primary-gold);
     }
 
     .spaced-logo {
   margin-right: 2rem;
   padding-right: 1rem;
-  border-right: 1px solid #dee2e6; /* light divider line */
+  
 }
 
-    .job-card:hover .company-logo {
+    /* .job-card:hover .company-logo {
       background-color: var(--primary-gold);
       color: var(--primary-dark);
-    }
+    } */
 
     .job-title {
       font-weight: bold;

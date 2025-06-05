@@ -68,6 +68,28 @@ class HotelAdmin(SortableAdminBase, admin.ModelAdmin):
     readonly_fields = ('slug',)
     inlines = [HotelImageInline, ImageCoverInline, RoomInline, SocialLinkInline]
 
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name', 'slug', 'slogan', 'title', 'description',
+                'image_cover', 'logo', 'star_rating', 'location',
+                'city', 'country', 'phone', 'email', 'address'
+            )
+        }),
+        ('SynXis Settings', {
+            'fields': ('synxis_chain_id', 'synxis_hotel_id'),
+        }),
+        ('Contact Page Settings', {
+            'fields': (
+                'contact_banner', 'contact_image1', 'contact_image2', 'map_embed_url',
+            )
+        }),
+        ('SEO Settings', {
+            'fields': ('meta_title', 'meta_description', 'meta_keywords'),
+            'classes': ('collapse',),
+        }),
+    )
+
 # ========== Room (basic admin, no ordering here) ==========
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
