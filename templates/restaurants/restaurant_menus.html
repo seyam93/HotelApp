@@ -3,11 +3,85 @@
 
 {% block title %}{{ menu.restaurant.name }} | {{ hotel.name }}{% endblock %}
 
+{% block extra_css %}
+<style>
+      .restaurant-menu-card {
+      position: relative;
+      padding: 2rem;
+      background: #FFFFF0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      color: #333;
+      height: 250px;
+      width: 250px;
+      text-align: center;
+      margin: 0 auto;
+    }
 
+  .restaurant-menu-card-icon {
+      font-size: 3rem;
+      color: #aa8453;
+      display: block;
+      margin: 40px auto 15px;
+    }
+
+  .restaurant-menu-card-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      display: block;
+      text-align: center;
+    }
+
+  .restaurant-menu-pdf-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #aa8453;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .restaurant-menu-section {
+    background: #1B1B1B;
+    padding: 80px 0;
+    position: relative;
+  }
+
+  .restaurant-menu-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #aa8453, transparent);
+  }
+
+  .restaurant-menu-title {
+    font-family: "optima", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #Aa9050;
+    margin-bottom: 3rem;
+  }
+
+  .restaurant-menu-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 <!-- Header Banner -->
-<section class="banner-header full-height valign bg-img" data-overlay-dark="4" data-background="{% if menu.restaurant.image_cover %}{{ menu.restaurant.image_cover.url }}{% else %}{% static 'img/banner/11.jpg' %}{% endif %}">
+<section class="banner-header full-height valign bg-img" data-overlay-dark="4" data-background="{% if menu.restaurant.image_cover %}{{ menu.restaurant.image_cover.url }}{% else %}{% static 'img/banner/11.jpg' %}{% endif %}" style="padding: 150px 0; min-height: 600px; !important">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
@@ -18,57 +92,63 @@
     </div>
 </section>
 
-<section class="section-padding">
+<section class="restaurant-menu-section">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10 text-center">
-        <h2 class="mb-5 wow fadeInUp" data-wow-delay="0s">{{ menu.restaurant.name }} Menus</h2>
-        <div class="row g-4">
+        <h2 class="restaurant-menu-title">{{ menu.restaurant.name }} Menus</h2>
+        <div class="restaurant-menu-grid">
           {% if menu.general_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
-            <a href="{{ menu.general_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-utensils"></i>
-              <span>Main Menu</span>
+          <div>
+            <a href="{{ menu.general_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-utensils restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Main Menu</span>
             </a>
           </div>
           {% endif %}
           {% if menu.breakfast_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-            <a href="{{ menu.breakfast_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-mug-saucer"></i>
-              <span>Breakfast Menu</span>
+          <div>
+            <a href="{{ menu.breakfast_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-mug-saucer restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Breakfast Menu</span>
             </a>
           </div>
           {% endif %}
           {% if menu.lunch_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
-            <a href="{{ menu.lunch_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-burger"></i>
-              <span>Lunch Menu</span>
+          <div>
+            <a href="{{ menu.lunch_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-burger restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Lunch Menu</span>
             </a>
           </div>
           {% endif %}
           {% if menu.dinner_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
-            <a href="{{ menu.dinner_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-drumstick-bite"></i>
-              <span>Dinner Menu</span>
+          <div>
+            <a href="{{ menu.dinner_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-drumstick-bite restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Dinner Menu</span>
             </a>
           </div>
           {% endif %}
           {% if menu.beverage_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
-            <a href="{{ menu.beverage_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-champagne-glasses"></i>
-              <span>Beverage Menu</span>
+          <div>
+            <a href="{{ menu.beverage_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-champagne-glasses restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Beverage Menu</span>
             </a>
           </div>
           {% endif %}
           {% if menu.offers_pdf %}
-          <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
-            <a href="{{ menu.offers_pdf.url }}" target="_blank" class="menu-card">
-              <i class="fa-solid fa-tags"></i>
-              <span>Special Offers</span>
+          <div>
+            <a href="{{ menu.offers_pdf.url }}" target="_blank" class="restaurant-menu-card">
+              <span class="restaurant-menu-pdf-badge">PDF</span>
+              <i class="fa-solid fa-tags restaurant-menu-card-icon"></i>
+              <span class="restaurant-menu-card-text">Special Offers</span>
             </a>
           </div>
           {% endif %}
@@ -78,6 +158,7 @@
   </div>
 </section>
 {% endblock %}
+
 {% block footer_content %}
 <footer class="footer">
     <!-- top -->

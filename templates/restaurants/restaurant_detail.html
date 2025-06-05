@@ -11,6 +11,14 @@
             <div class="col-md-12 text-center">
                 <div class="subtitle">{{ restaurant.slogan }}</div>
                 <div class="title mb-0">{{ restaurant.name }}</div>
+                <div class="details"> 
+                    {% if restaurant.cuisine %}
+                        <span><i class="fa-thin fa-utensils"></i>{{ restaurant.cuisine}} </span>
+                    {% endif %}
+                    {% if restaurant.no_of_seats %}
+                    <span><i class="fa-thin fa-chair"></i>{{ restaurant.no_of_seats }} Seats</span>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
