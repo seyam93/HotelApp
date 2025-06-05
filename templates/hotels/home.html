@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <style>
+    span.select2.select2-container.select2-container--default {
+      width: 120% !important;
+    }
+
+    span#select2-children-y1-container.select2-selection__rendered {
+      width: 120% !important;
+      padding-right: 20px !important;
+    }
+    
     #hotelShowcase {
       position: relative;
       min-height: 220px;
@@ -88,7 +97,7 @@
  <!-- Booking Form -->
 <div class="booking-wrapper">
   <div class="container">
-    <div class="booking-inner clearfix">
+    <div class="booking-inner clearfix" style="width: 102%; margin-left: -1%; position: relative;">
       <form action="{% url 'booking-redirect' %}" method="post" class="form1 clearfix" target="_blank">
         {% csrf_token %}
 
@@ -145,9 +154,9 @@
   <!-- Children -->
   <div class="col2 c4" style="width: 12%;">
     <div class="select1_wrapper border-l border-b border-t border-r">
-      <label>Children</label>
+      <label style="font-size: 8px !important;">Children</label>
       <div class="select1_inner">
-        <select name="children" class="select2 select" style="width: 100%">
+        <select name="children" class="select2 select" >
           <option value="0" >No Children</option>
           <option value="1">1 Child</option>
           <option value="2">2 Children</option>
