@@ -782,4 +782,3 @@ class HoverImageTab(models.Model):
 
     class Meta:
         ordering = ['id']  # Ensures order of display
-

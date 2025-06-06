@@ -21,7 +21,8 @@ class ImageCoverInline(admin.TabularInline):
 
 class RoomInline(SortableTabularInline):
     model = Room
-    extra = 1
+    extra = 0
+    can_delete = True
     fields = ('name', 'display_order', 'is_available')
     readonly_fields = ('display_order',)
 
@@ -65,30 +66,10 @@ class HotelAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('id', 'name', 'location', 'created_at')
     search_fields = ('name', 'location')
     list_filter = ('location',)
-    readonly_fields = ('slug',)
+    readonly_fields = ('slug', 'created_at', 'updated_at')
     inlines = [HotelImageInline, ImageCoverInline, RoomInline, SocialLinkInline]
 
-    fieldsets = (
-        (None, {
-            'fields': (
-                'name', 'slug', 'slogan', 'title', 'description',
-                'image_cover', 'logo', 'star_rating', 'location',
-                'city', 'country', 'phone', 'email', 'address'
-            )
-        }),
-        ('SynXis Settings', {
-            'fields': ('synxis_chain_id', 'synxis_hotel_id'),
-        }),
-        ('Contact Page Settings', {
-            'fields': (
-                'contact_banner', 'contact_image1', 'contact_image2', 'map_embed_url',
-            )
-        }),
-        ('SEO Settings', {
-            'fields': ('meta_title', 'meta_description', 'meta_keywords'),
-            'classes': ('collapse',),
-        }),
-    )
+    fields = [f.name for f in Hotel._meta.fields if f.editable and f.name not in ('id',)]
 
 # ========== Room (basic admin, no ordering here) ==========
 @admin.register(Room)

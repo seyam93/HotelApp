@@ -1,5 +1,5 @@
 <!-- includes/booking_form.html -->
-<form action="{% url 'booking-redirect' %}" method="post" class="form1 clearfix">
+<form action="{% url 'booking-redirect' %}" method="post" class="form1 clearfix" target="_blank">
   {% csrf_token %}
   <input type="hidden" name="hotel_id" value="{{ hotel.synxis_hotel_id }}">
 
