@@ -107,6 +107,7 @@ def hotel_facilities_view(request, hotel_slug):
     active_facilities = Facility.objects.filter(hotel=hotel, is_active=True).prefetch_related('images').order_by('type', 'name')
     image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='services').first()
     video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='services').first()
+    services = HotelService.objects.filter(hotel=hotel, is_active=True)
 
     return render(request, 'hotels/hotel_facilities.html', {
         'hotel': hotel,
@@ -116,6 +117,7 @@ def hotel_facilities_view(request, hotel_slug):
         'active_facility_types': list(OrderedDict.fromkeys(f.type for f in active_facilities)),
         'banner': image_banner,
         'video_banner': video_banner,
+        'services': services,
     })
 
 # Offers Page
@@ -124,6 +126,7 @@ def offer_list_view(request, hotel_slug):
 
     offers_featured = hotel.offers.filter(is_active=True, is_featured=True).order_by('-start_date')
     offers_card = hotel.offers.filter(is_active=True, is_card=True).order_by('-start_date')[:4]
+    
 
     image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='offers').first()
     video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='offers').first()

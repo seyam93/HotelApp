@@ -64,6 +64,21 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Debug Toolbar settings
+DEBUG_TOOLBAR = os.environ.get('DJANGO_DEBUG_TOOLBAR', 'true') == 'true'
+
+if DEBUG_TOOLBAR:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+
+    INTERNAL_IPS = ['127.0.0.1']
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+    }
+
+# URL configuration
+
 ROOT_URLCONF = "hotel_project.urls"
 SITE_ID = 1
 SITE_DOMAIN = "http://127.0.0.1:8000"

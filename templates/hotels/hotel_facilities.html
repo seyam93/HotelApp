@@ -109,7 +109,7 @@
                             </ul>
                             {% if facility.detail_file %}
                             <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3">
-                                <i class="fa-solid fa-info"></i> View details
+                            View details
                             </a>
                             {% endif %}
                         </div>
@@ -148,6 +148,34 @@
         </div>
     </div>
 </section>
+
+<!-- Other Hotel Facilities & Aminities in Icons -->
+<!-- Amenities Grid -->
+<section class="amenities section-padding">
+    <div class="container">
+        <div class="row mb-25">
+            <div class="col-md-12 text-center">
+                <div class="section-subtitle">Other Services</div>
+                <div class="section-title">Hotel Amenities</div>
+            </div>
+        </div>
+        <div class="row">
+            {% for service in services %}
+            <div class="col-6 col-sm-4 col-md-4 col-lg-2 mb-4 d-flex">
+                <div class="item hover-box text-center p-3 w-100 d-flex flex-column justify-content-center align-items-center border rounded" style="min-height: 160px;">
+                    <div class="icon mb-2">
+                        <i class="fa-thin fa-{{ service.icon }} fa-2x" style="color: #aa9050;"></i>
+                    </div>
+                    <div class="text">
+                        <h6>{{ service.title }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 <!-- Video Banner -->
 {% if video_banner %}
 <section class="video-wrapper section-padding bg-img"

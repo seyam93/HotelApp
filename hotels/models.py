@@ -493,7 +493,7 @@ class HotelService(models.Model):
     ]
     hotel = models.ForeignKey(Hotel, related_name='hotel_services', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(null=True,blank=True,help_text="beware of services height in hotel home page !!!")
     featured = models.BooleanField(default=False, help_text="Activating this makes the service appear in (Pricing Section ) Please no more than 3 services")
     icon = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to='hotel_services/', help_text="Dimension: 375x500", null=True, blank=True)
