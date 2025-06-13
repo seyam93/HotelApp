@@ -4,6 +4,184 @@
 {% block title %}Careers | {{ hotel.name }}{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/career_card.css' %}">
+<style>
+    /* Modal Styles */
+    .modal-content {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .modal-header {
+        border-radius: 12px 12px 0 0;
+        padding: 1.5rem;
+        background-color: #aa9050 !important;
+    }
+
+    .modal-header .modal-title {
+        color: white;
+    }
+
+    .modal-header .btn-close {
+        filter: brightness(0) invert(1);
+    }
+
+    .modal-footer {
+        border-radius: 0 0 12px 12px;
+        padding: 1rem 1.5rem;
+    }
+
+    /* Form Styles */
+    .form-floating > .form-control {
+        padding: 1rem 0.75rem;
+        height: calc(3.5rem + 2px);
+        line-height: 1.25;
+    }
+
+    .form-floating > textarea.form-control {
+        height: 120px;
+    }
+
+    .form-floating > label {
+        padding: 1rem 0.75rem;
+    }
+
+    /* File Upload Styles */
+    .file-upload-wrapper {
+        position: relative;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        cursor: pointer;
+    }
+
+    .file-upload-wrapper:hover {
+        border-color: #0d6efd;
+        background: #f1f8ff;
+    }
+
+    .file-upload-wrapper.dragover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .file-upload-icon {
+        font-size: 2.5rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .file-upload-text {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    .file-upload-subtext {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .file-selected {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        color: #198754;
+        font-weight: 500;
+    }
+
+    .file-selected i {
+        font-size: 1.25rem;
+    }
+
+    /* Toast Styles */
+    .toast-custom {
+        background: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 8px;
+    }
+
+    .toast-success {
+        border-left: 4px solid #198754;
+    }
+
+    .toast-error {
+        border-left: 4px solid #dc3545;
+    }
+
+    .toast-icon {
+        font-size: 1.25rem;
+    }
+
+    .toast-success .toast-icon {
+        color: #198754;
+    }
+
+    .toast-error .toast-icon {
+        color: #dc3545;
+    }
+
+    /* Button Styles */
+    .btn {
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .btn-primary:hover {
+        background: #0b5ed7;
+        border-color: #0b5ed7;
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-secondary {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #dc3545;
+        border-color: #dc3545;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Loading Spinner */
+    .spinner {
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid #fff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
 {% endblock %}
 {% block content %}
 
@@ -36,38 +214,97 @@
     {% endfor %}
   </div>
 </div>
-<!-- Career Application Modal -->
+<!-- Enhanced Career Application Modal -->
 <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form id="careerForm" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="applyModalLabel">Apply for <span id="jobTitleSpan"></span></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <input type="hidden" name="job_title" id="jobTitleInput">
-          <div class="mb-3"><input type="text" name="name" class="form-control" placeholder="Your Name" required></div>
-          <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
-          <div class="mb-3"><input type="text" name="phone" class="form-control" placeholder="Phone"></div>
-          <div class="mb-3"><textarea name="message" class="form-control" placeholder="Message (Optional)"></textarea></div>
-          <div class="mb-3"><input type="file" name="resume" class="form-control"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Send Application</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-  <div id="careerToast" class="toast align-items-center text-white bg-success border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body" id="careerToastBody">Application sent successfully!</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    <div class="modal-dialog modal-dialog-centered">
+        <form id="careerForm" method="post" enctype="multipart/form-data" action="{% url 'career-apply' %}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyModalLabel">
+                        <i class="fas fa-briefcase me-2"></i>
+                        Apply for <span id="jobTitleSpan" class="fw-bold">Position</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <input type="hidden" name="job_title" id="jobTitleInput">
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter your full name" required>
+                        <label for="name">
+                            <i class="fas fa-user me-2"></i>
+                            Full Name
+                        </label>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        <label for="email">
+                            <i class="fas fa-envelope me-2"></i>
+                            Email Address
+                        </label>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="Enter your phone number">
+                        <label for="phone">
+                            <i class="fas fa-phone me-2"></i>
+                            Phone Number
+                        </label>
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea name="message" id="message" class="form-control" style="height: 120px;" placeholder="Tell us why you're perfect for this role..."></textarea>
+                        <label for="message">
+                            <i class="fas fa-comment me-2"></i>
+                            Cover Letter / Message
+                        </label>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label d-flex align-items-center">
+                            <i class="fas fa-file-upload me-2"></i>
+                            Resume / CV
+                        </label>
+                        <div class="file-upload-wrapper" id="fileUploadWrapper">
+                            <div class="file-upload-content">
+                                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                                <div class="file-upload-text">Drag & drop your resume here</div>
+                                <div class="file-upload-subtext">or click to browse (PDF, DOC, DOCX - Max 5MB)</div>
+                                <input type="file" name="resume" id="resume" class="file-upload-input" accept=".pdf,.doc,.docx">
+                            </div>
+                            <div class="file-selected" id="fileSelected">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="fileName"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">Send Application</span>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
+
+<!-- Enhanced Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="careerToast" class="toast toast-custom" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body d-flex align-items-center" id="careerToastBody">
+            <i class="fas fa-check-circle toast-icon me-2"></i>
+            <span>Application sent successfully!</span>
+        </div>
+    </div>
 </div>
 <!-- Video Banner -->
 {% if video_banner %}
@@ -221,90 +458,365 @@
 {% endblock %}
 {% block script %}
 <script>
-  $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
+  // Enhanced Career Modal JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('careerForm');
+    const fileInput = document.getElementById('resume');
+    const fileWrapper = document.getElementById('fileUploadWrapper');
+    const fileSelected = document.getElementById('fileSelected');
+    const fileName = document.getElementById('fileName');
+    const submitBtn = document.getElementById('submitBtn');
+    const jobTitleSpan = document.getElementById('jobTitleSpan');
+    const jobTitleInput = document.getElementById('jobTitleInput');
 
-    $('#favoriteBtn').on('click', function () {
-      $(this).toggleClass('active');
-      const message = $(this).hasClass('active')
-              ? 'Job saved to favorites!'
-              : 'Job removed from favorites!';
-      showToast(message);
-    });
+    // Initialize modal events
+    initializeModalEvents();
+    initializeFileUpload();
+    initializeFormValidation();
+    initializeFormSubmission();
 
-    function showToast(message) {
-      $('#toastMessage').text(message);
-      $('#toastNotification')
-              .removeClass('animate__fadeOutRight')
-              .addClass('animate__fadeInRight')
-              .css('display', 'block');
+    function initializeModalEvents() {
+        // Reset form when modal is shown
+        const modal = document.getElementById('applyModal');
+        modal.addEventListener('show.bs.modal', function(event) {
+            resetForm();
+            
+            // Get the job title from the clicked button
+            const button = event.relatedTarget;
+            if (button && button.dataset.jobTitle) {
+                const jobTitle = button.dataset.jobTitle;
+                jobTitleSpan.textContent = jobTitle;
+                jobTitleInput.value = jobTitle;
+            }
+        });
 
-      setTimeout(() => {
-        $('#toastNotification')
-                .removeClass('animate__fadeInRight')
-                .addClass('animate__fadeOutRight');
-
-        setTimeout(() => {
-          $('#toastNotification').css('display', 'none');
-        }, 1000);
-      }, 3000);
+        // Apply button click handlers (for job cards)
+        document.querySelectorAll('[data-job-title]').forEach(button => {
+            button.addEventListener('click', function() {
+                const jobTitle = this.getAttribute('data-job-title');
+                jobTitleSpan.textContent = jobTitle;
+                jobTitleInput.value = jobTitle;
+            });
+        });
     }
-  });
-</script>
-<script>
-  document.getElementById('careerForm').addEventListener('submit', function (e) {
-  e.preventDefault();
 
-  const form = e.target;
-  const formData = new FormData(form);
-  const resumeInput = form.querySelector('[name="resume"]');
-  const resumeFile = resumeInput.files[0];
+    function initializeFileUpload() {
+        // Drag and drop events
+        fileWrapper.addEventListener('dragover', handleDragOver);
+        fileWrapper.addEventListener('dragleave', handleDragLeave);
+        fileWrapper.addEventListener('drop', handleDrop);
+        
+        // File input change event
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
 
-  // ✅ File type and size validation
-  if (resumeFile) {
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    const maxSizeMB = 5;
+        // Remove the click event from the wrapper
+        fileWrapper.removeEventListener('click', function() {
+            fileInput.click();
+        });
 
-    if (!allowedTypes.includes(resumeFile.type)) {
-      showToast('Only PDF or Word documents are allowed.', true);
-      return;
+        // Add click event only to the upload content area
+        const uploadContent = fileWrapper.querySelector('.file-upload-content');
+        if (uploadContent) {
+            uploadContent.addEventListener('click', function(e) {
+                e.stopPropagation();
+                fileInput.click();
+            });
+        }
     }
-    if (resumeFile.size > maxSizeMB * 1024 * 1024) {
-      showToast('File size must be less than 5MB.', true);
-      return;
-    }
-  }
 
-  // ✅ AJAX submission
-  fetch("{% url 'career-apply' %}", {
-    method: 'POST',
-    headers: {
-      'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
-    },
-    body: formData
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        showToast('Application sent successfully!', false);
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fileWrapper.classList.add('dragover');
+    }
+
+    function handleDragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fileWrapper.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fileWrapper.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            handleFileSelect(files[0]);
+        }
+    }
+
+    function handleFileSelect(file) {
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        // Validate file type
+        if (!allowedTypes.includes(file.type)) {
+            showToast('Only PDF or Word documents are allowed.', 'error');
+            clearFileInput();
+            return;
+        }
+
+        // Validate file size
+        if (file.size > maxSize) {
+            showToast('File size must be less than 5MB.', 'error');
+            clearFileInput();
+            return;
+        }
+
+        // Show selected file
+        fileName.textContent = file.name;
+        fileSelected.style.display = 'block';
+        
+        // Add success styling to wrapper
+        fileWrapper.style.borderColor = 'var(--success-green)';
+        fileWrapper.style.backgroundColor = 'rgba(40, 167, 69, 0.1)';
+    }
+
+    function clearFileInput() {
+        fileInput.value = '';
+        fileSelected.style.display = 'none';
+        fileWrapper.style.borderColor = 'var(--neutral-medium)';
+        fileWrapper.style.backgroundColor = '';
+    }
+
+    function initializeFormValidation() {
+        // Real-time validation
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+
+            // Clear validation on focus
+            input.addEventListener('focus', function() {
+                this.classList.remove('is-invalid');
+                const feedback = this.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.textContent = '';
+                }
+            });
+        });
+    }
+
+    function validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.name;
+        let isValid = true;
+        let errorMessage = '';
+
+        // Remove previous validation classes
+        field.classList.remove('is-invalid');
+        
+        // Required field validation
+        if (field.hasAttribute('required') && !value) {
+            isValid = false;
+            errorMessage = 'This field is required.';
+        }
+        
+        // Email validation
+        else if (fieldName === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid email address.';
+            }
+        }
+        
+        // Phone validation for Egyptian numbers
+        else if (fieldName === 'phone' && value) {
+            // Remove any spaces, dashes, or parentheses
+            const cleanNumber = value.replace(/[\s\-\(\)]/g, '');
+            // Egyptian mobile number format: 01XXXXXXXXX (11 digits starting with 01)
+            const phoneRegex = /^01[0125][0-9]{8}$/;
+            
+            // Only validate if the number is not empty
+            if (cleanNumber && !phoneRegex.test(cleanNumber)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid Egyptian mobile number (e.g., 01028688882)';
+            }
+        }
+
+        // Update field validation state
+        if (!isValid) {
+            field.classList.add('is-invalid');
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = errorMessage;
+            }
+        } else {
+            // Remove invalid class if validation passes
+            field.classList.remove('is-invalid');
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = '';
+            }
+        }
+
+        return isValid;
+    }
+
+    function validateForm() {
+        let isValid = true;
+        const requiredFields = form.querySelectorAll('[required]');
+        
+        requiredFields.forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    function initializeFormSubmission() {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                showToast('Please correct the errors in the form.', 'error');
+                return;
+            }
+
+            submitForm();
+        });
+    }
+
+    function submitForm() {
+        const formData = new FormData(form);
+        
+        // Show loading state
+        setLoadingState(true);
+
+        // For Django integration, use the actual URL
+        const submitUrl = form.action || "{% url 'career-apply' %}";
+        
+        fetch(submitUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            setLoadingState(false);
+            
+            if (data.success) {
+                showToast('Application sent successfully!', 'success');
+                resetForm();
+                closeModal();
+            } else {
+                showToast(data.message || 'Failed to send application.', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            setLoadingState(false);
+            showToast('Something went wrong. Please try again.', 'error');
+        });
+    }
+
+    function setLoadingState(loading) {
+        if (loading) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div><span class="btn-text">Sending...</span>';
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="btn-text">Send Application</span>';
+        }
+    }
+
+    function resetForm() {
         form.reset();
-        bootstrap.Modal.getInstance(document.getElementById('applyModal')).hide();
-      } else {
-        showToast('Failed to send application.', true);
-      }
-    })
-    .catch(() => showToast('Something went wrong.', true));
+        clearFileInput();
+        
+        // Remove validation classes
+        document.querySelectorAll('.form-control').forEach(field => {
+            field.classList.remove('is-invalid');
+        });
+        
+        // Reset submit button
+        setLoadingState(false);
+    }
+
+    function closeModal() {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+        if (modal) {
+            modal.hide();
+        }
+    }
+
+    function getCsrfToken() {
+        const csrfInput = form.querySelector('[name=csrfmiddlewaretoken]');
+        return csrfInput ? csrfInput.value : '';
+    }
+
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('careerToast');
+        const toastBody = document.getElementById('careerToastBody');
+        const icon = toast.querySelector('.toast-icon');
+        const messageSpan = toastBody.querySelector('span');
+        
+        // Reset classes
+        toast.classList.remove('toast-success', 'toast-error');
+        
+        // Set content and style based on type
+        if (type === 'success') {
+            toast.classList.add('toast-success');
+            icon.className = 'fas fa-check-circle toast-icon';
+        } else {
+            toast.classList.add('toast-error');
+            icon.className = 'fas fa-exclamation-circle toast-icon';
+        }
+        
+        messageSpan.textContent = message;
+        
+        // Show toast
+        const bsToast = new bootstrap.Toast(toast, {
+            autohide: true,
+            delay: 4000
+        });
+        bsToast.show();
+    }
+
+    // Public methods for external use
+    window.CareerModal = {
+        show: function(jobTitle) {
+            if (jobTitle) {
+                document.getElementById('jobTitleSpan').textContent = jobTitle;
+                document.getElementById('jobTitleInput').value = jobTitle;
+            }
+            const modal = new bootstrap.Modal(document.getElementById('applyModal'));
+            modal.show();
+        },
+        
+        hide: function() {
+            closeModal();
+        },
+        
+        showToast: showToast
+    };
 });
 
-// ✅ Toast function
+// Legacy support for existing code
 function showToast(message, isError = false) {
-  const toastEl = document.getElementById('careerToast');
-  const toastBody = document.getElementById('careerToastBody');
-  toastEl.classList.remove('bg-success', 'bg-danger');
-  toastEl.classList.add(isError ? 'bg-danger' : 'bg-success');
-  toastBody.textContent = message;
-
-  new bootstrap.Toast(toastEl).show();
+    if (window.CareerModal) {
+        window.CareerModal.showToast(message, isError ? 'error' : 'success');
+    }
 }
 </script>
 {% endblock %}

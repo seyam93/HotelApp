@@ -145,40 +145,58 @@ class HotelArticle(models.Model):
         verbose_name_plural = "Hotel Articles"
         ordering = ['-created_at']
 
-# This model is used to store career opportunities for hotels.
+# Career model
 class Career(models.Model):
-    hotel = models.ForeignKey('hotels.Hotel', on_delete=models.CASCADE, related_name='careers')
-    job_title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    JOB_TYPES = [
+        ('full_time', 'Full Time'),
+        ('part_time', 'Part Time'),
+        ('internship', 'Internship'),
+        ('training', 'Training'),
+    ]
 
-    job_description = models.TextField()
-    job_requirements = models.TextField(help_text="Separate each requirement with a line break", blank=True, null=True)
-    job_location = models.CharField(max_length=255, null=True, blank=True)
+    hotel = models.ForeignKey(
+        'hotels.Hotel',
+        on_delete=models.CASCADE,
+        related_name='careers'
+    )
+    job_title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, blank=True)
+
+    job_description = models.TextField(max_length=70)
+    job_requirements = models.TextField(
+        help_text="Separate each requirement with a line break",
+        blank=True,
+        null=True
+    )
+    job_location = models.CharField(max_length=255, blank=True, null=True)
     job_type = models.CharField(
         max_length=50,
-        choices=[('full_time', 'Full Time'), ('part_time', 'Part Time'), ('internship', 'Internship')],
-        null=True, blank=True
+        choices=JOB_TYPES,
+        blank=True,
+        null=True
     )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Career"
+        verbose_name_plural = "Careers"
+        ordering = ['-created_at']
+        unique_together = ('hotel', 'slug')  # ✅ Slug must be unique per hotel
+
     def __str__(self):
-        return self.job_title
+        return f"{self.job_title} @ {self.hotel.name}"
 
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.job_title)
             unique_slug = base_slug
             counter = 1
-            while Career.objects.filter(slug=unique_slug).exists():
+            while Career.objects.filter(hotel=self.hotel, slug=unique_slug).exclude(pk=self.pk).exists():
                 unique_slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = unique_slug
         super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Career"
-        verbose_name_plural = "Careers"
-        ordering = ['-created_at']
 
 # This model is used to store career applications.
 class CareerApplication(models.Model):

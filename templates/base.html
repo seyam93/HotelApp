@@ -5,6 +5,7 @@
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 
 <head>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <title>{% block title %}{{ hotel.name }} | Triumph Hotels{% endblock %}</title>
 {% block meta_tags %}
 {% endblock %}
