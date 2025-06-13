@@ -78,6 +78,7 @@ class RoomAdmin(admin.ModelAdmin):
     list_filter = ('is_available', 'is_suit', 'hotel')
     search_fields = ('name', 'hotel__name')
     readonly_fields = ('slug',)
+    inlines = [RoomImageInline]
 
 # ========== Amenity ==========
 @admin.register(Amenity)
