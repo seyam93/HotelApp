@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ hotel.name }} | Events & Brochures{% endblock %}
+
+{% block extra_css %}
+<style>
+  .brochure-card {
+    position: relative;
+    padding: 2rem;
+    background: #FFFFF0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: #333;
+    height: 250px;
+    width: 250px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .brochure-card-icon {
+    font-size: 3rem;
+    color: #aa8453;
+    display: block;
+    margin: 40px auto 15px;
+  }
+
+  .brochure-card-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    text-align: center;
+  }
+
+  .brochure-pdf-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #aa8453;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .brochure-section {
+    background: #1B1B1B;
+    padding: 80px 0;
+    position: relative;
+  }
+
+  .brochure-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #aa8453, transparent);
+  }
+
+  .brochure-title {
+    font-family: "optima", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #Aa9050;
+    margin-bottom: 3rem;
+  }
+
+  .brochure-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+</style>
+{% endblock %}
+{% block content %}
+<!-- Header Banner -->
+{% if banner and banner.image %}
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
+         data-background="{{ banner.image.url }}"
+         style="padding: 150px 0; min-height: 650px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="subtitle">{{ hotel.name }}</div>
+                <div class="title">Meeting Rooms Brochures</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+<!-- Event Brochures Section -->
+<section class="brochure-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 text-center">
+        <h2 class="brochure-title">Event Brochures</h2>
+        <div class="brochure-grid">
+          {% if brochure.corporate_pdf %}
+          <div>
+            <a href="{{ brochure.corporate_pdf.url }}" target="_blank" class="brochure-card">
+              <span class="brochure-pdf-badge">PDF</span>
+              <i class="fa-solid fa-briefcase brochure-card-icon"></i>
+              <span class="brochure-card-text">Corporate Package</span>
+            </a>
+          </div>
+          {% endif %}
+          {% if brochure.wedding_pdf %}
+          <div>
+            <a href="{{ brochure.wedding_pdf.url }}" target="_blank" class="brochure-card">
+              <span class="brochure-pdf-badge">PDF</span>
+              <i class="fa-solid fa-ring brochure-card-icon"></i>
+              <span class="brochure-card-text">Wedding Brochure</span>
+            </a>
+          </div>
+          {% endif %}
+          {% if brochure.bofeh_pdf %}
+          <div>
+            <a href="{{ brochure.bofeh_pdf.url }}" target="_blank" class="brochure-card">
+              <span class="brochure-pdf-badge">PDF</span>
+              <i class="fa-solid fa-utensils brochure-card-icon"></i>
+              <span class="brochure-card-text">Buffet Menu</span>
+            </a>
+          </div>
+          {% endif %}
+          {% if brochure.setmenu_pdf %}
+          <div>
+            <a href="{{ brochure.setmenu_pdf.url }}" target="_blank" class="brochure-card">
+              <span class="brochure-pdf-badge">PDF</span>
+              <i class="fa-solid fa-bars brochure-card-icon"></i>
+              <span class="brochure-card-text">Set Menu</span>
+            </a>
+          </div>
+          {% endif %}
+          {% if brochure.offers_pdf %}
+          <div>
+            <a href="{{ brochure.offers_pdf.url }}" target="_blank" class="brochure-card">
+              <span class="brochure-pdf-badge">PDF</span>
+              <i class="fa-solid fa-gift brochure-card-icon"></i>
+              <span class="brochure-card-text">Special Offers</span>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Video Banner -->
+{% if video_banner %}
+<section class="video-wrapper section-padding bg-img"
+         data-overlay-dark="4"
+         style="min-height: 450px;"
+         data-background="{% if video_banner.video_image_cover %}{{ video_banner.video_image_cover.url }}{% else %}{% static 'img/banner/01.jpg' %}{% endif %}">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 text-center rotatex">
+                
+                {% if video_banner.video_file %}
+                    <a href="{{ video_banner.video_file.url }}" data-lity="video" class="rotate-box vid">
+                {% elif video_banner.video_url %}
+                    <a href="{{ video_banner.video_url }}" data-lity="video" class="rotate-box vid">
+                {% else %}
+                    <a href="#" class="rotate-box vid">
+                {% endif %}
+                
+                    <div class="rotate-circle rotate-text">
+                        <svg class="textcircle" viewBox="0 0 500 500">
+                            <defs>
+                                <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"></path>
+                            </defs>
+                            <text>
+                                <textPath xlink:href="#textcircle" textLength="900">
+                                    {{ hotel.name|default:"Our Hotel" }}
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <span class="icon"><i class="fas fa-play"></i></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- video text -->
+    <div class="video-text">{{ video_banner.title|default:"Videos" }}</div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block footer_content %}
+<footer class="footer">
+    <!-- top -->
+    <div class="top">
+        <div class="container">
+            <div class="row">
+
+                <!-- Hotel Info -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <div class="logo">
+                            {% if hotel.logo %}
+                                <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
+                            {% else %}
+                                <img src="{% static 'img/logo.png' %}" alt="{{ hotel.name }}">
+                            {% endif %}
+                        </div>
+                        <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
+                        <div class="social-icons">
+                            <ul class="list-inline">
+                                {% for link in hotel.social_links.all|slice:":4" %}
+                                    <li>
+                                        <a href="{{ link.url }}" target="_blank">
+                                            <i class="fa-brands fa-{{ link.icon }}"></i>
+                                        </a>
+                                    </li>
+                                {% empty %}
+                                    <li><small>No social links</small></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <h3>Contact us</h3>
+                        <p>{{ hotel.address|default:"Block 19 In front of، Katameya Heights, Cairo 11861" }}</p>
+                        <div class="phone"><a href="tel:{{ hotel.phone|default:'+1235678910' }}">{{ hotel.phone|default:'+1 123 567 8910' }}</a></div>
+                        <div class="mail"><a href="mailto:{{ hotel.email|default:'info@triumphhotel.com' }}">{{ hotel.email|default:'info@triumphhotel.com' }}</a></div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-md-3 mb-30">
+                    <div class="item">
+                        <h3>Subscribe</h3>
+                        <p>Want to stay informed? Subscribe to our newsletter.</p>
+                        <div class="newsletter">
+                            <form action="{% url 'subscribe-newsletter' %}" method="post">
+                                {% csrf_token %}
+                                <input type="email" name="email" placeholder="Email Address" required>
+                                <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App Store Buttons -->
+                <div class="col-md-3 mb-30">
+                    <div class="item text-center">
+                        <h3>Our App</h3>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="me-3">
+                                <img src="{% static 'img/mobile-app.png' %}" alt="Our App" style="max-width: 80px;">
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                                <a href="https://apps.apple.com" target="_blank">
+                                    <img src="{% static 'img/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg' %}" alt="App Store" style="width: 170px; height: auto;">
+                                </a>
+                                <a href="https://play.google.com/store" target="_blank">
+                                    <img src="{% static 'img/GetItOnGooglePlay_Badge_Web_color_English.png' %}" alt="Play Store" style="height: 50px;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- bottom -->
+    <div class="bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="links">
+                        <ul>
+                            <li><a href="{% url 'hotel-detail' hotel.slug %}">Home</a></li>
+                            <li><a href="{% url 'about-page' hotel_slug=hotel.slug %}">About</a></li>
+                            <li><a href="{% url 'hotel-facilities-page' hotel_slug=hotel.slug %}">Services</a></li>
+                            <li><a href="{% url 'contact-page' hotel_slug=hotel.slug %}">Contact</a></li>
+                            <li><a href="{% url 'faqs-page' hotel_slug=hotel.slug %}">FAQs</a></li>
+                            <li><a href="{% url 'careers-page' hotel_slug=hotel.slug %}">Careers</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 text-end">
+                    <p>© 2025 <a href="https://www.triumphhotel.com">Triumph Hotels Egypt</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

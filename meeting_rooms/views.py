@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import MeetingRoom
+from .models import MeetingRoom, EventBrochure
 from hotels.models import Hotel, HotelPageBanner, HotelVideoBanner
 
 # Meeting Room List View
@@ -26,6 +26,19 @@ def wedding_meeting_rooms(request, hotel_slug):
     return render(request, 'meeting_rooms/wedding_meeting_rooms.html', {
         'hotel': hotel,
         'meeting_rooms': meeting_rooms,
+        'banner': image_banner,
+        'video_banner': video_banner,
+    })
+
+# Brochure Page View
+def brochure_page(request, hotel_slug):
+    hotel = get_object_or_404(Hotel, slug=hotel_slug)
+    brochure = EventBrochure.objects.filter(hotel=hotel).order_by('-created_at').first()
+    image_banner = HotelPageBanner.objects.filter(hotel=hotel, page='meeting').first()
+    video_banner = HotelVideoBanner.objects.filter(hotel=hotel, page='meeting').first()
+    return render(request, 'meeting_rooms/event_brochures.html', {
+        'hotel': hotel,
+        'brochure': brochure,
         'banner': image_banner,
         'video_banner': video_banner,
     })

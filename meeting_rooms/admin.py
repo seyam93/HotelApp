@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MeetingRoom, MeetingRoomAmenity, SeatingArrangement, MeetingRoomImages
+from .models import MeetingRoom, MeetingRoomAmenity, SeatingArrangement, MeetingRoomImages, EventBrochure
 
 class MeetingRoomImageInline(admin.TabularInline):
     model = MeetingRoomImages
@@ -58,3 +58,8 @@ class MeetingRoomImagesAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="height: 100px;" />', obj.image.url)
         return "-"
     image_preview.short_description = 'Preview'
+
+@admin.register(EventBrochure)
+class EventBrochureAdmin(admin.ModelAdmin):
+    list_display = ('title', 'qr_code_preview')
+    readonly_fields = ('qr_code_preview',)
