@@ -16,14 +16,14 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path , include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import set_language
 from hotels import views as hotel_views
-from django.conf.urls import handler404
+from django.views.generic import TemplateView
 from django.shortcuts import render
-
+from django.http import Http404
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,14 +37,17 @@ urlpatterns = [
     path("", include("staff.urls")),            # all staff-related pages
 ]
 
+# Serve media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if not settings.DEBUG:
+    # Catch-all URL pattern for 404 errors (only in production)
+    urlpatterns += [
+        re_path(r'^.*$', hotel_views.custom_404, name='catch-all-404'),
+    ]
 
 if settings.DEBUG_TOOLBAR:
     import debug_toolbar
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
-
-def custom_404_view(request, exception):
-    return render(request, '404.html', status=404)
-
-handler404 = custom_404_view

@@ -3,6 +3,33 @@
 
 {% block title %}Page Not Found | {{ hotel.name|default:"Triumph Hotels" }}{% endblock %}
 
+{% block navbar %}
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <div class="logo-wrapper">
+      <a class="logo" href="{% url 'home-page' %}">
+        <img src="{% static 'img/logo.png' %}" class="logo-img" alt="">
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+      aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><i class="fa-light fa-bars"></i></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'why-triumph' %}">Why Triumph</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://triumphmanagement.net/">Our Company</a></li>
+      
+      </ul>
+      <div class="navbar-right">
+        <div class="phonex"><a href="tel:01028688882"><i class="fa-solid fa-phone"></i> 01028688882</a></div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+
 {% block content %}
 <!-- Header Banner -->
 <section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/19.jpg' %}">
@@ -31,7 +58,16 @@
                         <input type="search" id="searchInput" name="text" class="form-control" placeholder="Search hotels or rooms..." required="">
                         <button type="button" class="search-button"><span class="fa-light fa-magnifying-glass"></span></button>
                     </div>
-                    <div id="searchResults" class="text-start bg-white p-3 rounded shadow mt-2" style="display: none;"></div>
+                    <div id="searchResults" class="text-start bg-white p-3 rounded shadow mt-2" style="display: none;">
+                        <div id="searchLoading" class="text-center py-2" style="display: none;">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span class="ms-2">Searching...</span>
+                        </div>
+                        <div id="searchError" class="text-danger py-2" style="display: none;"></div>
+                        <div id="searchContent"></div>
+                    </div>
                 </div>
 
                 <a href="{% url 'home-page' %}" class="btn btn-outline-light mt-4">Go to Homepage</a>
@@ -45,18 +81,33 @@
 document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('searchInput');
     const resultsBox = document.getElementById('searchResults');
+    const searchLoading = document.getElementById('searchLoading');
+    const searchError = document.getElementById('searchError');
+    const searchContent = document.getElementById('searchContent');
 
     input.addEventListener('keyup', function () {
         const query = this.value.trim();
 
         if (query.length < 2) {
-            resultsBox.innerHTML = "";
             resultsBox.style.display = "none";
+            searchContent.innerHTML = "";
+            searchError.style.display = "none";
             return;
         }
 
+        // Show loading state
+        resultsBox.style.display = "block";
+        searchLoading.style.display = "block";
+        searchError.style.display = "none";
+        searchContent.innerHTML = "";
+
         fetch(`/live-search/?q=${encodeURIComponent(query)}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
             .then(data => {
                 let html = '';
 
@@ -74,16 +125,134 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.rooms.length) {
                         html += '<h6 class="mb-2">Rooms</h6><ul>';
                         data.rooms.forEach(r => {
-                            html += `<li>${r.name} (${r.hotel_name})</li>`;
+                            html += `<li><a href="/hotels/${r.hotel_slug}/rooms/${r.slug}/">${r.name} (${r.hotel_name})</a></li>`;
                         });
                         html += '</ul>';
                     }
                 }
 
-                resultsBox.innerHTML = html;
-                resultsBox.style.display = "block";
+                searchContent.innerHTML = html;
+            })
+            .catch(error => {
+                searchError.textContent = 'An error occurred while searching. Please try again.';
+                searchError.style.display = "block";
+            })
+            .finally(() => {
+                searchLoading.style.display = "none";
             });
     });
 });
 </script>
+{% endblock %}
+
+{% block footer_content %}
+<footer class="footer">
+  <div class="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-30">
+          <div class="item position-relative" id="hotelShowcase">
+            {% for hotel in hotels %}
+              <div class="hotel-slide {% if forloop.first %}active{% endif %}">
+                
+                <!-- Hotel Logo -->
+                <div class="logo mb-2">
+                  {% if hotel.logo %}
+                    <img src="{{ hotel.logo.url }}" alt="{{ hotel.name }}">
+                  {% else %}
+                    <img src="{% static 'img/logo.png' %}" alt="No Logo">
+                  {% endif %}
+                </div>
+
+                <!-- Hotel Slogan -->
+                <p>{{ hotel.slogan|default:"Your unforgettable stay starts here." }}</p>
+
+                <!-- Social Links (max 4) -->
+                <div class="social-icons">
+                  <ul class="list-inline">
+                    {% for link in hotel.social_links.all|slice:":4" %}
+                      <li>
+                        <a href="{{ link.url }}" target="_blank">
+                          <i class="fa-brands fa-{{link.icon}}"></i>
+                        </a>
+                      </li>
+                    {% empty %}
+                      <li><small>None</small></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+                    <div class="col-md-3 mb-30">
+                      <div class="item">
+                        <h3>Contact us</h3>
+                        <p>Block 19 In front of، Katameya Heights<br>Egypt,Cairo 11861</p>
+                        <div class="phone"><a href="tel:+410315520900">+1 123 567 8910</a></div>
+                        <div class="mail"><a href="mailto:hi@rixoshotel.com">info@triumphhotel.com</a></div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-3 mb-30">
+                      <div class="item">
+                        <h3>Subscribe</h3>
+                        <p>Want to stay informed? Subscribe to our newsletter.</p>
+                        <div class="newsletter">
+                          <form action="{% url 'subscribe-newsletter' %}" method="post">
+                            {% csrf_token %}
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <button type="submit"><i class="fa-light fa-arrow-right"></i></button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-3 mb-30">
+                        <div class="item text-center">
+                          <h3>Our App</h3>
+                      
+                          <div class="d-flex align-items-center justify-content-center">
+                            <!-- Left: Mobile Image -->
+                            <div class="me-3">
+                              <img src="{% static 'img/mobile-app.png' %}" alt="Our App" style="max-width: 80px;">
+                            </div>
+                      
+                            <!-- Right: Store Buttons stacked vertically -->
+                            <div class="d-flex flex-column gap-2">
+                                <a href="https://apps.apple.com" target="_blank">
+                                    <img src="{% static 'img/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg' %}" 
+                                         alt="App Store" 
+                                         style="width: 170px; height: auto;">
+                                  </a>
+                              <a href="https://play.google.com/store" target="_blank">
+                                <img src="{% static 'img/GetItOnGooglePlay_Badge_Web_color_English.png' %}" alt="Play Store" style="height: 50px;">
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+            </div>
+        </div>
+        <!-- bottom -->
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="links">
+                            <ul>
+                                <li><a href="{% url 'home-page' %}">Home</a></li>
+                                <li><a href="{% url 'why-triumph' %}">Why Triumph</a></li>
+                                <li><a href="https://triumphmanagement.net/">Our Company</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-end">
+                        <p>Copyright 2025 by <a href="https://www.triumphhotel.com">Triumph Hotels Egypt</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</footer>  
 {% endblock %}

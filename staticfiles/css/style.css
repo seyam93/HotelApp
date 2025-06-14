@@ -53,6 +53,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Optima';
+  src: url('/static/fonts/Optima_Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 html,
 body {
     -moz-osx-font-smoothing: grayscale;
@@ -69,7 +75,7 @@ body {
     word-wrap: break-word;
 }
 body {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 30px;
@@ -79,7 +85,7 @@ body {
     background: #101010;
 }
 p {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 30px;
@@ -114,7 +120,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     line-height: 1.25em;
     margin: 0 0 15px 0;
@@ -150,7 +156,7 @@ input,
 optgroup,
 select,
 textarea {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
 }
 input[type="password"]:focus,
 input[type="email"]:focus,
@@ -178,7 +184,7 @@ textarea {
     display: block;
     width: 100%;
     line-height: 1.5em;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     color: #999;
@@ -193,7 +199,7 @@ textarea {
     margin-bottom: 15px;
     padding: 15px 20px;
     font-size: 17px;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 1.5em;
@@ -369,7 +375,7 @@ input[type=checkbox]:checked:after {
 /* placeholder */
 ::-webkit-input-placeholder {
     color: #999;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
 }
@@ -424,7 +430,7 @@ input[type=checkbox]:checked:after {
     font-weight: 400;
 }
 .count {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
 }
 .valign {
     display: -webkit-box;
@@ -667,7 +673,7 @@ blockquote p a {
 }
 blockquote cite {
     display: inline-block;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     position: relative;
     padding-left: 45px;
@@ -976,14 +982,14 @@ blockquote cite:before {
     padding: 120px 0;
 }
 .section-title {
-    font-family: "Gilda Display", serif;
+    font-family: "Great Vibes", serif;
     font-weight: 400;
     font-size: 40px;
     line-height: 50px;
     color: #fff;
     position: relative;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 [data-overlay-dark] .section-title span,
@@ -994,7 +1000,7 @@ blockquote cite:before {
     color: #fff;
 }
 .section-subtitle {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     margin-bottom: 10px;
     color: #Aa9050;
@@ -1115,7 +1121,7 @@ blockquote cite:before {
     color: #fff;
 }
 .navbar .navbar-nav .nav-link {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -1224,7 +1230,7 @@ blockquote cite:before {
 }
 .navbar .dropdown-menu .dropdown-item {
     padding: 10px 0;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -1288,7 +1294,7 @@ blockquote cite:before {
     border-radius: 5px;
     transition: border-color 300ms ease, transform 300ms ease, background-color 300ms ease, color 300ms ease;
     transform-style: preserve-3d;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 15px;
     font-weight: 400;
     color: #fff;
@@ -1328,7 +1334,7 @@ blockquote cite:before {
     z-index: 5;
     transition: border-color 300ms ease, transform 300ms ease, background-color 300ms ease, color 300ms ease;
     transform-style: preserve-3d;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -1524,12 +1530,12 @@ blockquote cite:before {
     display: inline-block;
 }
 .header .caption h5 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 3px;
     -webkit-animation-delay: .1s;
     animation-delay: .1s;
@@ -1551,7 +1557,7 @@ blockquote cite:before {
 }
 .header .caption p {
     position: relative;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     margin-bottom: 30px;
@@ -1727,12 +1733,12 @@ blockquote cite:before {
 }
 .parallax-header h5,
 [data-overlay-dark].parallax-header h5 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 3px;
 }
 .parallax-header[data-overlay-dark] h1,
@@ -1751,7 +1757,7 @@ blockquote cite:before {
 .parallax-header[data-overlay-dark] p,
 .parallax-header p {
     position: relative;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     margin-bottom: 30px;
@@ -1809,28 +1815,28 @@ blockquote cite:before {
     position: relative;
 }
 .kenburns-inner .caption h5 {
-    font-family: '"Urbanist", sans-serif;'
+    font-family: "optima", serif;
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 3px;
 }
 .kenburns-inner .caption h1 {
     position: relative;
-    font-family: 'great vibes', serif;
+    font-family: "Great Vibes", cursive;
     font-weight: 400;
     font-size: 30px;
     line-height: 80px;
     color: #fff;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .kenburns-inner .caption p {
     position: relative;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     margin-bottom: 30px;
@@ -1871,28 +1877,28 @@ blockquote cite:before {
     align-items: center;
 }
 .video-fullscreen-wrap h5 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 3px;
 }
 .video-fullscreen-wrap h1 {
     position: relative;
-    font-family: "Gilda Display", serif;
+    font-family: "Great Vibes", cursive;
     font-weight: 400;
     font-size: 70px;
     line-height: 80px;
     color: #fff;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .video-fullscreen-wrap p {
     position: relative;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     margin-bottom: 30px;
@@ -1922,12 +1928,12 @@ blockquote cite:before {
 }
 .banner-header h5,
 [data-overlay-dark].banner-header h5 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     font-size: 15px;
     color: #Aa9050;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
     letter-spacing: 3px;
 }
 .banner-header[data-overlay-dark] h1,
@@ -1957,12 +1963,12 @@ blockquote cite:before {
 .banner-header .title {
     font-size: 50px;
     line-height: 60px;
-    font-family: "Gilda Display", serif;
+    font-family: "Great Vibes", cursive;
     font-weight: 400;
     color: #fff;
     position: relative;
     margin-bottom: 0;
-    text-transform: uppercase;
+    text-transform: none;
 }
 .banner-header .title span {
     color: #Aa9050;
@@ -2120,7 +2126,7 @@ blockquote cite:before {
     left: 40px;
     background-color: #fff;
     color: #101010;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 15px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -2243,7 +2249,7 @@ blockquote cite:before {
     left: 30px;
     background-color: #fff;
     color: #101010;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 15px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -2283,7 +2289,7 @@ blockquote cite:before {
     color: #Aa9050;
 }
 .rooms1 p {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 30px;
@@ -2944,7 +2950,7 @@ blockquote cite:before {
     margin-bottom: 5px;
 }
 .team .item .info p {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 30px;
@@ -3337,14 +3343,14 @@ blockquote cite:before {
     margin-bottom: 15px;
 }
 .pricing2 .item .price sup {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 21px;
     font-weight: 600;
     color: #Aa9050;
     top: -0.75em;
 }
 .pricing2 .item .price sub {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 15px;
     font-weight: 400;
     color: #999;
@@ -3354,7 +3360,7 @@ blockquote cite:before {
     font-size: 48px;
     font-weight: 600;
     color: #Aa9050;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     line-height: 48px;
 }
 .pricing2 .item .title {
@@ -3442,7 +3448,7 @@ blockquote cite:before {
     margin-bottom: 10px;
 }
 .amenities .item .cont .text p {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     line-height: 1.5em;
     font-weight: 400;
@@ -3634,7 +3640,7 @@ blockquote cite:before {
     left: 30px;
     background-color: #fff;
     color: #101010;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 15px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -4365,7 +4371,7 @@ body.mfp-zoom-out-cur {
     margin-bottom: 0px;
     padding-top: 0px;
     font-weight: 400;
-    font-family: "Urbanist", sans-serif;
+    font-family: "Great Vibes", cursive;
     color: #fff;
     line-height: 1.25em;
 }
@@ -4531,7 +4537,7 @@ body.mfp-zoom-out-cur {
     left: 0;
     margin: 0;
     bottom: 0;
-    font-family: "Urbanist", sans-serif;
+    font-family: "great vibes", cursive;
     font-size: 17px;
     font-weight: 400;
     color: #fff;
@@ -4576,7 +4582,7 @@ body.mfp-zoom-out-cur {
     line-height: 50px;
     text-align: center;
     color: #fff;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-weight: 400;
     border: 1px solid #1b1b1b;
     border-radius: 100%;
@@ -4758,7 +4764,7 @@ body.mfp-zoom-out-cur {
     margin-bottom: 15px;
 }
 .post .comment-section h4 span {
-    font-family: "Urbanist", sans-serif;
+    font-family: "Great Vibes", cursive;
     font-size: 17px;
     color: #999;
     margin-left: 15px;
@@ -4779,7 +4785,7 @@ body.mfp-zoom-out-cur {
 
 /* ======= 404 style ======= */
 .not-found h1 {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 180px;
     line-height: 180px;
     font-weight: 700;
@@ -4941,7 +4947,7 @@ body.mfp-zoom-out-cur {
     margin-top: 20px;
 }
 .contact .item .contents .text {
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     margin-bottom: 0px;
     font-weight: 400;
@@ -4951,7 +4957,7 @@ body.mfp-zoom-out-cur {
     border-radius: 30px;
     padding: 12px 36px;
     background: #fff;
-    font-family: "Urbanist", sans-serif;
+    font-family: "optima", serif;
     font-size: 17px;
     font-weight: 400;
     color: #101010;
@@ -5297,7 +5303,7 @@ body.mfp-zoom-out-cur {
     display: inline-flex;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 28px;
     padding: 17px 49px 17px 20px;
     color: #fff;

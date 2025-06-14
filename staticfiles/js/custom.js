@@ -606,6 +606,11 @@ $(function () {
     $('.select2').select2({
         minimumResultsForSearch: Infinity,
     });
+
+     // Select3
+    $('.select3').select3({
+        minimumResultsForSearch: Infinity,
+    });
     
     // Datepicker
     $(".datepicker").datepicker({

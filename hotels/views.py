@@ -13,6 +13,27 @@ from urllib.parse import urlencode
 from django.contrib import messages
 from datetime import date, timedelta
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+import logging
+
+logger = logging.getLogger(__name__)
+
+def home(request):
+    hotels = Hotel.objects.all()
+    return render(request, 'home.html', {'hotels': hotels})
+
+def custom_404(request, exception=None):
+    """
+    Custom 404 handler that renders our custom 404 page.
+    This view is called for any URL that doesn't match our URL patterns.
+    """
+    try:
+        response = render(request, '404.html', {'hotel': None}, status=404)
+        logger.info(f"404 page rendered successfully for path: {request.path}")
+        return response
+    except Exception as e:
+        logger.error(f"Error rendering 404 template: {e}")
+        return HttpResponse("Page not found", status=404)
 
 # Main Hotels Home Page
 def home(request):
@@ -228,10 +249,6 @@ def live_search(request):
         rooms = Room.objects.filter(name__icontains=query)[:5]
 
         hotels_data = [{'name': h.name, 'slug': h.slug} for h in hotels]
-        rooms_data = [{'name': r.name, 'hotel_name': r.hotel.name} for r in rooms]
+        rooms_data = [{'name': r.name, 'hotel_name': r.hotel.name, 'slug': r.slug, 'hotel_slug': r.hotel.slug} for r in rooms]
 
     return JsonResponse({'hotels': hotels_data, 'rooms': rooms_data})
-
-# Custom 404 Page
-def custom_404_view(request, exception):
-    return render(request, '404.html', status=404)
