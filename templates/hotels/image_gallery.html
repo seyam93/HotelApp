@@ -3,29 +3,10 @@
 
 {% block title %}Image Gallery | {{ hotel.name }}{% endblock %}
 
-{% block extra_head %}
+{% block extra_css %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-<style>
-    .gallery-img-wrapper {
-        width: 100%;
-        aspect-ratio: 4 / 3; /* or 1 / 1 for square */
-        overflow: hidden;
-        border-radius: 12px;
-        position: relative;
-    }
-    
-    .gallery-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        transition: transform 0.3s ease;
-    }
-    
-    .gallery-img-wrapper:hover img {
-        transform: scale(1.05);
-    }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -33,7 +14,7 @@
 {% if banner and banner.image %}
 <section class="banner-header bg-img bg-fixed" data-overlay-dark="5"
          data-background="{{ banner.image.url }}"
-         style="padding: 150px 0; min-height: 650px;">
+         style="background-image: url('{{ banner.image.url }}'); padding: 150px 0; min-height: 650px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
@@ -45,29 +26,124 @@
 </section>
 {% endif %}
 
-<section class="section-padding bg-lightbrown">
-    <div class="container">
-        <div class="row">
-            {% for item in items %}
-                {% if item.image %}
-                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-                    <a href="{{ item.image.url }}"
-                       class="glightbox w-100 d-block"
-                       data-gallery="hotel-gallery"
-                       data-type="image">
-                        <div class="gallery-img-wrapper">
-                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
-                        </div>
-                    </a>
-                </div>
-                {% endif %}
-            {% empty %}
-                <p class="text-center">No images available in the gallery.</p>
-            {% endfor %}
+<!-- Animated Image Gallery Section -->
+{% if items %}
+<section class="gallery-wrapper">
+    <div class="fade-left"></div>
+    <div class="fade-right"></div>
+    <section class="looping-gallery">
+        <!-- Side Column Left (Faded) -->
+        <div class="column faded down fade-gradient-right">
+            <div class="scroll">
+                {% for item in items|slice:":10" %}
+                    {% if item.image %}
+                        <a class="unclickable"><img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}"></a>
+                    {% endif %}
+                {% empty %}
+                    <a class="unclickable"><img src="{% static 'img/placeholder.jpg' %}" alt="Placeholder"></a>
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for item in items|slice:":10" %}
+                    {% if item.image %}
+                        <a class="unclickable"><img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}"></a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
+
+        <!-- Column 1 (Up Animation) -->
+        <div class="column up">
+            <div class="scroll">
+                {% for item in items %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for item in items %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Column 2 (Down Animation) -->
+        <div class="column down">
+            <div class="scroll">
+                {% for item in items|slice:"::2" %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for item in items|slice:"::2" %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Column 3 (Up Animation) -->
+        <div class="column up">
+            <div class="scroll">
+                {% for item in items|slice:"1::2" %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for item in items|slice:"1::2" %}
+                    {% if item.image %}
+                        <a href="{{ item.image.url }}" class="glightbox" data-gallery="hotel-gallery" data-type="image">
+                            <img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Side Column Right (Faded) -->
+        <div class="column faded down fade-gradient-left">
+            <div class="scroll">
+                {% for item in items|slice:"5:15" %}
+                    {% if item.image %}
+                        <a class="unclickable"><img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}"></a>
+                    {% endif %}
+                {% empty %}
+                    <a class="unclickable"><img src="{% static 'img/placeholder.jpg' %}" alt="Placeholder"></a>
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for item in items|slice:"5:15" %}
+                    {% if item.image %}
+                        <a class="unclickable"><img src="{{ item.image.url }}" alt="{{ item.title|default:'Hotel Image' }}"></a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</section>
+{% else %}
+<section class="gallery-wrapper">
+    <div class="empty-gallery">
+        <h3>No Images Available</h3>
+        <p>The gallery is currently empty. Please check back later for updates.</p>
     </div>
 </section>
+{% endif %}
 {% endblock %}
+
 {% block footer_content %}
 <footer class="footer">
     <!-- top -->

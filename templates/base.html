@@ -55,7 +55,6 @@
             <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav mx-auto">
-                    
                     {% if hotel %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'hotel-detail' hotel.slug %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'hotel-rooms' hotel_slug=hotel.slug %}">Rooms & Suites</a></li>
