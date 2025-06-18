@@ -7,12 +7,76 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.validators import FileExtensionValidator
 
 # Utility function to rename uploaded images
 def rename_uploaded_image(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4()}.{ext}"
     return os.path.join('room_images', filename)
+
+# Home page & Why Triumph Data Model
+class HomePageData(models.Model):
+    title = models.CharField(max_length=255, blank=True, default='')
+    phone_number = models.CharField(max_length=20, blank=True, default='')
+    email = models.EmailField(blank=True, default='')
+    address = models.TextField(blank=True, default='')
+    review_banner = models.ImageField(
+        upload_to='home_banners/',
+        blank=True,
+        null=True,
+        help_text="Image for the home page review section"
+    )
+
+    video_file = models.FileField(
+        upload_to='home_videos/',
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(allowed_extensions=['mp4', 'mov', 'webm'])],
+        help_text="Upload a video file for the home page"
+    )
+    video_url = models.URLField(
+        blank=True,
+        default='',
+        help_text="YouTube or Vimeo URL for the home page video"
+    )
+
+    why_triumph_banner = models.ImageField(
+        upload_to='home_banners/',
+        blank=True,
+        null=True,
+        help_text="Image for the 'Why Triumph' section"
+    )
+    why_triumph_title = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        help_text="Title for the 'Why Triumph' section"
+    )
+    why_triumph_video_url = models.URLField(
+        blank=True,
+        default='',
+        help_text="YouTube or Vimeo URL for the 'Why Triumph' video"
+    )
+    why_triumph_video_banner = models.ImageField(
+        upload_to='home_banners/',
+        blank=True,
+        null=True,
+        help_text="Image for the 'Why Triumph' video section"
+    )
+
+    def __str__(self):
+        return self.title or "Home Page Data"
+
+    def clean(self):
+        # Enforce: either video_file or video_url, not both
+        if self.video_file and self.video_url:
+            raise ValidationError("Please provide either a video file or a video URL, not both.")
+
+    class Meta:
+        verbose_name = "Home Page Data"
+        verbose_name_plural = "Home Page Data"
+
 
 # App page background models
 class PageBackground(models.Model):
@@ -176,6 +240,7 @@ class Hotel(models.Model):
     address = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=500, default="")
     description = models.TextField()
+    why_triumph_description = models.TextField(blank=True, help_text="Description for the 'Why Triumph' section of the facility")
     slug = models.SlugField(blank=True, null=True,editable=True)
     fact_sheet = models.FileField(upload_to='hotel_fact_sheets/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

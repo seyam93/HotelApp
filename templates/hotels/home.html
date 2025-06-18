@@ -72,8 +72,14 @@
         </li>
       </ul>
       <div class="navbar-right">
-        <div class="phonex"><a href="tel:+0226729900"><i class="fa-solid fa-phone"></i> +0226729900</a></div>
-      </div>
+  {% if home_data.phone_number %}
+    <div class="phonex">
+      <a href="tel:{{ home_data.phone_number }}">
+        <i class="fa-solid fa-phone"></i> {{ home_data.phone_number }}
+      </a>
+    </div>
+  {% endif %}
+</div>
     </div>
   </div>
 </nav>
@@ -83,14 +89,16 @@
 <header class="header">
   <div class="video-fullscreen-wrap">
     <div class="video-fullscreen-video" data-overlay-dark="4">
-      <video playsinline autoplay loop muted>
-        <source src="https://duruthemes.com/demo/html/rixos/video.mp4" type="video/mp4">
-        <source src="https://duruthemes.com/demo/html/rixos/video.webm" type="video/webm">
-      </video>
+     {% if home_data.video_file %}
+  <video playsinline autoplay loop muted>
+    <source src="{{ home_data.video_file.url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+{% endif %}
     </div>
     <div class="v-middle text-center text-white">
       <h5>Triumph Hotels Egypt</h5>
-      <h1>Enjoy a luxury experience</h1>
+      <h1>{{home_data.title}}</h1>
     </div>
   </div>
 </header>
@@ -182,7 +190,7 @@
 
 <!-- Testimonials -->
 <section class="testimonials">
-  <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{% static 'img/banner/02.jpg' %}">
+  <div class="bg-img bg-fixed section-padding" data-overlay-dark="5" data-background="{{home_data.review_banner.url}}">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-7 text-center">
@@ -268,9 +276,11 @@
                     <div class="col-md-3 mb-30">
                       <div class="item">
                         <h3>Contact us</h3>
-                        <p>Block 19 In front of، Katameya Heights<br>Egypt,Cairo 11861</p>
-                        <div class="phone"><a href="tel:+410315520900">+0226729900</a></div>
-                        <div class="mail"><a href="mailto:hi@rixoshotel.com">info@triumphhotel.com</a></div>
+                        {% if home_data.address %}
+  <address>{{ home_data.address|linebreaksbr }}</address>
+{% endif %}
+                        <div class="phone"><a href="tel:{{home_data.phone_number}}">{{home_data.phone_number}}</a></div>
+                        <div class="mail"><a href="mailto:{{home_data.email}}">{{home_data.email}}</a></div>
                       </div>
                     </div>
                   

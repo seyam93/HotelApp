@@ -3,7 +3,7 @@ from .models import (
     Hotel, Room, PageBackground, HotelImage, WelcomeMessage,
     Facility, Review, Amenity, FacilityImage, HotelService, Offer,
     NewsletterSubscriber, HoverSection, HoverImageTab,
-    HotelPageBanner, HotelVideoBanner
+    HotelPageBanner, HotelVideoBanner, HomePageData
 )
 import json 
 from django.db.models import Prefetch
@@ -18,10 +18,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def home(request):
-    hotels = Hotel.objects.all()
-    return render(request, 'home.html', {'hotels': hotels})
-
+# Custom 404 Handler
 def custom_404(request, exception=None):
     """
     Custom 404 handler that renders our custom 404 page.
@@ -41,11 +38,13 @@ def home(request):
     reviews = Review.objects.select_related('hotel').order_by('-created_at')[:6]
     image_banner = HotelPageBanner.objects.filter(hotel=None, page='home').first()
     video_banner = HotelVideoBanner.objects.filter(hotel=None, page='home').first()
+    home_data = HomePageData.objects.first()
     return render(request, 'hotels/home.html', {
         'hotels': hotels,
         'reviews': reviews,
         'banner': image_banner,
         'video_banner': video_banner,
+        'home_data': home_data,
     })
 
 # Single Hotel Home Page 
@@ -231,11 +230,13 @@ def why_triumph(request):
     image_banner = HotelPageBanner.objects.filter(hotel=None, page='about').first()
     hotels = Hotel.objects.all()
     welcome_message = WelcomeMessage.objects.order_by('created_at').first()
+    home_data = HomePageData.objects.first()
 
     return render(request, 'hotels/why_triumph.html', {
         'banner': image_banner,
         'hotels': hotels,
-        'welcome_message': welcome_message
+        'welcome_message': welcome_message,
+        'home_data': home_data,
     })
 
 # Live Search

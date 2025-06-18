@@ -56,7 +56,7 @@
         <li class="nav-item"><a class="nav-link" href="https://triumphmanagement.net/">Our Company</a></li>
       </ul>
       <div class="navbar-right">
-        <div class="phonex"><a href="tel:01028688882"><i class="fa-solid fa-phone"></i> 01028688882</a></div>
+        <div class="phonex"><a href="tel:{{home_data.phone_number}}"><i class="fa-solid fa-phone"></i> {{home_data.phone_number}}</a></div>
       </div>
     </div>
   </div>
@@ -65,12 +65,12 @@
 
 {% block content %}
 <!-- Header Banner -->
-<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{% static 'img/banner/20.jpg' %}">
+<section class="banner-header bg-img bg-fixed" data-overlay-dark="5" data-background="{{ home_data.why_triumph_banner.url }}">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="subtitle">Triumph Hotels</div>
-        <div class="title">Why Triumph</div>
+        <div class="subtitle">Triumph Hotels Egypt</div>
+        <div class="title">{{home_data.why_triumph_title}}</div>
       </div>
     </div>
   </div>
@@ -83,7 +83,7 @@
       <div class="col-lg-5 col-md-12 mb-15">
         <div class="section-subtitle">About {{ hotel.name }}</div>
         <div class="section-title">{{ hotel.title }}</div>
-        <p>{{ hotel.description }}</p>
+        <p>{{ hotel.why_triumph_description }}</p>
         <a href="{% url 'hotel-detail' hotel.slug %}" class="button-3 mb-15">About {{ hotel.name }}</a>
         <div class="phone"><a href="tel:+{{ hotel.phone }}"><i class="fa-light fa-phone"></i> {{ hotel.phone }}</a></div>
       </div>
@@ -105,18 +105,18 @@
 {% endfor %}
 
 <!-- Video -->
-<section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="{% static 'img/banner/01.jpg' %}">
+<section class="video-wrapper section-padding bg-img" data-overlay-dark="4" data-background="{{home_data.why_triumph_video_banner.url}}">
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-md-12 text-center rotatex">
-        <a href="https://youtu.be/hG7Ok0HvDcU" data-lity="video" class="rotate-box vid">
+        <a href="{{home_data.why_triumph_video_url.url}}" data-lity="video" class="rotate-box vid">
           <div class="rotate-circle rotate-text">
             <svg class="textcircle" viewBox="0 0 500 500">
               <defs>
                 <path id="textcircle" d="M250,400 a150,150 0 0,1 0,-300a150,150 0 0,1 0,300Z"></path>
               </defs>
               <text>
-                <textPath xlink:href="#textcircle" textLength="900"> rixos luxury resort hotel </textPath>
+                <textPath xlink:href="#textcircle" textLength="900"> Triumph Hotels Egypt</textPath>
               </text>
             </svg>
           </div>
@@ -160,14 +160,16 @@
           </div>
         </div>
 
-        <div class="col-md-3 mb-30">
-          <div class="item">
-            <h3>Contact us</h3>
-            <p>Block 19 In front of، Katameya Heights<br>Egypt, Cairo 11861</p>
-            <div class="phone"><a href="tel:+410315520900">+1 123 567 8910</a></div>
-            <div class="mail"><a href="mailto:hi@rixoshotel.com">info@triumphhotel.com</a></div>
-          </div>
-        </div>
+         <div class="col-md-3 mb-30">
+                      <div class="item">
+                        <h3>Contact us</h3>
+                        {% if home_data.address %}
+  <address>{{ home_data.address|linebreaksbr }}</address>
+{% endif %}
+                        <div class="phone"><a href="tel:{{home_data.phone_number}}">{{home_data.phone_number}}</a></div>
+                        <div class="mail"><a href="mailto:{{home_data.email}}">{{home_data.email}}</a></div>
+                      </div>
+                    </div>
 
         <div class="col-md-3 mb-30">
           <div class="item">

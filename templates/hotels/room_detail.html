@@ -26,6 +26,12 @@
                     <span><i class="fa-thin fa-eye"></i> {{room.get_room_views_display }}</span>
                     {% endif %}
                 </div>
+                <div>
+                                <a href="https://be.synxis.com/?adult=1&child=0&rooms=1&arrive={{ today }}&depart={{ tomorrow }}&chain={{ hotel.synxis_chain_id }}&hotel={{ hotel.synxis_hotel_id }}&level=hotel"
+                                   target="_blank" class="button-3" onclick="event.stopPropagation();">
+                                    Book now
+                                </a>
+                            </div>
             </div>
         </div>
     </div>
@@ -46,7 +52,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                {% comment %} <div class="row">
                     <div class="col-12 mb-40">
                         <h5 class="mb-3">Room Features</h5>
                         <ul class="list-unstyled page-list d-flex flex-wrap">
@@ -70,7 +76,8 @@
                             {% endif %}
                         </ul>
                     </div>
-                </div>
+                    
+                </div> {% endcomment %}
                 {% comment %} <div class="row mb-30">
                     <div class="col-md-12">
                         <h5>Special Check-in Instructions</h5>
@@ -83,11 +90,18 @@
                         <p>{{ room.children_and_extra_beds_notes }}</p>
                     </div>
                 </div>
+                {% if room.virtual_tour_link %}
+                            <div>
+                                <a href="{{ room.virtual_tour_link }}" target="_blank" class="button-3">
+                                   View Virtual Tour
+                                </a>
+                            </div>
+                {% endif %}
             </div>
 
             <div class="col-lg-4 offset-lg-1 col-md-12">
                 <div class="cont">
-                    <h5>Room Equipment</h5>
+                    <h5>Room Features</h5>
                     <ul class="list">
                         {% for amenity in room.amenities.all %}
                             <li>

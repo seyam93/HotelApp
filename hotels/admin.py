@@ -5,7 +5,7 @@ from .models import (
     Feature, Specification, Facility, Amenity, Offer,
     Review, FacilityImage, SocialLink, ImageCover, HotelService,
     PageBackground, HotelPageBanner, HotelVideoBanner, GalleryItem,
-    NewsletterSubscriber, HoverSection, HoverImageTab
+    NewsletterSubscriber, HoverSection, HoverImageTab, HomePageData
 )
 from adminsortable2.admin import SortableTabularInline
 from adminsortable2.admin import SortableAdminBase
@@ -45,6 +45,12 @@ class SocialLinkInline(admin.TabularInline):
 class HoverImageTabInline(admin.TabularInline):
     model = HoverImageTab
     extra = 1
+
+# ========== Home Page Data ==========
+@admin.register(HomePageData)
+class HomePageDataAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not HomePageData.objects.exists()
 
 # ========== Facility ==========
 @admin.register(FacilityImage)
