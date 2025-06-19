@@ -50,7 +50,7 @@ class MeetingRoom(models.Model):
     available = models.BooleanField(default=True)
     amenities = models.ManyToManyField(MeetingRoomAmenity, related_name="meeting_rooms", blank=True)
     seating_arrangements = models.ManyToManyField(SeatingArrangement, related_name="meeting_rooms", blank=True)
-    can_have_weeding = models.BooleanField(default=False)
+    can_host_wedding = models.BooleanField(default=False)
     wedding_brochure = models.FileField(upload_to='wedding_brochures/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -74,7 +74,7 @@ class MeetingRoomImages(models.Model):
     def save(self, *args, **kwargs):
         if self.image:
             img = Image.open(self.image)
-            target_size = (1280, 720)
+            target_size = (1550, 1080)
             if img.size != target_size:
                 img = img.convert("RGB")  # Handle RGBA
                 img = img.resize(target_size, Image.LANCZOS)

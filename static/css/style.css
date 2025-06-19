@@ -1939,7 +1939,7 @@ blockquote cite:before {
 .banner-header[data-overlay-dark] h1,
 .banner-header h1 {
     position: relative;
-    font-family: "Gilda Display", serif;
+    font-family: "great Vibes", cursive;
     font-weight: 400;
     font-size: 70px;
     line-height: 80px;
@@ -1947,7 +1947,7 @@ blockquote cite:before {
     -webkit-animation-delay: .4s;
     animation-delay: .4s;
     margin-bottom: 15px;
-    text-transform: uppercase;
+    text-transform: none;
 }
 .banner-header .subtitle {
     font-weight: 400;
@@ -1976,7 +1976,7 @@ blockquote cite:before {
 .banner-header .title2 {
     font-size: 48px;
     line-height: 60px;
-    font-family: "Gilda Display", serif;
+    font-family: "optima", serif;
     font-weight: 400;
     color: #fff;
     position: relative;
@@ -2148,7 +2148,7 @@ blockquote cite:before {
 }
 .rooms3 .item .cont .title,
 .rooms3 .item .cont .title a {
-    font-family: "Gilda Display", serif;
+    font-family: "optima", serif;
     font-size: 30px;
     font-weight: 400;
     line-height: 1.2em;
@@ -2272,7 +2272,7 @@ blockquote cite:before {
     display: block;
 }
 .rooms1 .item .wrap .cont h3 {
-    font-family: "Gilda Display", serif;
+    font-family: "optima", serif;
     font-size: 27px;
     font-weight: 400;
     margin-bottom: 10px;
@@ -2435,7 +2435,7 @@ blockquote cite:before {
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
 }
 .rooms2 .item .title {
-    font-family: "Gilda Display", serif;
+    font-family: "great vibes", cursive;
     font-weight: 400;
     font-size: 36px;
     color: #fff;
@@ -2555,7 +2555,7 @@ blockquote cite:before {
     position: relative;
 }
 .page-details h3 {
-    font-family: "Gilda Display", serif;
+    font-family: "great vibes", cursive;
     font-weight: 400;
     font-size: 36px;
     line-height: 55px;
@@ -2564,7 +2564,7 @@ blockquote cite:before {
     margin-bottom: 15px;
 }
 .page-details h5 {
-    font-family: "Gilda Display", serif;
+    font-family: "great vibes", cursive;
     font-weight: 400;
     font-size: 24px;
     line-height: 40px;
@@ -2692,7 +2692,7 @@ blockquote cite:before {
     padding: 35px 0px 35px;
     letter-spacing: 0;
     cursor: pointer;
-    font-family: "Gilda Display", serif;
+    font-family: "optima", serif;
     font-weight: 400;
     transition: all 0.3s ease;
     z-index: 1;

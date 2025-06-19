@@ -81,14 +81,7 @@ class HomePageData(models.Model):
 # App page background models
 class PageBackground(models.Model):
     PAGE_CHOICES = [
-        ('hotel_main', 'Hotel Main Page'),
-        ('offers', 'Offers Page'),
-        ('rooms', 'Rooms Page'),
-        ('facilities', 'Facilities Page'),
-        ('events', 'Events Page'),
-        ('restaurant', 'Restaurant Page'),
-        ('spa', 'Spa Page'),
-        ('gym', 'Gym Page'),  # Add any other pages you want
+        ('hotel_main', 'Hotel Main Page'),  # Add any other pages you want
     ]
 
     hotel = models.ForeignKey('hotels.Hotel', on_delete=models.CASCADE, related_name='page_backgrounds')
