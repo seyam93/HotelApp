@@ -56,23 +56,32 @@
 </section>
 {% endif %}
 
-<!-- Facilities Tabs: Featured + Active -->
+<!-- Facilities Tabs: Show Facility Name Instead of Type -->
 <section class="facilities2">
     <div class="border-bottom">
         <div class="container">
             <ul class="tab-buttons">
-                {% for facility_type in tab_facility_types %}
-                <li data-tab="#tab-{{ facility_type }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}">
-                    <span>{{ facility_type|title }}</span>
-                </li>
-                {% endfor %}
-            </ul>
+    {% for facility_type in tab_facility_types %}
+        {% with False as name_rendered %}
+            {% for facility in tab_facilities %}
+                {% if facility.type == facility_type and not name_rendered %}
+                    <li data-tab="#tab-{{ facility_type|slugify }}" class="tab-btn {% if forloop.parentloop.first %}active-btn{% endif %}">
+                        <span>{{ facility.name }}</span>
+                    </li>
+                    {% with True as name_rendered %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        {% endwith %}
+    {% endfor %}
+</ul>
         </div>
     </div>
+
     <div class="container">
         <div class="tabs-content">
             {% for facility_type in tab_facility_types %}
-            <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ facility_type }}">
+            <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ facility_type|slugify }}">
                 {% for facility in tab_facilities %}
                     {% if facility.type == facility_type %}
                     <div class="row justify-content-center align-items-center mb-60">
@@ -109,7 +118,7 @@
                             </ul>
                             {% if facility.detail_file %}
                             <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3">
-                            View details
+                                <i class="fa-solid fa-info"></i> View details
                             </a>
                             {% endif %}
                         </div>

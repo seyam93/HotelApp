@@ -150,70 +150,66 @@
         </div>
     </section>
     <!-- Facilities -->
-    <section class="facilities2">
-        <div class="border-bottom">
-            <div class="container">
-                <ul class="tab-buttons">
-                    {% for facility_type in tab_facility_types %}
-                    <li data-tab="#tab-{{ facility_type }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}">
-                        <span>{{ facility_type|title }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+<section class="facilities2">
+    <div class="border-bottom">
         <div class="container">
-            <div class="tabs-content">
-                {% for facility_type in tab_facility_types %}
-                <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ facility_type }}">
-                    {% for facility in tab_facilities %}
-                        {% if facility.type == facility_type %}
-                        <div class="row justify-content-center align-items-center mb-60">
-                            <div class="col-lg-6 col-md-12">
-                                {% if facility.image %}
-                                    <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
-                                {% else %}
-                                    <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-5 offset-lg-1 col-md-12">
-                                <div class="section-subtitle">{{ facility.title }}</div>
-                                <div class="section-title">{{ facility.name }}</div>
-                                <p class="mb-25">{{ facility.description }}</p>
-                                <ul class="list-unstyled list mb-30">
-                                    {% if facility.short_note_1 %}
-                                    <li>
-                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
-                                        <div class="list-text"><p>{{ facility.short_note_1 }}</p></div>
-                                    </li>
-                                    {% endif %}
-                                    {% if facility.short_note_2 %}
-                                    <li>
-                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
-                                        <div class="list-text"><p>{{ facility.short_note_2 }}</p></div>
-                                    </li>
-                                    {% endif %}
-                                    {% if facility.short_note_3 %}
-                                    <li>
-                                        <div class="list-icon"><span class="fa-regular fa-check"></span></div>
-                                        <div class="list-text"><p>{{ facility.short_note_3 }}</p></div>
-                                    </li>
-                                    {% endif %}
-                                </ul>
-                                {% if facility.detail_file %}
-                                <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3">
-                                    <i class="fa-solid fa-info"></i> View details
-                                </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+            <ul class="tab-buttons">
+                {% for facility in tab_facilities %}
+                <li data-tab="#tab-{{ facility.slug }}" class="tab-btn {% if forloop.first %}active-btn{% endif %}">
+                    <span>{{ facility.name }}</span>
+                </li>
                 {% endfor %}
-            </div>
+            </ul>
         </div>
-    </section>
+    </div>
+    <div class="container">
+        <div class="tabs-content">
+            {% for facility in tab_facilities %}
+            <div class="tab {% if forloop.first %}active-tab{% endif %}" id="tab-{{ facility.slug }}">
+                <div class="row justify-content-center align-items-center mb-60">
+                    <div class="col-lg-6 col-md-12">
+                        {% if facility.image %}
+                            <img src="{{ facility.image.url }}" class="img-fluid" alt="{{ facility.name }}">
+                        {% else %}
+                            <img src="{% static 'img/offers/default.jpg' %}" class="img-fluid" alt="{{ facility.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 col-md-12">
+                        <div class="section-subtitle">{{ facility.title }}</div>
+                        <div class="section-title">{{ facility.name }}</div>
+                        <p class="mb-25">{{ facility.description }}</p>
+                        <ul class="list-unstyled list mb-30">
+                            {% if facility.short_note_1 %}
+                            <li>
+                                <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                <div class="list-text"><p>{{ facility.short_note_1 }}</p></div>
+                            </li>
+                            {% endif %}
+                            {% if facility.short_note_2 %}
+                            <li>
+                                <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                <div class="list-text"><p>{{ facility.short_note_2 }}</p></div>
+                            </li>
+                            {% endif %}
+                            {% if facility.short_note_3 %}
+                            <li>
+                                <div class="list-icon"><span class="fa-regular fa-check"></span></div>
+                                <div class="list-text"><p>{{ facility.short_note_3 }}</p></div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {% if facility.detail_file %}
+                        <a href="{{ facility.detail_file.url }}" target="_blank" class="button-3">
+                            <i class="fa-solid fa-info"></i> View details
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 <!-- Video Banner -->
 {% if video_banner %}
 <section class="video-wrapper section-padding bg-img"
