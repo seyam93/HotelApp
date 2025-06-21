@@ -52,44 +52,56 @@
                     </div>
                 </div>
 
-                {% comment %} <div class="row">
+                <div class="row">
                     <div class="col-12 mb-40">
-                        <h5 class="mb-3">Room Features</h5>
+                        <h5 class="mb-3">Children and Extra Beds</h5>
                         <ul class="list-unstyled page-list d-flex flex-wrap">
-                            {% if room.room_features_section_1 %}
+                            {% if room.room_policy_section_1 %}
                             <li class="d-flex align-items-start me-4 mb-2">
                                 <div class="page-list-icon me-2"><span class="ti-check"></span></div>
-                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_1 }}</p></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_policy_section_1 }}</p></div>
                             </li>
                             {% endif %}
-                            {% if room.room_features_section_2 %}
+                            {% if room.room_policy_section_2 %}
                             <li class="d-flex align-items-start me-4 mb-2">
                                 <div class="page-list-icon me-2"><span class="ti-check"></span></div>
-                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_2 }}</p></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_policy_section_2 }}</p></div>
                             </li>
                             {% endif %}
-                            {% if room.room_features_section_3 %}
+                            {% if room.room_policy_section_3 %}
                             <li class="d-flex align-items-start me-4 mb-2">
                                 <div class="page-list-icon me-2"><span class="ti-check"></span></div>
-                                <div class="page-list-text"><p class="mb-0">{{ room.room_features_section_3 }}</p></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_policy_section_3 }}</p></div>
+                            </li>
+                            {% endif %}
+                              {% if room.room_policy_section_4 %}
+                            <li class="d-flex align-items-start me-4 mb-2">
+                                <div class="page-list-icon me-2"><span class="ti-check"></span></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_policy_section_4 }}</p></div>
+                            </li>
+                            {% endif %}
+                            {% if room.room_policy_section_5 %}
+                            <li class="d-flex align-items-start me-4 mb-2">
+                                <div class="page-list-icon me-2"><span class="ti-check"></span></div>
+                                <div class="page-list-text"><p class="mb-0">{{ room.room_policy_section_5 }}</p></div>
                             </li>
                             {% endif %}
                         </ul>
                     </div>
                     
-                </div> {% endcomment %}
+                </div> 
                 {% comment %} <div class="row mb-30">
                     <div class="col-md-12">
                         <h5>Special Check-in Instructions</h5>
                         <p>{{ room.special_check_in_instructions }}</p>
                     </div>
                 </div> {% endcomment %}
-                <div class="row">
+                {% comment %} <div class="row">
                     <div class="col-md-12">
                         <h5>Children and Extra Beds</h5>
                         <p>{{ room.children_and_extra_beds_notes }}</p>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 {% if room.virtual_tour_link %}
                             <div>
                                 <a href="{{ room.virtual_tour_link }}" target="_blank" class="button-3">
